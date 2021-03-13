@@ -1,7 +1,7 @@
 {
-  "name": "api-lambda-crud-dynamodb",
+  "name": "aws-sandbox",
   "version": "1.0.0",
-  "description": "Running an API Gateway with four Lambdas to do CRUD operations on DynamoDB",
+  "description": "My AWS Sandbox",
   "private": true,
   "scripts": {
     "build": "tsc",
@@ -9,18 +9,18 @@
     "cdk": "cdk"
   },
   "author": {
-    "name": "Aleksandar Simovic <alexander.simovic@gmail.com>",
-    "url": "https://serverless.pub"
+    "name": "MJENDZA",
+    "url": "https://mjendza.net"
   },
-  "license": "MIT",
+  "license": "Apache",
   "devDependencies": {
-    "@types/node": "^10.17.0",
-    "typescript": "~3.7.2"
+    "@types/node": "14.14.34",
+    "typescript": "4.2.3"
   },
   "dependencies": {
-    "@aws-cdk/aws-apigateway": "*",
-    "@aws-cdk/aws-dynamodb": "*",
-    "@aws-cdk/aws-lambda": "*",
-    "@aws-cdk/core": "*"
+    "@aws-cdk/aws-apigateway": "1.93.0",
+    "@aws-cdk/aws-dynamodb": "1.93.0",
+    "@aws-cdk/aws-lambda": "1.93.0",
+    "@aws-cdk/core": "1.93.0"
   }
 }
