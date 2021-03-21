@@ -1,0 +1,26 @@
+{
+  "name": "aws-sandbox",
+  "version": "1.0.0",
+  "description": "My AWS Sandbox",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "cdk": "cdk"
+  },
+  "author": {
+    "name": "MJENDZA",
+    "url": "https://mjendza.net"
+  },
+  "license": "Apache",
+  "devDependencies": {
+    "@types/node": "14.14.34",
+    "typescript": "4.2.3"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-apigateway": "1.93.0",
+    "@aws-cdk/aws-dynamodb": "1.93.0",
+    "@aws-cdk/aws-lambda": "1.93.0",
+    "@aws-cdk/core": "1.93.0"
+  }
+}

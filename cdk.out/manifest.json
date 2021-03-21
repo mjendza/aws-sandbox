@@ -1,0 +1,959 @@
+{
+  "version": "9.0.0",
+  "artifacts": {
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    },
+    "ApiLambdaCrudDynamoDBExample": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "ApiLambdaCrudDynamoDBExample.template.json"
+      },
+      "metadata": {
+        "/ApiLambdaCrudDynamoDBExample": [
+          {
+            "type": "aws:cdk:asset",
+            "data": {
+              "path": "asset.cb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673",
+              "id": "cb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673",
+              "packaging": "zip",
+              "sourceHash": "cb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673",
+              "s3BucketParameter": "AssetParameterscb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673S3Bucket13940623",
+              "s3KeyParameter": "AssetParameterscb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673S3VersionKeyA0F5A18A",
+              "artifactHashParameter": "AssetParameterscb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673ArtifactHash10BD5EA4"
+            },
+            "trace": [
+              "ConstructNode.addMetadata (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\construct-compat.js:399:62)",
+              "LegacyStackSynthesizer.doAddFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:175:29)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:83:25)",
+              "ApiLambdaCrudDynamoDBStack.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack.js:402:33)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:87:31)",
+              "new Asset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-s3-assets\\lib\\asset.js:40:44)",
+              "AssetCode.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\code.js:250:26)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:97:33)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:22:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/items": [
+          {
+            "type": "aws:cdk:hasPhysicalName",
+            "data": {
+              "Ref": "items07D08F4B"
+            },
+            "trace": [
+              "ConstructNode.addMetadata (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\construct-compat.js:399:62)",
+              "new Table (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:481:23)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:11:29)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/items/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "items07D08F4B",
+            "trace": [
+              "new Table (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:456:22)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:11:29)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/getOneItemFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getOneItemFunctionServiceRoleCFD54796",
+            "trace": [
+              "new Role (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:72:22)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:79:35)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:22:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/getOneItemFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getOneItemFunctionServiceRoleDefaultPolicy6B743AA8",
+            "trace": [
+              "new Policy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\policy.js:56:26)",
+              "Role.addToPrincipalPolicy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:205:34)",
+              "Function.addToPrincipal (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\grant.js:90:65)",
+              "Table.combinedGrant (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:384:35)",
+              "Table.grantReadWriteData (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:173:21)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:68:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/getOneItemFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getOneItemFunctionE3257B22",
+            "trace": [
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:135:26)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:22:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/AssetParameters/cb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673/S3Bucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameterscb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673S3Bucket13940623",
+            "trace": [
+              "new FileAssetParameters (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\asset-parameters.js:12:36)",
+              "LegacyStackSynthesizer.doAddFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:162:22)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:83:25)",
+              "ApiLambdaCrudDynamoDBStack.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack.js:402:33)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:87:31)",
+              "new Asset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-s3-assets\\lib\\asset.js:40:44)",
+              "AssetCode.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\code.js:250:26)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:97:33)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:22:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/AssetParameters/cb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673/S3VersionKey": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameterscb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673S3VersionKeyA0F5A18A",
+            "trace": [
+              "new FileAssetParameters (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\asset-parameters.js:16:35)",
+              "LegacyStackSynthesizer.doAddFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:162:22)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:83:25)",
+              "ApiLambdaCrudDynamoDBStack.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack.js:402:33)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:87:31)",
+              "new Asset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-s3-assets\\lib\\asset.js:40:44)",
+              "AssetCode.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\code.js:250:26)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:97:33)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:22:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/AssetParameters/cb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673/ArtifactHash": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetParameterscb34758b30c6d8cf9f9deec0dd1a7dfe917b4ffe5c9295e710da955242d14673ArtifactHash10BD5EA4",
+            "trace": [
+              "new FileAssetParameters (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\asset-parameters.js:20:38)",
+              "LegacyStackSynthesizer.doAddFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:162:22)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:83:25)",
+              "ApiLambdaCrudDynamoDBStack.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack.js:402:33)",
+              "LegacyStackSynthesizer.addFileAsset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stack-synthesizers\\legacy.js:87:31)",
+              "new Asset (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-s3-assets\\lib\\asset.js:40:44)",
+              "AssetCode.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\code.js:250:26)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:97:33)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:22:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/getAllItemsFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getAllItemsFunctionServiceRoleCC084440",
+            "trace": [
+              "new Role (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:72:22)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:79:35)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:31:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/getAllItemsFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getAllItemsFunctionServiceRoleDefaultPolicyF069C759",
+            "trace": [
+              "new Policy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\policy.js:56:26)",
+              "Role.addToPrincipalPolicy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:205:34)",
+              "Function.addToPrincipal (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\grant.js:90:65)",
+              "Table.combinedGrant (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:384:35)",
+              "Table.grantReadWriteData (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:173:21)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:67:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/getAllItemsFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "getAllItemsFunction0B7A913E",
+            "trace": [
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:135:26)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:31:30)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/createItemFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createItemFunctionServiceRole1BBF2178",
+            "trace": [
+              "new Role (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:72:22)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:79:35)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:40:27)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/createItemFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createItemFunctionServiceRoleDefaultPolicy8FAF1611",
+            "trace": [
+              "new Policy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\policy.js:56:26)",
+              "Role.addToPrincipalPolicy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:205:34)",
+              "Function.addToPrincipal (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\grant.js:90:65)",
+              "Table.combinedGrant (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:384:35)",
+              "Table.grantReadWriteData (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:173:21)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:69:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/createItemFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "createItemFunction8D47E48A",
+            "trace": [
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:135:26)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:40:27)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/updateItemFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "updateItemFunctionServiceRole40035396",
+            "trace": [
+              "new Role (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:72:22)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:79:35)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:49:27)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/updateItemFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "updateItemFunctionServiceRoleDefaultPolicy6A793729",
+            "trace": [
+              "new Policy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\policy.js:56:26)",
+              "Role.addToPrincipalPolicy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:205:34)",
+              "Function.addToPrincipal (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\grant.js:90:65)",
+              "Table.combinedGrant (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:384:35)",
+              "Table.grantReadWriteData (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:173:21)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:70:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/updateItemFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "updateItemFunction59415205",
+            "trace": [
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:135:26)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:49:27)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/deleteItemFunction/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteItemFunctionServiceRole5C201FCC",
+            "trace": [
+              "new Role (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:72:22)",
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:79:35)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:58:27)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/deleteItemFunction/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteItemFunctionServiceRoleDefaultPolicyDCE46F14",
+            "trace": [
+              "new Policy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\policy.js:56:26)",
+              "Role.addToPrincipalPolicy (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:205:34)",
+              "Function.addToPrincipal (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\grant.js:90:65)",
+              "Table.combinedGrant (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:384:35)",
+              "Table.grantReadWriteData (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-dynamodb\\lib\\table.js:173:21)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:71:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/deleteItemFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "deleteItemFunction2918B1B0",
+            "trace": [
+              "new Function (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function.js:135:26)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:58:27)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApi28111E1C",
+            "trace": [
+              "new RestApi (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:389:26)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:72:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/CloudWatchRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiCloudWatchRoleB5C7B431",
+            "trace": [
+              "new Role (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-iam\\lib\\role.js:72:22)",
+              "RestApi.configureCloudWatchRole (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:250:22)",
+              "new RestApi (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:405:18)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:72:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Account": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiAccount591BF3E1",
+            "trace": [
+              "RestApi.configureCloudWatchRole (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:254:26)",
+              "new RestApi (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:405:18)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:72:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Deployment/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiDeploymentFEC31BD04feb54db86e2f8eed94e1b28001143ce",
+            "trace": [
+              "new Deployment (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\deployment.js:48:25)",
+              "RestApi.configureDeployment (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:266:38)",
+              "new RestApi (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:407:14)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:72:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/DeploymentStage.prod/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiDeploymentStageprodE77B897D",
+            "trace": [
+              "new Stage (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\stage.js:61:26)",
+              "RestApi.configureDeployment (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:274:36)",
+              "new RestApi (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:407:14)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:72:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Endpoint": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiEndpoint8392E274",
+            "trace": [
+              "RestApi.configureDeployment (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:278:13)",
+              "new RestApi (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\restapi.js:407:14)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:72:21)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitems9015DBED",
+            "trace": [
+              "new Resource (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:231:26)",
+              "RootResource.addResource (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:28:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:75:32)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/GET/ApiPermission.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.GET..items": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsGETApiPermissionApiLambdaCrudDynamoDBExampleitemsApiC8514132GETitems2A648972",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:44:22)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:77:15)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/GET/ApiPermission.Test.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.GET..items": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsGETApiPermissionTestApiLambdaCrudDynamoDBExampleitemsApiC8514132GETitemsF4364FB2",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:51:26)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:77:15)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsGET59B0F78A",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:77:15)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/POST/ApiPermission.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.POST..items": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsPOSTApiPermissionApiLambdaCrudDynamoDBExampleitemsApiC8514132POSTitems7DA2B753",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:44:22)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:79:15)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/POST/ApiPermission.Test.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.POST..items": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsPOSTApiPermissionTestApiLambdaCrudDynamoDBExampleitemsApiC8514132POSTitemsAE25CBB6",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:51:26)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:79:15)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/POST/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsPOSTDD3E83D0",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:79:15)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsOPTIONSB46B4D53",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "addCorsOptions (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:93:17)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:80:9)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidA29927C2",
+            "trace": [
+              "new Resource (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:231:26)",
+              "Resource.addResource (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:28:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:81:34)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/GET/ApiPermission.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.GET..items.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidGETApiPermissionApiLambdaCrudDynamoDBExampleitemsApiC8514132GETitemsid6D54AF22",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:44:22)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:83:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/GET/ApiPermission.Test.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.GET..items.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidGETApiPermissionTestApiLambdaCrudDynamoDBExampleitemsApiC8514132GETitemsidCA08693A",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:51:26)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:83:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/GET/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidGET38A333A8",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:83:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/PATCH/ApiPermission.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.PATCH..items.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidPATCHApiPermissionApiLambdaCrudDynamoDBExampleitemsApiC8514132PATCHitemsidEE9531C0",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:44:22)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:85:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/PATCH/ApiPermission.Test.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.PATCH..items.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidPATCHApiPermissionTestApiLambdaCrudDynamoDBExampleitemsApiC8514132PATCHitemsid513A5711",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:51:26)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:85:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/PATCH/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidPATCH0548CB6A",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:85:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/DELETE/ApiPermission.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.DELETE..items.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidDELETEApiPermissionApiLambdaCrudDynamoDBExampleitemsApiC8514132DELETEitemsid056EB521",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:44:22)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:87:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/DELETE/ApiPermission.Test.ApiLambdaCrudDynamoDBExampleitemsApiC8514132.DELETE..items.{id}": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidDELETEApiPermissionTestApiLambdaCrudDynamoDBExampleitemsApiC8514132DELETEitemsid4C18D4E2",
+            "trace": [
+              "Function.addPermission (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-lambda\\lib\\function-base.js:40:9)",
+              "LambdaIntegration.bind (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\integrations\\lambda.js:51:26)",
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:41:40)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:87:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/DELETE/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidDELETE21550005",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:87:20)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/itemsApi/Default/items/{id}/OPTIONS/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "itemsApiitemsidOPTIONS62BD91D0",
+            "trace": [
+              "new Method (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\method.js:57:26)",
+              "Resource.addMethod (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\aws-apigateway\\lib\\resource.js:36:16)",
+              "addCorsOptions (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:93:17)",
+              "new ApiLambdaCrudDynamoDBStack (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:88:9)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:121:1)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata",
+            "trace": [
+              "new MetadataResource (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\metadata-resource.js:22:30)",
+              "C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:128:9",
+              "visit (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:184:9)",
+              "visit (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:181:9)",
+              "injectMetadataResources (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:117:5)",
+              "Object.synthesize (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:17:5)",
+              "App.synth (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stage.js:100:41)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:122:5)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ],
+        "/ApiLambdaCrudDynamoDBExample/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable",
+            "trace": [
+              "new MetadataResource (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\metadata-resource.js:30:35)",
+              "C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:128:9",
+              "visit (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:184:9)",
+              "visit (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:181:9)",
+              "injectMetadataResources (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:117:5)",
+              "Object.synthesize (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\private\\synthesis.js:17:5)",
+              "App.synth (C:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\@aws-cdk\\core\\lib\\stage.js:100:41)",
+              "Object.<anonymous> (C:\\dev\\mjendza\\aws\\aws-sandbox\\index.js:122:5)",
+              "Module._compile (internal/modules/cjs/loader.js:759:30)",
+              "Object.Module._extensions..js (internal/modules/cjs/loader.js:770:10)",
+              "Module.load (internal/modules/cjs/loader.js:628:32)",
+              "Function.Module._load (internal/modules/cjs/loader.js:555:12)",
+              "Function.Module.runMain (internal/modules/cjs/loader.js:822:10)",
+              "internal/main/run_main_module.js:17:11"
+            ]
+          }
+        ]
+      }
+    }
+  }
+}
