@@ -23,7 +23,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
     const getOneLambda = new lambda.Function(this, 'getOneItemFunction', {
       code: new lambda.AssetCode('src'),
       handler: 'get-one.handler',
-      runtime: lambda.Runtime.NODEJS_10_X,
+      runtime: lambda.Runtime.NODEJS_14_X,
       environment: {
         TABLE_NAME: dynamoTable.tableName,
         PRIMARY_KEY: 'itemId'
