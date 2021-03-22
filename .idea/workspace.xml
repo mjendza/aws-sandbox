@@ -2,29 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/lambda/.eslintignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/.eslintrc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/jest.config.js" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/tsconfig.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.js" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/delete-one.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/delete-one.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/delete-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/delete-one.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/get-all.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/get-all.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-all.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/get-one.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-one.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/get-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/update-one.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/update-one.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/update-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/update-one.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/delete-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/delete-one.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/get-all.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-all.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/update-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/update-one.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +44,7 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.build:ts (1)">
+  <component name="RunManager" selected="npm.fix:prettier (1)">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -89,8 +75,30 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="fix:prettier (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="fix:prettier" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="fix:prettier" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/assets/lambda/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="fix:prettier" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.fix:prettier (1)" />
+        <item itemvalue="npm.fix:prettier" />
         <item itemvalue="npm.build:ts (1)" />
         <item itemvalue="npm.build:ts" />
         <item itemvalue="npm.build" />
