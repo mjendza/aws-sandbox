@@ -1,11 +1,11 @@
 import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as cdk  from '@aws-cdk/core';
-import {lambdaNodeVersion} from "./cdkHelper";
+import * as cdk from '@aws-cdk/core';
+import { lambdaNodeVersion } from './cdkHelper';
 
 export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
-    private lambdaSourceCode = "assets/lambda/src";
+    private lambdaSourceCode = 'assets/lambda/src';
     constructor(app: cdk.App, id: string) {
         super(app, id);
 
@@ -83,9 +83,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
         });
 
         const items = api.root.addResource('items');
-        const getAllIntegration = new apigateway.LambdaIntegration(
-            getAll
-        );
+        const getAllIntegration = new apigateway.LambdaIntegration(getAll);
         items.addMethod('GET', getAllIntegration);
 
         const createOneIntegration = new apigateway.LambdaIntegration(
@@ -95,9 +93,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
         addCorsOptions(items);
 
         const singleItem = items.addResource('{id}');
-        const getOneIntegration = new apigateway.LambdaIntegration(
-            getOne
-        );
+        const getOneIntegration = new apigateway.LambdaIntegration(getOne);
         singleItem.addMethod('GET', getOneIntegration);
 
         const updateOneIntegration = new apigateway.LambdaIntegration(

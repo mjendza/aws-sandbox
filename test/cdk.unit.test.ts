@@ -8,21 +8,23 @@ test('exact match (case 1)', () => {
     const stack = new sut.DynamoDBStack(app, 'MyTestStack');
 
     // Case 1 - exact match
-    expectCDK(stack).to(exactlyMatchTemplate({
-        "Resources": {
-            "testbucketE6E05ABE": {
-                "Type": "AWS::S3::Bucket",
-                "Properties": {
-                    "BucketName": "test-bucket",
-                    "VersioningConfiguration": {
-                        "Status": "Enabled"
-                    }
+    expectCDK(stack).to(
+        exactlyMatchTemplate({
+            Resources: {
+                testbucketE6E05ABE: {
+                    Type: 'AWS::S3::Bucket',
+                    Properties: {
+                        BucketName: 'test-bucket',
+                        VersioningConfiguration: {
+                            Status: 'Enabled',
+                        },
+                    },
+                    UpdateReplacePolicy: 'Retain',
+                    DeletionPolicy: 'Retain',
                 },
-                "UpdateReplacePolicy": "Retain",
-                "DeletionPolicy": "Retain"
-            }
-        }
-    }))
+            },
+        })
+    );
 });
 
 // test('superset match (case 2)', () => {
