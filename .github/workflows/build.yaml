@@ -1,57 +1,38 @@
 name: build
 
-on: [push]
+on:
+  # run it on push to the default repository branch
+  push:
+    branches: [$default-branch]
+  # run it during pull request
+  pull_request:
+
 
 jobs:
-  aws_cdk:
-    runs-on: ubuntu-20.04
+  build:
+    # use system defined below in the tests matrix
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      # define the test matrix
+      matrix:
+        # selected operation systems to run CI
+        os: [ubuntu-latest]
+        # selected node version to run CI
+        node-version: [14.x]
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Setup Node
-        uses: actions/setup-node@v2-beta
+      - uses: actions/checkout@v2
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
         with:
-          node-version: '12'
-
-      - name: Setup dependencies
-        run: npm run setup
-
-      - name: Build
-        run: npm run build
-        env:
-          ENV: development
-
-      - name: Run eslint
-        run: npm run lint
-
-      - name: Unit Test
-        if: contains(github.event_name, 'pull_request')
-        run: npm run test
-
-      - name: CDK Diff Check
-        if: contains(github.event_name, 'pull_request')
-        run: npm run cdk:diff
-        env:
-          ENV: development
-          AWS_DEFAULT_REGION: 'eu-central-1'
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-
-#      - name: CDK Setup and Bootstrap
-#        if: contains(github.event_name, 'push')
-#        run: rm -rf ./node_modules && rm -rf ./src/node_modules && npm run setup:production && npm install -g aws-cdk && cdk bootstrap
-#        env:
-#          ENV: development
-#          AWS_DEFAULT_REGION: 'ap-northeast-1'
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#
-#      - name: CDK Deploy
-#        if: contains(github.event_name, 'push')
-#        run: cdk deploy --require-approval never
-#        env:
-#          ENV: development
-#          AWS_DEFAULT_REGION: 'ap-northeast-1'
-#          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          # use the node version defined in matrix above
+          node-version: ${{ matrix.node-version }}
+      # install dependencies
+      - run: npm ci
+      # run linting (ESlint and Prettier)
+      - run: npm run lint
+      # run build
+      - run: npm run build:ts
+      # run tests
+      - run: npm test:unit
