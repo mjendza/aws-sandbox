@@ -11,16 +11,29 @@ test('exact match (case 1)', () => {
     expectCDK(stack).to(
         exactlyMatchTemplate({
             Resources: {
-                testbucketE6E05ABE: {
-                    Type: 'AWS::S3::Bucket',
+                items07D08F4B: {
+                    Type: 'AWS::DynamoDB::Table',
                     Properties: {
-                        BucketName: 'test-bucket',
-                        VersioningConfiguration: {
-                            Status: 'Enabled',
+                        KeySchema: [
+                            {
+                                AttributeName: 'itemId',
+                                KeyType: 'HASH',
+                            },
+                        ],
+                        AttributeDefinitions: [
+                            {
+                                AttributeName: 'itemId',
+                                AttributeType: 'S',
+                            },
+                        ],
+                        ProvisionedThroughput: {
+                            ReadCapacityUnits: 5,
+                            WriteCapacityUnits: 5,
                         },
+                        TableName: 'items',
                     },
-                    UpdateReplacePolicy: 'Retain',
-                    DeletionPolicy: 'Retain',
+                    UpdateReplacePolicy: 'Delete',
+                    DeletionPolicy: 'Delete',
                 },
             },
         })
