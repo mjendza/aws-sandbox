@@ -2,15 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/cdk/cdkHelper.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/cdk.unit.test.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/.prettierrc.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/delete-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/delete-one.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/get-all.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-all.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/update-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/update-one.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/tsconfig.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/.eslintignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/.eslintrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,32 +45,22 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.fix:prettier (1)">
-    <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="npm.test:unit">
+    <configuration name="fix:eslint (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="build" />
+        <script value="fix:eslint" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="build:ts (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="fix:eslint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/assets/lambda/package.json" />
       <command value="run" />
       <scripts>
-        <script value="build:ts" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="build:ts" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="build:ts" />
+        <script value="fix:eslint" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -95,13 +86,23 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="test:unit" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="test:unit" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.test:unit" />
         <item itemvalue="npm.fix:prettier (1)" />
+        <item itemvalue="npm.fix:eslint (1)" />
+        <item itemvalue="npm.fix:eslint" />
         <item itemvalue="npm.fix:prettier" />
-        <item itemvalue="npm.build:ts (1)" />
-        <item itemvalue="npm.build:ts" />
-        <item itemvalue="npm.build" />
       </list>
     </recent_temporary>
   </component>
@@ -142,5 +143,17 @@
       </map>
     </option>
     <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/cdk/cdkHelper.ts</url>
+          <line>1</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,9 +1,11 @@
-import apigateway = require('@aws-cdk/aws-apigateway');
-import dynamodb = require('@aws-cdk/aws-dynamodb');
-import lambda = require('@aws-cdk/aws-lambda');
-import cdk = require('@aws-cdk/core');
+import * as apigateway from '@aws-cdk/aws-apigateway';
+import * as dynamodb from '@aws-cdk/aws-dynamodb';
+import * as lambda from '@aws-cdk/aws-lambda';
+import * as cdk  from '@aws-cdk/core';
+import {lambdaNodeVersion} from "./cdkHelper";
 
 export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
+    private lambdaSourceCode = "assets/lambda/src";
     constructor(app: cdk.App, id: string) {
         super(app, id);
 
@@ -20,20 +22,20 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
             removalPolicy: cdk.RemovalPolicy.DESTROY, // NOT recommended for production code
         });
 
-        const getOneLambda = new lambda.Function(this, 'getOneItemFunction', {
-            code: new lambda.AssetCode('src'),
+        const getOne = new lambda.Function(this, 'getOneItemFunction', {
+            code: new lambda.AssetCode(this.lambdaSourceCode),
             handler: 'get-one.handler',
-            runtime: lambda.Runtime.NODEJS_14_X,
+            runtime: lambdaNodeVersion,
             environment: {
                 TABLE_NAME: dynamoTable.tableName,
                 PRIMARY_KEY: 'itemId',
             },
         });
 
-        const getAllLambda = new lambda.Function(this, 'getAllItemsFunction', {
-            code: new lambda.AssetCode('src'),
+        const getAll = new lambda.Function(this, 'getAllItemsFunction', {
+            code: new lambda.AssetCode(this.lambdaSourceCode),
             handler: 'get-all.handler',
-            runtime: lambda.Runtime.NODEJS_10_X,
+            runtime: lambdaNodeVersion,
             environment: {
                 TABLE_NAME: dynamoTable.tableName,
                 PRIMARY_KEY: 'itemId',
@@ -41,9 +43,9 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
         });
 
         const createOne = new lambda.Function(this, 'createItemFunction', {
-            code: new lambda.AssetCode('src'),
+            code: new lambda.AssetCode(this.lambdaSourceCode),
             handler: 'create.handler',
-            runtime: lambda.Runtime.NODEJS_10_X,
+            runtime: lambdaNodeVersion,
             environment: {
                 TABLE_NAME: dynamoTable.tableName,
                 PRIMARY_KEY: 'itemId',
@@ -53,7 +55,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
         const updateOne = new lambda.Function(this, 'updateItemFunction', {
             code: new lambda.AssetCode('src'),
             handler: 'update-one.handler',
-            runtime: lambda.Runtime.NODEJS_10_X,
+            runtime: lambdaNodeVersion,
             environment: {
                 TABLE_NAME: dynamoTable.tableName,
                 PRIMARY_KEY: 'itemId',
@@ -61,17 +63,17 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
         });
 
         const deleteOne = new lambda.Function(this, 'deleteItemFunction', {
-            code: new lambda.AssetCode('src'),
+            code: new lambda.AssetCode(this.lambdaSourceCode),
             handler: 'delete-one.handler',
-            runtime: lambda.Runtime.NODEJS_10_X,
+            runtime: lambdaNodeVersion,
             environment: {
                 TABLE_NAME: dynamoTable.tableName,
                 PRIMARY_KEY: 'itemId',
             },
         });
 
-        dynamoTable.grantReadWriteData(getAllLambda);
-        dynamoTable.grantReadWriteData(getOneLambda);
+        dynamoTable.grantReadData(getAll);
+        dynamoTable.grantReadData(getOne);
         dynamoTable.grantReadWriteData(createOne);
         dynamoTable.grantReadWriteData(updateOne);
         dynamoTable.grantReadWriteData(deleteOne);
@@ -82,7 +84,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
 
         const items = api.root.addResource('items');
         const getAllIntegration = new apigateway.LambdaIntegration(
-            getAllLambda
+            getAll
         );
         items.addMethod('GET', getAllIntegration);
 
@@ -94,7 +96,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
 
         const singleItem = items.addResource('{id}');
         const getOneIntegration = new apigateway.LambdaIntegration(
-            getOneLambda
+            getOne
         );
         singleItem.addMethod('GET', getOneIntegration);
 
