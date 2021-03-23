@@ -1,8 +1,9 @@
 # my-aws-sandbox
-- CDK
-- Lambda
-- API Gateway
-- DynamoDB
+
+-   CDK
+-   Lambda
+-   API Gateway
+-   DynamoDB
 
 ## Build
 
