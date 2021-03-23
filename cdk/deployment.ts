@@ -53,7 +53,7 @@ export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
         });
 
         const updateOne = new lambda.Function(this, 'updateItemFunction', {
-            code: new lambda.AssetCode('src'),
+            code: new lambda.AssetCode(this.lambdaSourceCode),
             handler: 'update-one.handler',
             runtime: lambdaNodeVersion,
             environment: {

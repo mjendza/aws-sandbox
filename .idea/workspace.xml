@@ -2,16 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/cdk/cdkHelper.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/cdk.unit.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cdk/dynamoDBStack.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/.eslintignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/.eslintrc.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/.prettierrc.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/cdk.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/cdk.unit.test.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -30,7 +26,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/assets/lambda" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/cdk" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\dev\mjendza\aws\aws-sandbox\node_modules\prettier" />
     <property name="ts.external.directory.path" value="C:\dev\mjendza\aws\aws-sandbox\node_modules\typescript\lib" />
@@ -38,6 +34,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
       <recent name="C:\dev\mjendza\aws\aws-sandbox\assets\lambda" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
