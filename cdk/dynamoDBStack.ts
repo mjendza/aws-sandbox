@@ -1,5 +1,5 @@
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
-import * as cdk  from '@aws-cdk/core';
+import * as cdk from '@aws-cdk/core';
 
 export class DynamoDBStack extends cdk.Stack {
     constructor(app: cdk.App, id: string) {
