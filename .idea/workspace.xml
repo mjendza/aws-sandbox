@@ -2,7 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/test/cdk.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/cdk.unit.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/lambda/src/users/userEntity.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/lambda/src/users/userRepository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/dynamoDBStack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/dynamoDBStack.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -91,9 +97,9 @@
     <recent_temporary>
       <list>
         <item itemvalue="npm.fix" />
+        <item itemvalue="npm.test:unit" />
         <item itemvalue="npm.lint" />
         <item itemvalue="npm.fix:prettier (1)" />
-        <item itemvalue="npm.test:unit" />
         <item itemvalue="npm.fix:eslint (1)" />
       </list>
     </recent_temporary>
@@ -109,6 +115,7 @@
       <workItem from="1615665682656" duration="2759000" />
       <workItem from="1615753317752" duration="594000" />
       <workItem from="1616363518710" duration="398000" />
+      <workItem from="1616584474699" duration="4115000" />
     </task>
     <servers />
   </component>
