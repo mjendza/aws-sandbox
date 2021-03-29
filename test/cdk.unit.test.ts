@@ -1,36 +1,35 @@
-import { expect as expectCDK, exactlyMatchTemplate } from '@aws-cdk/assert';
+import { expect as expectCDK, haveResource } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import * as sut from '../cdk/deployment';
 
-test('exact match (case 1)', () => {
+test('API Gateway REST APIs created', () => {
+    //GIVEN
     const app = new cdk.App();
     // WHEN
     const stack = new sut.Deployment(app, 'MyTestStack');
+    // THEN
+    expectCDK(stack).to(haveResource('AWS::ApiGateway::RestApi'));
+});
 
-    // Case 1 - exact match
+test('DynamoDB table created', () => {
+    //GIVEN
+    const app = new cdk.App();
+    // WHEN
+    const stack = new sut.Deployment(app, 'MyTestStack');
+    // THEN
+    expectCDK(stack).to(haveResource('AWS::DynamoDB::Table'));
+});
+
+test('Lambda functions created', () => {
+    //GIVEN
+    const app = new cdk.App();
+    // WHEN
+    const stack = new sut.Deployment(app, 'MyTestStack');
+    //THEN
     expectCDK(stack).to(
-        exactlyMatchTemplate({
-            Resources: {
-                items07D08F4B: {
-                    Type: 'AWS::DynamoDB::Table',
-                    Properties: {
-                        KeySchema: [
-                            {
-                                AttributeName: 'id',
-                                KeyType: 'HASH',
-                            },
-                        ],
-                        AttributeDefinitions: [
-                            {
-                                AttributeName: 'id',
-                                AttributeType: 'S',
-                            },
-                        ],
-                    },
-                    UpdateReplacePolicy: 'Delete',
-                    DeletionPolicy: 'Delete',
-                },
-            },
+        haveResource('AWS::Lambda::Function', {
+            Handler: 'create.handler',
+            Runtime: 'nodejs14.x',
         })
     );
 });
