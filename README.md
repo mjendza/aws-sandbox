@@ -32,11 +32,17 @@ This will install the necessary CDK, then this example's dependencies, and then 
 
 ## Deploy
 
-Run:
+$ cdk ls
+<list all stacks in this program>
 
-```
-cdk deploy
-```
+$ cdk synth
+<generates and outputs cloudformation template>
+
+$ cdk deploy
+<deploys stack to your account>
+
+$ cdk diff
+<shows diff against deployed stack>
 
 ## Development
 

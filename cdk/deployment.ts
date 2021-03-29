@@ -7,6 +7,7 @@ import {
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
+    defaultLambdaSettings,
     generateResourceName,
     lambdaNodeVersion,
 } from './cdkHelper';
@@ -56,6 +57,8 @@ export class Deployment extends Stack {
                 environment: {
                     USER_TABLE_NAME: users.tableName,
                 },
+                logRetention: defaultLambdaSettings.logRetention,
+                timeout: defaultLambdaSettings.timeout,
             }
         );
         users.grantReadWriteData(createOne);
