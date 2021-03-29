@@ -43,7 +43,7 @@ export class Deployment extends Stack {
         users.addGlobalSecondaryIndex({
             indexName: 'email',
             partitionKey: { name: 'email', type: AttributeType.STRING },
-            projectionType: ProjectionType.ALL
+            projectionType: ProjectionType.ALL,
         });
 
         const createOne = new lambda.Function(
