@@ -1,8 +1,8 @@
 const AWS = require('aws-sdk');
 const db = new AWS.DynamoDB.DocumentClient();
 const uuidv4 = require('uuid/v4');
-const TABLE_NAME = process.env.TABLE_NAME || '';
-const PRIMARY_KEY = process.env.PRIMARY_KEY || '';
+const USER_TABLE_NAME = process.env.USER_TABLE_NAME || '';
+const PRIMARY_KEY = 'id';
 
 const RESERVED_RESPONSE = `Error: You're using AWS reserved keywords as attributes`,
     DYNAMODB_EXECUTION_ERROR = `Error: Execution update, caused a Dynamodb error, please take a look at your CloudWatch Logs.`;
@@ -18,13 +18,18 @@ export const handler = async (event: any = {}): Promise<any> => {
         typeof event.body == 'object' ? event.body : JSON.parse(event.body);
     item[PRIMARY_KEY] = uuidv4();
     const params = {
-        TableName: TABLE_NAME,
+        TableName: USER_TABLE_NAME,
         Item: item,
     };
 
     try {
         await db.put(params).promise();
-        return { statusCode: 201, body: '' };
+        return {
+            statusCode: 201,
+            body: {
+                id: item.id,
+            },
+        };
     } catch (dbError) {
         const errorResponse =
             dbError.code === 'ValidationException' &&

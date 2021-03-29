@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/lambda/src/users/userEntity.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/src/users/userRepository.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cdk/cdkResources.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cdk/deployment-base.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cdk/settings.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/dynamoDBStack.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/dynamoDBStack.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk.json" beforeDir="false" afterPath="$PROJECT_DIR$/cdk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/cdkHelper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/cdkHelper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/dynamoDBStack.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/cdk.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/cdk.unit.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -28,6 +34,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/cdk" />
+    <property name="nodejs.jest.jest_package" value="$PROJECT_DIR$/node_modules/jest" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="prettierjs.PrettierConfiguration.Package" value="C:\dev\mjendza\aws\aws-sandbox\node_modules\prettier" />
     <property name="ts.external.directory.path" value="C:\dev\mjendza\aws\aws-sandbox\node_modules\typescript\lib" />
@@ -43,22 +50,45 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.fix">
-    <configuration name="fix" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Jest.exact match (case 1)">
+    <configuration name="exact match (case 1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
+      <node-interpreter value="project" />
+      <node-options value="" />
+      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
+      <working-dir value="$PROJECT_DIR$" />
+      <envs />
+      <scope-kind value="TEST" />
+      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
+      <test-names>
+        <test-name value="exact match (case 1)" />
+      </test-names>
+      <method v="2" />
+    </configuration>
+    <configuration name="build:ts" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="fix" />
+        <script value="build:ts" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="fix:eslint (1)" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="cdk" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="fix:eslint" />
+        <script value="cdk" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="fix" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="fix" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -74,33 +104,13 @@
       <envs />
       <method v="2" />
     </configuration>
-    <configuration name="lint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="lint" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-    <configuration name="test:unit" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="test:unit" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.fix" />
-        <item itemvalue="npm.test:unit" />
-        <item itemvalue="npm.lint" />
+        <item itemvalue="Jest.exact match (case 1)" />
+        <item itemvalue="npm.cdk" />
+        <item itemvalue="npm.build:ts" />
         <item itemvalue="npm.fix:prettier (1)" />
-        <item itemvalue="npm.fix:eslint (1)" />
+        <item itemvalue="npm.fix" />
       </list>
     </recent_temporary>
   </component>
@@ -115,7 +125,9 @@
       <workItem from="1615665682656" duration="2759000" />
       <workItem from="1615753317752" duration="594000" />
       <workItem from="1616363518710" duration="398000" />
-      <workItem from="1616584474699" duration="4115000" />
+      <workItem from="1616584474699" duration="9482000" />
+      <workItem from="1617015376732" duration="80000" />
+      <workItem from="1617015611646" duration="4970000" />
     </task>
     <servers />
   </component>
@@ -148,7 +160,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/cdk/cdkHelper.ts</url>
-          <line>1</line>
+          <line>3</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

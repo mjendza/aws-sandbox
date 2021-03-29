@@ -4,7 +4,6 @@
     "description": "My AWS Sandbox",
     "scripts": {
         "build:ts": "tsc",
-        "cdk": "cdk",
         "test": "npm run test:unit && npm run test:api",
         "test:unit": "jest unit",
         "lint": "npm run lint:eslint && npm run lint:prettier",

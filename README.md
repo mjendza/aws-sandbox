@@ -37,3 +37,13 @@ Run:
 ```
 cdk deploy
 ```
+
+## Development
+
+### CDK
+
+#### add new resources
+
+1. Extend the CdkResources class with new item based on the convention
+1. Implement resources instance for CdkResources with new item name
+1. use `generateResourceName` function to generate the resource name based on the convention
