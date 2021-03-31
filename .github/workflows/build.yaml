@@ -36,3 +36,10 @@ jobs:
       - run: npm run build:ts
       # run tests
       - run: npm run test:unit
+      # lambda assets
+      # install dependencies
+      - run: assets/lambda npm ci
+      # run build
+      - run:  assets/lambda npm run build:ts
+      # run tests
+      #- run: npm run test:unit
