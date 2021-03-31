@@ -18,7 +18,7 @@ import * as settings from './settings.json';
 import { resources } from './cdkResources';
 
 export class Deployment extends Stack {
-    private lambdaSourceCode = 'assets/lambda/src';
+    private lambdaSourceCode = 'assets/lambda/dist/handlers/';
 
     constructor(app: App, id: string) {
         super(app, id);
@@ -51,8 +51,8 @@ export class Deployment extends Stack {
             this,
             generateResourceName(resources.lambdaCreateUser),
             {
-                code: new lambda.AssetCode(this.lambdaSourceCode),
-                handler: 'create.handler',
+                code: new lambda.AssetCode(this.lambdaSourceCode + 'create/'),
+                handler: 'index.handler',
                 runtime: lambdaNodeVersion,
                 environment: {
                     USER_TABLE_NAME: users.tableName,
@@ -82,8 +82,8 @@ export class Deployment extends Stack {
             this,
             generateResourceName(resources.lambdaGetAllUsers),
             {
-                code: new lambda.AssetCode(this.lambdaSourceCode),
-                handler: 'get-all.handler',
+                code: new lambda.AssetCode(this.lambdaSourceCode + 'get-all/'),
+                handler: 'index.handler',
                 runtime: lambdaNodeVersion,
                 environment: {
                     TABLE_NAME: users.tableName,

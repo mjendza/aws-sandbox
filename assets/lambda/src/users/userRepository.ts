@@ -1,4 +1,4 @@
-import { DocumentClient } from 'aws-sdk/lib/dynamodb/document_client';
+import { DynamoDB } from 'aws-sdk';
 import { UserEntity } from './userEntity';
 
 const TABLE_NAME = process.env.TABLE_NAME || '';
@@ -6,9 +6,9 @@ const TABLE_NAME = process.env.TABLE_NAME || '';
 const RESERVED_RESPONSE = `Error: You're using AWS reserved keywords as attributes`,
     DYNAMODB_EXECUTION_ERROR = `Error: Execution update, caused a Dynamodb error, please take a look at your CloudWatch Logs.`;
 export class UserRepository {
-    private documentClient: DocumentClient;
+    private documentClient: DynamoDB.DocumentClient;
     constructor() {
-        this.documentClient = new DocumentClient();
+        this.documentClient = new DynamoDB.DocumentClient();
     }
     async put(item: UserEntity): Promise<void> {
         const params = {
