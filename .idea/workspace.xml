@@ -2,15 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/lambda/src/events/userEvent.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/validationHelpers.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/assets/lambda/src/users/createUserService.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/lambda/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/lambda/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/lambda/src/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/cdkHelper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/cdkHelper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/helpers/validationHelpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/validationHelpers.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -54,7 +52,7 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.fix">
+  <component name="RunManager" selected="npm.fix:prettier">
     <configuration name="cdk.unit.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -91,16 +89,6 @@
       </test-names>
       <method v="2" />
     </configuration>
-    <configuration name="cdk" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="run" />
-      <scripts>
-        <script value="cdk" />
-      </scripts>
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
     <configuration name="fix" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -111,13 +99,23 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="fix:prettier" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="fix:prettier" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.fix:prettier" />
         <item itemvalue="npm.fix" />
         <item itemvalue="Jest.cdk.unit.test.ts" />
         <item itemvalue="Jest.check CDK deployment" />
         <item itemvalue="Jest.exact match (case 1)" />
-        <item itemvalue="npm.cdk" />
       </list>
     </recent_temporary>
   </component>
@@ -134,7 +132,7 @@
       <workItem from="1616363518710" duration="398000" />
       <workItem from="1616584474699" duration="9482000" />
       <workItem from="1617015376732" duration="80000" />
-      <workItem from="1617015611646" duration="9314000" />
+      <workItem from="1617015611646" duration="16362000" />
     </task>
     <servers />
   </component>

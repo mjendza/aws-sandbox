@@ -1,9 +1,5 @@
 import { UserEvent, userEventSchema } from './events/userEvent';
 import { validate } from './helpers/validationHelpers';
-import { UserRepository } from './users/userRepository';
-import { UserEntity } from './users/userEntity';
-
-const uuidv4 = require('uuid/v4');
 
 export const handler = async (event: any = {}): Promise<any> => {
     const item =
@@ -21,11 +17,4 @@ export const handler = async (event: any = {}): Promise<any> => {
             body: error,
         };
     }
-    const entity: UserEntity = {
-        email: model.email,
-        id: uuidv4(),
-    };
-
-    const repository = new UserRepository();
-    await repository.put(entity);
 };

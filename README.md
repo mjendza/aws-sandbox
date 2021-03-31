@@ -53,3 +53,14 @@ $ cdk diff
 1. Extend the CdkResources class with new item based on the convention
 1. Implement resources instance for CdkResources with new item name
 1. use `generateResourceName` function to generate the resource name based on the convention
+
+## Decisions log
+
+| Decision               | Description                                                                                                                                                                           | Timeframe                                                       |
+| ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------- |
+| :hammer: Typescript    | Typescript is awesome :heart: language for microservices (Typesafe and for small size of the repositories is maintainable). Very fast for prototyping and delivering simple solution. | 21.03.2021 [PR1](https://github.com/mjendza/aws-sandbox/pull/1) |
+| :cloud: CDK            | We can define deployment with the Typescript language and forget about YAML or JSON.                                                                                                  | 21.03.2021 [PR1](https://github.com/mjendza/aws-sandbox/pull/1) |
+| :cloud: github actions | I want to try github actions as build server to CI. For now we don't want to publish stack to AWS.                                                                                    | 23.03.2021 [PR3](https://github.com/mjendza/aws-sandbox/pull/3) |
+| :hammer: eslint        | Code can be verify for standard issues connected with JavaScript based on static analyze from eslint.                                                                                 | 23.03.2021 [PR4](https://github.com/mjendza/aws-sandbox/pull/4) |
+| :hammer: prettier      | We can keep same formatting.                                                                                                                                                          | 23.03.2021 [PR4](https://github.com/mjendza/aws-sandbox/pull/4) |
+| :hammer: ajv           | We want to validate json schema (and **only schema** for AWS Lambada incoming event) ajv is very simple validation library                                                            | 23.03.2021 [PR4](https://github.com/mjendza/aws-sandbox/pull/4) |
