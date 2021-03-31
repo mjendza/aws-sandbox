@@ -1,0 +1,29 @@
+
+# https://marketplace.visualstudio.com/items?itemName=humao.rest-client
+# https://ardalis.com/rest-commands-and-queries-in-vs-code
+
+@hostname = https://api.address.net
+
+
+@port = 7071
+#@hostname = http://localhost:{{port}}/api
+
+@host = {{hostname}}
+@contentType = application/json
+@createdAt = {{$datetime iso8601}}
+@modifiedBy = {{$processEnv USERNAME}}
+
+###
+### users
+###
+GET {{host}}/users HTTP/1.1
+###
+### create user
+###
+POST {{host}}/users HTTP/1.1
+content-type: application/json
+
+{
+    "email": "{{$guid}}",
+}
+

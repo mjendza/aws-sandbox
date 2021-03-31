@@ -77,6 +77,24 @@ export class Deployment extends Stack {
         );
         items.addMethod('POST', createOneIntegration);
         addCorsOptions(items);
+
+        const getAll = new lambda.Function(
+            this,
+            generateResourceName(resources.lambdaGetAllUsers),
+            {
+                code: new lambda.AssetCode(this.lambdaSourceCode),
+                handler: 'get-all.handler',
+                runtime: lambdaNodeVersion,
+                environment: {
+                    TABLE_NAME: users.tableName,
+                },
+                logRetention: defaultLambdaSettings.logRetention,
+                timeout: defaultLambdaSettings.timeout,
+            }
+        );
+        users.grantReadData(getAll);
+        const getAllIntegration = new apigateway.LambdaIntegration(getAll);
+        items.addMethod('GET', getAllIntegration);
     }
 }
 const app = new App();

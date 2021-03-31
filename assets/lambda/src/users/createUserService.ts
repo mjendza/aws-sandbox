@@ -10,12 +10,13 @@ export class CreateUserService {
         this.repository = new UserRepository();
     }
 
-    async create(model: UserEvent) {
+    async create(model: UserEvent): Promise<string> {
         const entity: UserEntity = {
             email: model.email,
             id: uuid.v4(),
         };
 
         await this.repository.put(entity);
+        return entity.id;
     }
 }
