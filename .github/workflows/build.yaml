@@ -28,18 +28,23 @@ jobs:
         with:
           # use the node version defined in matrix above
           node-version: ${{ matrix.node-version }}
+
+      #CDK - global install
       # install dependencies
       - run: npm ci
       # run linting (ESlint and Prettier)
       - run: npm run lint
-      # run build
-      - run: npm run build:ts
-      # run tests
-      - run: npm run test:unit
+
       # lambda assets
       # install dependencies
       - run: assets/lambda npm ci
       # run build
-      - run:  assets/lambda npm run build:ts
+      - run: assets/lambda npm run build:ts
       # run tests
       #- run: npm run test:unit
+
+      #build and test CDK
+      # run build
+      - run: npm run build:ts
+      # run tests
+      - run: npm run test:unit
