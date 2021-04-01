@@ -1,6 +1,6 @@
-import { UserEvent, userEventSchema } from './events/userEvent';
-import { validate } from './helpers/validationHelpers';
-import { CreateUserService } from './users/createUserService';
+import { UserEvent, userEventSchema } from '../../events/userEvent';
+import { validate } from '../../helpers/validationHelpers';
+import { CreateUserService } from '../../users/createUserService';
 
 export const handler = async (event: any = {}): Promise<any> => {
     try {

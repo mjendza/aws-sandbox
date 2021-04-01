@@ -28,7 +28,7 @@ test('Lambda functions created', () => {
     //THEN
     expectCDK(stack).to(
         haveResource('AWS::Lambda::Function', {
-            Handler: 'create.handler',
+            Handler: 'index.handler',
             Runtime: 'nodejs14.x',
         })
     );
