@@ -70,5 +70,5 @@
 
         "resolveJsonModule": true
     },
-    "exclude": ["./assets/"]
+    "exclude": ["./assets/", "./cdk.out"]
 }
