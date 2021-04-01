@@ -12,7 +12,6 @@ const entryObject = entryArray.reduce((acc, item) => {
     return acc;
 }, {});
 
-
 module.exports = {
     entry: entryObject,
     mode: "development",
@@ -37,18 +36,7 @@ module.exports = {
             "node_modules",
             path.resolve(__dirname)
         ],
-        // TsconfigPathsPlugin will automatically add this
-        // alias: {
-        //   packages: path.resolve(__dirname, 'packages/'),
-        // },
         extensions: [".js", ".ts", ".tsx"],
-        // plugins: [
-        //     new TsconfigPathsPlugin({
-        //         logLevel: "info",
-        //         mainFields: "module",
-        //         extensions: [".js", ".ts", ".tsx"]
-        //     })
-        // ]
     },
     context: __dirname,
     externals: [/aws-sdk/],
