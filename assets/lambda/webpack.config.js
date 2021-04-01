@@ -15,20 +15,44 @@ const entryObject = entryArray.reduce((acc, item) => {
 
 module.exports = {
     entry: entryObject,
-    devtool: 'source-map',
+    mode: "development",
     target: "node",
     module: {
         rules: [
             {
-                test: /\.tsx?$/,
-                use: 'ts-loader',
-                exclude: /node_modules/
+                test: /\.ts?$/,
+                exclude: /node_modules/,
+                use: {
+                    loader: "ts-loader",
+                    options: {
+                        transpileOnly: false, // Set to true if you are using fork-ts-checker-webpack-plugin
+                        projectReferences: true
+                    }
+                }
             }
         ]
     },
     resolve: {
-        extensions: ['.tsx', '.ts', '.js']
+        modules: [
+            "node_modules",
+            path.resolve(__dirname)
+        ],
+        // TsconfigPathsPlugin will automatically add this
+        // alias: {
+        //   packages: path.resolve(__dirname, 'packages/'),
+        // },
+        extensions: [".js", ".ts", ".tsx"],
+        // plugins: [
+        //     new TsconfigPathsPlugin({
+        //         logLevel: "info",
+        //         mainFields: "module",
+        //         extensions: [".js", ".ts", ".tsx"]
+        //     })
+        // ]
     },
+    context: __dirname,
+    externals: [/aws-sdk/],
+    devtool: "nosources-source-map",
     // Output directive will generate build/<function-name>/index.js
     output: {
         filename: '[name]/index.js',
