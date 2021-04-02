@@ -1,5 +1,17 @@
 # my-aws-sandbox
 
+## TD/TR
+
+This is my sandbox AWS Serverless stack.
+
+## Diagram
+
+`TODO`
+
+## Limitations
+
+This is single repository stack. In one place and as single CDK deployment we are creating all is needed to deliver working application.
+
 ## AWS
 
 -   CDK
@@ -54,7 +66,20 @@ $ cdk diff
 1. Implement resources instance for CdkResources with new item name
 1. use `generateResourceName` function to generate the resource name based on the convention
 
+#### enable traceability for each resource:
+
+-   for RestApi
+-   for lambda please use `lambdaFactory` helper to generate CDK lambda with all needed setup
+
 ## Decisions log
+
+use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908) to show type for decision
+
+| Emoji    | Short description      |
+| -------- | ---------------------- |
+| :cloud:  | Deployment             |
+| :gift:   | Development            |
+| :hammer: | Architecture decisions |
 
 | Decision               | Description                                                                                                                                                                           | Timeframe                                                         |
 | ---------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
@@ -66,4 +91,5 @@ $ cdk diff
 | :hammer: ajv           | We want to validate json schema (and **only schema** for AWS Lambada incoming event) ajv is very simple validation library                                                            | 23.03.2021 [PR7](https://github.com/mjendza/aws-sandbox/pull/7)   |
 | :man: manual testing   | We want to use humao.rest-client and VS code to make the HTTP requests the API GW                                                                                                     | 31.03.2021 [PR7](https://github.com/mjendza/aws-sandbox/pull/7)   |
 | :gift: webpack         | We want to publish lambda Typescript code as JavaScript with webpack                                                                                                                  | 31.03.2021 [PR11](https://github.com/mjendza/aws-sandbox/pull/11) |
-| :gift: ts-loader       | To load depdencies we want to use ts-loaded based on [examples](https://github.com/TypeStrong/ts-loader/tree/main/examples)                                                           | 31.03.2021 [PR11](https://github.com/mjendza/aws-sandbox/pull/11) |
+| :gift: ts-loader       | To load dependencies we want to use ts-loaded based on [examples](https://github.com/TypeStrong/ts-loader/tree/main/examples)                                                           | 31.03.2021 [PR11](https://github.com/mjendza/aws-sandbox/pull/11) |
+| :cloud: X-RAY          | We want to see the trace for each action in the system. The best option is to use AWS X-RAY.                                                                                          | 21.03.2021 [PR1](https://github.com/mjendza/aws-sandbox/pull/1)   |

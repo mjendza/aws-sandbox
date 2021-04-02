@@ -1,18 +1,23 @@
-import { DynamoDB } from 'aws-sdk';
-import { UserEntity } from './userEntity';
 
-const TABLE_NAME = process.env.TABLE_NAME || '';
+import { UserEntity } from './userEntity';
+import { getEnvironmentSettingsKey } from '../helpers/validation-helpers';
+import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
+import {dynamoClient} from "../helpers/dynamodb-factory";
+import { DynamoDB } from 'aws-sdk';
 
 const RESERVED_RESPONSE = `Error: You're using AWS reserved keywords as attributes`,
     DYNAMODB_EXECUTION_ERROR = `Error: Execution update, caused a Dynamodb error, please take a look at your CloudWatch Logs.`;
 export class UserRepository {
     private documentClient: DynamoDB.DocumentClient;
+    private tableName = getEnvironmentSettingsKey<UserLambdaSettings>(
+        'TABLE_NAME'
+    );
     constructor() {
-        this.documentClient = new DynamoDB.DocumentClient();
+        this.documentClient = dynamoClient();
     }
     async put(item: UserEntity): Promise<void> {
         const params = {
-            TableName: TABLE_NAME,
+            TableName: this.tableName,
             Item: item,
         };
         try {

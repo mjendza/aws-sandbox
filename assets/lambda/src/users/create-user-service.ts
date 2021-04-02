@@ -1,5 +1,5 @@
 import { UserEntity } from './userEntity';
-import { UserRepository } from './userRepository';
+import { UserRepository } from './user-repository';
 import { UserEvent } from '../events/userEvent';
 import * as uuid from 'uuid';
 
@@ -15,7 +15,6 @@ export class CreateUserService {
             email: model.email,
             id: uuid.v4(),
         };
-
         await this.repository.put(entity);
         return entity.id;
     }

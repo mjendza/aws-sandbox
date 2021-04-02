@@ -7,15 +7,18 @@ import {
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
-    defaultLambdaSettings,
     generateResourceName,
-    lambdaNodeVersion,
-} from './cdkHelper';
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as apigateway from '@aws-cdk/aws-apigateway';
+    lambdaFactory,
+} from './cdk-helper';
+import {
+    LambdaIntegration,
+    MethodLoggingLevel,
+    RestApi,
+} from '@aws-cdk/aws-apigateway';
 import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
-import { resources } from './cdkResources';
+import { resources } from './cdk-resources';
+import { UserLambdaSettings } from './settings/lambda-settings';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -46,55 +49,55 @@ export class Deployment extends Stack {
             partitionKey: { name: 'email', type: AttributeType.STRING },
             projectionType: ProjectionType.ALL,
         });
-
-        const createOne = new lambda.Function(
+        const createOneSettings: UserLambdaSettings = {
+            TABLE_NAME: users.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        };
+        const createOne = lambdaFactory(
             this,
             generateResourceName(resources.lambdaCreateUser),
-            {
-                code: new lambda.AssetCode(this.lambdaSourceCode + 'create/'),
-                handler: 'index.handler',
-                runtime: lambdaNodeVersion,
-                environment: {
-                    USER_TABLE_NAME: users.tableName,
-                },
-                logRetention: defaultLambdaSettings.logRetention,
-                timeout: defaultLambdaSettings.timeout,
-            }
+            'create/',
+            this.lambdaSourceCode,
+            (createOneSettings as unknown) as { [key: string]: string }
         );
+
         users.grantReadWriteData(createOne);
 
-        const api = new apigateway.RestApi(
+        const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
+
             {
                 restApiName: `api-${settings.repositoryName}`,
+                deployOptions: {
+                    stageName: 'beta',
+                    metricsEnabled: true,
+                    loggingLevel: MethodLoggingLevel.ERROR,
+                    dataTraceEnabled: true,
+                },
             }
         );
-        const items = api.root.addResource('users');
+        const usersApiEndpoint = api.root.addResource('users');
 
-        const createOneIntegration = new apigateway.LambdaIntegration(
-            createOne
-        );
-        items.addMethod('POST', createOneIntegration);
-        addCorsOptions(items);
+        const createOneIntegration = new LambdaIntegration(createOne);
+        usersApiEndpoint.addMethod('POST', createOneIntegration);
+        addCorsOptions(usersApiEndpoint);
 
-        const getAll = new lambda.Function(
+        const getAllSettings: UserLambdaSettings = {
+            TABLE_NAME: users.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        };
+
+        const getAll = lambdaFactory(
             this,
             generateResourceName(resources.lambdaGetAllUsers),
-            {
-                code: new lambda.AssetCode(this.lambdaSourceCode + 'get-all/'),
-                handler: 'index.handler',
-                runtime: lambdaNodeVersion,
-                environment: {
-                    TABLE_NAME: users.tableName,
-                },
-                logRetention: defaultLambdaSettings.logRetention,
-                timeout: defaultLambdaSettings.timeout,
-            }
+            'get-all/',
+            this.lambdaSourceCode,
+            (getAllSettings as unknown) as { [key: string]: string }
         );
         users.grantReadData(getAll);
-        const getAllIntegration = new apigateway.LambdaIntegration(getAll);
-        items.addMethod('GET', getAllIntegration);
+        const getAllIntegration = new LambdaIntegration(getAll);
+        usersApiEndpoint.addMethod('GET', getAllIntegration);
     }
 }
 const app = new App();
