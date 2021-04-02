@@ -1,10 +1,13 @@
 import Ajv from 'ajv';
 import { HttpError } from './http-error';
-import {APIGatewayProxyEvent} from "aws-lambda";
+import { APIGatewayProxyEvent } from 'aws-lambda';
 
 export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
     if (!event.body) {
-        throw new HttpError(400, 'invalid request, you are missing the parameter body');
+        throw new HttpError(
+            400,
+            'invalid request, you are missing the parameter body'
+        );
     }
     const item = JSON.parse(event.body);
     const ajv = new Ajv();

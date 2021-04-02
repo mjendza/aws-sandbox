@@ -1,7 +1,10 @@
 import { HttpError } from './http-error';
-import {APIGatewayProxyResult} from "aws-lambda";
+import { APIGatewayProxyResult } from 'aws-lambda';
 
-export function proxyIntegrationResult(code: number, jsonResult: any): APIGatewayProxyResult {
+export function proxyIntegrationResult(
+    code: number,
+    jsonResult: any
+): APIGatewayProxyResult {
     return {
         statusCode: code,
         body: JSON.stringify(jsonResult),

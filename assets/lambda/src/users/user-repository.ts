@@ -1,8 +1,7 @@
-
 import { UserEntity } from './userEntity';
 import { getEnvironmentSettingsKey } from '../helpers/validation-helpers';
 import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
-import {dynamoClient} from "../helpers/dynamodb-factory";
+import { dynamoClient } from '../helpers/dynamodb-factory';
 import { DynamoDB } from 'aws-sdk';
 
 const RESERVED_RESPONSE = `Error: You're using AWS reserved keywords as attributes`,
