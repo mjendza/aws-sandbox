@@ -14,6 +14,7 @@ export const handler = async (
     try {
         log.info(`event: ${JSON.stringify(event)}`);
         const model = validate<UserEvent>(event, userEventSchema);
+        log.info(`model: ${JSON.stringify(model)}`);
         const service = new CreateUserService();
         const result = await service.create(model);
         log.info(`result: ${JSON.stringify(result)}`);

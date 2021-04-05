@@ -11,8 +11,16 @@ export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
     }
     const item = JSON.parse(event.body);
     const ajv = new Ajv();
-    const valid = ajv.validate(schema, item);
-    if (!valid) throw new HttpError(400, ajv.errors?.join(','));
+    const validate = ajv.compile(schema);
+    const valid = validate(item);
+
+    if (!valid) {
+        if (!validate.errors) {
+            throw new HttpError(400, 'General validation error.');
+        }
+        const errors = `${validate.errors.map((x) => x.message).join(',')}`;
+        throw new HttpError(400, errors);
+    }
     return item as T;
 }
 
