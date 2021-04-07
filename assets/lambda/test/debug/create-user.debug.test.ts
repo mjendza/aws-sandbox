@@ -1,6 +1,6 @@
 import * as AwsXRay from 'aws-xray-sdk';
-import { handler } from "../../src/handlers/create";
-AwsXRay.setContextMissingStrategy("LOG_ERROR");
+import { handler } from '../../src/handlers/create';
+AwsXRay.setContextMissingStrategy('LOG_ERROR');
 test('DEBUG create user', async () => {
     //GIVEN
     const event = {

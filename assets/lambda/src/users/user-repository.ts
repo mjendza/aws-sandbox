@@ -16,7 +16,6 @@ export class UserRepository {
         const params = {
             TableName: this.tableName,
             Item: item,
-
         };
         try {
             await this.documentClient.put(params).promise();

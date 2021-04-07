@@ -1,4 +1,4 @@
-import { expect , haveResource } from '@aws-cdk/assert';
+import { expect, haveResource } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import * as sut from '../cdk/deployment';
 
