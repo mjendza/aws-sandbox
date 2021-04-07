@@ -22,4 +22,21 @@ test('proxyIntegrationError should return HttpError message as a json error fiel
     expect(result).not.toBeUndefined();
     expect(result.body).not.toBeUndefined();
     expect(result.statusCode).toBe(400);
+    expect(JSON.parse(result.body)).toEqual({
+        error: 'abc',
+    });
+});
+
+test('proxyIntegrationError should return HttpError message as a json error field', () => {
+    //GIVEN
+    const sut = proxyIntegrationError;
+    // WHEN
+    const result = sut(new TypeError('abc is undefined'));
+    // THEN
+    expect(result).not.toBeUndefined();
+    expect(result.body).not.toBeUndefined();
+    expect(result.statusCode).toBe(500);
+    expect(JSON.parse(result.body)).toEqual({
+        error: 'Internal Server error',
+    });
 });

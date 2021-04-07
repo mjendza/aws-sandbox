@@ -25,7 +25,7 @@ export interface CdkSettings {
 }
 
 export function generateResourceName(name: string) {
-    return `${settings.environment}-${settings.repositoryName}-${name}`;
+    return `${settings.environment}-${name}`;
 }
 
 export function lambdaFactory(

@@ -6,6 +6,7 @@
         "build:ts": "tsc",
         "test": "npm run test:unit && npm run test:api",
         "test:unit": "jest unit",
+        "test:coverage": "jest unit --coverage",
         "lint": "npm run lint:eslint && npm run lint:prettier",
         "lint:prettier": "prettier --check \"**/**/!(*.d).{ts,json,md}\"",
         "lint:eslint": "eslint **/*.ts",

@@ -18,6 +18,9 @@ This is single repository stack. In one place and as single CDK deployment we ar
 -   Lambda
 -   API Gateway
 -   DynamoDB
+- X-RAY
+- CloudWatch
+
 
 ## TypeScript
 
@@ -97,3 +100,9 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 | :hammer: kebab case      | We want to use kebab case for files and folders convention.                                                                                                                           | 03.04.2021 [PR11](https://github.com/mjendza/aws-sandbox/pull/11) |
 | :hammer: pascal case     | For Typescript class names.                                                                                                                                                           | 03.04.2021 [PR11](https://github.com/mjendza/aws-sandbox/pull/11) |
 | :hammer: testing         | We want to use jest library. Based on the freinds recomendation this is the best and awesome test library on the javascript market                                                    | 03.04.2021 [PR11](https://github.com/mjendza/aws-sandbox/pull/11) |
+
+
+## Architecture
+### Lambda
+
+use 
