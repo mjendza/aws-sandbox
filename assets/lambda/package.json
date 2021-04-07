@@ -6,7 +6,8 @@
         "build": "webpack --config webpack.config.js",
         "build:ts": "tsc",
         "test": "npm run test:unit && npm run test:api",
-        "test:unit": "jest unit"
+        "test:unit": "jest unit",
+        "test:coverage": "jest unit --coverage"
     },
     "author": {
         "name": "MJENDZA",
@@ -16,9 +17,13 @@
     "dependencies": {
         "uuid": "8.3.2",
         "aws-sdk": "2.871.0",
-        "ajv": "8.0.1"
+        "ajv": "8.0.1",
+        "aws-xray-sdk": "3.2.0",
+        "lambda-log": "2.4.0"
     },
     "devDependencies": {
+        "@types/lambda-log": "2.2.0",
+        "@types/aws-lambda": "8.10.73",
         "@types/uuid": "8.3.0",
         "@types/jest": "26.0.21",
         "@types/node": "14.14.33",

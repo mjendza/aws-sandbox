@@ -2,7 +2,7 @@ import * as apigateway from '@aws-cdk/aws-apigateway';
 import * as dynamodb from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as cdk from '@aws-cdk/core';
-import { lambdaNodeVersion } from './cdkHelper';
+import { lambdaNodeVersion } from './cdk-helper';
 
 export class ApiLambdaCrudDynamoDBStack extends cdk.Stack {
     private lambdaSourceCode = 'assets/lambda/src';

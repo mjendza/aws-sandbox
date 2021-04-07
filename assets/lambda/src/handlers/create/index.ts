@@ -1,30 +1,29 @@
 import { UserEvent, userEventSchema } from '../../events/userEvent';
-import { validate } from '../../helpers/validationHelpers';
-import { CreateUserService } from '../../users/createUserService';
+import { validate } from '../../helpers/validation-helpers';
+import { CreateUserService } from '../../users/create-user-service';
+import {
+    proxyIntegrationError,
+    proxyIntegrationResult,
+} from '../../helpers/proxy-integration';
+import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
+import * as log from 'lambda-log';
 
-export const handler = async (event: any = {}): Promise<any> => {
+export const handler = async (
+    event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
     try {
-        const item =
-            typeof event.body == 'object' ? event.body : JSON.parse(event.body);
-        if (!event.body) {
-            return {
-                statusCode: 400,
-                body: 'invalid request, you are missing the parameter body',
-            };
-        }
-        const model = validate<UserEvent>(item, userEventSchema);
+        log.info(`event: ${JSON.stringify(event)}`);
+        const model = validate<UserEvent>(event, userEventSchema);
+        log.info(`model: ${JSON.stringify(model)}`);
         const service = new CreateUserService();
         const result = await service.create(model);
-        return {
-            statusCode: 201,
-            body: {
-                id: result,
-            },
-        };
+        log.info(`result: ${JSON.stringify(result)}`);
+        const response = proxyIntegrationResult(201, {
+            id: result,
+        });
+        log.info(`response: ${JSON.stringify(response)}`);
+        return response;
     } catch (error) {
-        return {
-            statusCode: 400,
-            body: error,
-        };
+        return proxyIntegrationError(error);
     }
 };

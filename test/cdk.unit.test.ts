@@ -1,4 +1,4 @@
-import { expect as expectCDK, haveResource } from '@aws-cdk/assert';
+import { expect, haveResource } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import * as sut from '../cdk/deployment';
 
@@ -8,7 +8,7 @@ test('API Gateway REST APIs created', () => {
     // WHEN
     const stack = new sut.Deployment(app, 'MyTestStack');
     // THEN
-    expectCDK(stack).to(haveResource('AWS::ApiGateway::RestApi'));
+    expect(stack).to(haveResource('AWS::ApiGateway::RestApi'));
 });
 
 test('DynamoDB table created', () => {
@@ -17,7 +17,7 @@ test('DynamoDB table created', () => {
     // WHEN
     const stack = new sut.Deployment(app, 'MyTestStack');
     // THEN
-    expectCDK(stack).to(haveResource('AWS::DynamoDB::Table'));
+    expect(stack).to(haveResource('AWS::DynamoDB::Table'));
 });
 
 test('Lambda functions created', () => {
@@ -26,7 +26,7 @@ test('Lambda functions created', () => {
     // WHEN
     const stack = new sut.Deployment(app, 'MyTestStack');
     //THEN
-    expectCDK(stack).to(
+    expect(stack).to(
         haveResource('AWS::Lambda::Function', {
             Handler: 'index.handler',
             Runtime: 'nodejs14.x',
