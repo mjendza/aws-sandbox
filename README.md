@@ -105,4 +105,27 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 
 ### Lambda
 
-use
+#### helpers
+
+##### dynamodb-factory
+
+-   creates the document client for DynamoDB
+-   wrap client with X-RAY
+
+```javascript
+function dynamoClient(region?: string): DynamoDB.DocumentClient
+```
+
+### CDK
+
+#### cdk-helpers
+
+##### lambdaFactory
+
+-   returns Function with default values
+-   based on the convention uses `handler: 'index.handler'`
+
+#### webpack
+
+Handlers located in `handlers` folder, each in a dedicated folder with the name as `index.ts`.
+Use `npm run build` to make the deployment handler for CDK.
