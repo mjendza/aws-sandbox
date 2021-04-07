@@ -1,6 +1,7 @@
 import Ajv from 'ajv';
 import { HttpError } from './http-error';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+import * as log from 'lambda-log';
 
 export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
     if (!event.body) {
@@ -9,6 +10,8 @@ export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
             'invalid request, you are missing the parameter body'
         );
     }
+
+    log.info(`event.body: ${event.body}`);
     const item = JSON.parse(event.body);
     const ajv = new Ajv();
     const validate = ajv.compile(schema);

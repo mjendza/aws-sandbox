@@ -16,7 +16,12 @@ export function proxyIntegrationResult(
 }
 
 export function proxyIntegrationError(error: any): APIGatewayProxyResult {
-    log.info(`proxyIntegrationError error: ${JSON.stringify(error)}`);
+    log.info(
+        `proxyIntegrationError error: ${JSON.stringify(
+            error,
+            Object.getOwnPropertyNames(error)
+        )}`
+    );
     const httpErrorType = error instanceof HttpError;
     if (!!httpErrorType) {
         const httpError = error as HttpError;

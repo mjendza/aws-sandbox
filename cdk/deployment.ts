@@ -74,6 +74,7 @@ export class Deployment extends Stack {
                     metricsEnabled: true,
                     loggingLevel: MethodLoggingLevel.ERROR,
                     dataTraceEnabled: true,
+                    tracingEnabled: true,
                 },
             }
         );

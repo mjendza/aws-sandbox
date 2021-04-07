@@ -41,6 +41,9 @@ module.exports = {
     context: __dirname,
     externals: [/aws-sdk/],
     devtool: "nosources-source-map",
+    optimization: {
+        minimize: false,
+    },
     // Output directive will generate build/<function-name>/index.js
     output: {
         filename: '[name]/index.js',
