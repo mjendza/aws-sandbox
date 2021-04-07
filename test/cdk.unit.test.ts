@@ -1,41 +1,35 @@
-import { expect as expectCDK, exactlyMatchTemplate } from '@aws-cdk/assert';
+import { expect, haveResource } from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
-import * as sut from '../cdk/dynamoDBStack';
+import * as sut from '../cdk/deployment';
 
-test('exact match (case 1)', () => {
+test('API Gateway REST APIs created', () => {
+    //GIVEN
     const app = new cdk.App();
     // WHEN
-    const stack = new sut.DynamoDBStack(app, 'MyTestStack');
+    const stack = new sut.Deployment(app, 'MyTestStack');
+    // THEN
+    expect(stack).to(haveResource('AWS::ApiGateway::RestApi'));
+});
 
-    // Case 1 - exact match
-    expectCDK(stack).to(
-        exactlyMatchTemplate({
-            Resources: {
-                items07D08F4B: {
-                    Type: 'AWS::DynamoDB::Table',
-                    Properties: {
-                        KeySchema: [
-                            {
-                                AttributeName: 'itemId',
-                                KeyType: 'HASH',
-                            },
-                        ],
-                        AttributeDefinitions: [
-                            {
-                                AttributeName: 'itemId',
-                                AttributeType: 'S',
-                            },
-                        ],
-                        ProvisionedThroughput: {
-                            ReadCapacityUnits: 5,
-                            WriteCapacityUnits: 5,
-                        },
-                        TableName: 'items',
-                    },
-                    UpdateReplacePolicy: 'Delete',
-                    DeletionPolicy: 'Delete',
-                },
-            },
+test('DynamoDB table created', () => {
+    //GIVEN
+    const app = new cdk.App();
+    // WHEN
+    const stack = new sut.Deployment(app, 'MyTestStack');
+    // THEN
+    expect(stack).to(haveResource('AWS::DynamoDB::Table'));
+});
+
+test('Lambda functions created', () => {
+    //GIVEN
+    const app = new cdk.App();
+    // WHEN
+    const stack = new sut.Deployment(app, 'MyTestStack');
+    //THEN
+    expect(stack).to(
+        haveResource('AWS::Lambda::Function', {
+            Handler: 'index.handler',
+            Runtime: 'nodejs14.x',
         })
     );
 });

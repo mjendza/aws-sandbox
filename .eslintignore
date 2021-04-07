@@ -1,6 +1,8 @@
 /node_modules/*
 # build artifacts
 dist/*coverage/*
+/dist/*
+/cdk.out/*
 
 # data definition files
 **/*.d.ts
