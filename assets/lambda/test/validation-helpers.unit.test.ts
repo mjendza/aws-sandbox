@@ -1,5 +1,5 @@
 import { validate } from '../src/helpers/validation-helpers';
-import { UserEvent, userEventSchema } from '../src/events/userEvent';
+import { UserEvent, userEventSchema } from '../src/events/user-event';
 
 test('validate UserEvent with validation-helper should return generic object', () => {
     //GIVEN

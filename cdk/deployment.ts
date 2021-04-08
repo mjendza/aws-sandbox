@@ -99,6 +99,22 @@ export class Deployment extends Stack {
         users.grantReadData(getAll);
         const getAllIntegration = new LambdaIntegration(getAll);
         usersApiEndpoint.addMethod('GET', getAllIntegration);
+
+        const getByIdSettings: UserLambdaSettings = {
+            TABLE_NAME: users.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        };
+        const getById = lambdaFactory(
+            this,
+            generateResourceName(resources.lambdaGetUserById),
+            'get-by-id/',
+            this.lambdaSourceCode,
+            (getByIdSettings as unknown) as { [key: string]: string }
+        );
+        users.grantReadData(getById);
+        const getByIdIntegration = new LambdaIntegration(getById);
+        const singleItem = usersApiEndpoint.addResource('{id}');
+        singleItem.addMethod('GET', getByIdIntegration);
     }
 }
 const app = new App();

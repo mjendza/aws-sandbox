@@ -1,4 +1,4 @@
-import { UserEvent, userEventSchema } from '../../events/userEvent';
+import { UserEvent, userEventSchema } from '../../events/user-event';
 import { validate } from '../../helpers/validation-helpers';
 import { CreateUserService } from '../../users/create-user-service';
 import {

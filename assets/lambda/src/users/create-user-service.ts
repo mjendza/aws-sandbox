@@ -1,6 +1,6 @@
-import { UserEntity } from './userEntity';
+import { UserEntity } from './user-entity';
 import { UserRepository } from './user-repository';
-import { UserEvent } from '../events/userEvent';
+import { UserEvent } from '../events/user-event';
 import * as uuid from 'uuid';
 
 export class CreateUserService {
@@ -17,5 +17,17 @@ export class CreateUserService {
         };
         await this.repository.put(entity);
         return entity.id;
+    }
+}
+
+export class GetUserService {
+    private repository: UserRepository;
+
+    constructor() {
+        this.repository = new UserRepository();
+    }
+
+    get(id: string): Promise<UserEntity> {
+        return this.repository.get(id);
     }
 }

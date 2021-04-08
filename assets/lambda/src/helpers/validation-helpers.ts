@@ -26,6 +26,21 @@ export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
     }
     return item as T;
 }
+export function validateEntity<T>(data: any, schema: any): T {
+    log.info(`event.body: ${data}`);
+    const ajv = new Ajv();
+    const validate = ajv.compile(schema);
+    const valid = validate(data);
+
+    if (!valid) {
+        if (!validate.errors) {
+            throw new HttpError(400, 'General validation error.');
+        }
+        const errors = `${validate.errors.map((x) => x.message).join(',')}`;
+        throw new HttpError(400, errors);
+    }
+    return data as T;
+}
 
 const nameof = <T>(name: Extract<keyof T, string>): string => name;
 
