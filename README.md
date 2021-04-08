@@ -5,6 +5,7 @@
 This is my sandbox AWS Serverless stack.
 
 ## Big Picture
+
 ![big-picture](doc/solution/big-picture.png)
 
 ## Limitations
@@ -102,6 +103,7 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 | :books: cfn-diagram as doc for CDK | We want to document AWS Stack with diagram based on the CDK                                                                                                                                                                                   | 31.03.2021 [PR9](https://github.com/mjendza/aws-sandbox/pull/9) |
 
 ## Architecture
+
 ### Lambda
 
 #### helpers
