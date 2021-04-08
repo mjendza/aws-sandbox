@@ -2,13 +2,33 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/assets/lambda/src/users/createUserService.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/assets/lambda/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/create.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/create.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/lambda/src/helpers/validationHelpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/validationHelpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/events/userEvent.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/events/userEvent.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/get-one.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/handlers/create/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/handlers/create/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/handlers/get-all/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/handlers/get-all/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/helpers/dynamodb-factory.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/dynamodb-factory.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/helpers/http-error.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/http-error.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/helpers/proxy-integration.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/proxy-integration.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/helpers/validation-helpers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/helpers/validation-helpers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/users/create-user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/users/create-user-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/users/user-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/users/user-repository.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/src/users/userEntity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/src/users/userEntity.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/test/debug/create-user.debug.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/test/debug/create-user.debug.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/test/dynamodb-factory.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/test/dynamodb-factory.unit.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/test/proxy-integration-helpers.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/test/proxy-integration-helpers.unit.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/assets/lambda/test/validation-helpers.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/assets/lambda/test/validation-helpers.unit.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk.json" beforeDir="false" afterPath="$PROJECT_DIR$/cdk.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/cdk-helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/cdk-helper.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/cdk-resources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/cdk-resources.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/deployment-base.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment-base.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/settings.json" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/settings.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cdk/settings/lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/settings/lambda-settings.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/cdk.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/cdk.unit.test.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/tsconfig.json" beforeDir="false" afterPath="$PROJECT_DIR$/tsconfig.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -52,7 +72,7 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.fix:prettier">
+  <component name="RunManager" selected="npm.fix">
     <configuration name="cdk.unit.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -111,8 +131,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.fix:prettier" />
         <item itemvalue="npm.fix" />
+        <item itemvalue="npm.fix:prettier" />
         <item itemvalue="Jest.cdk.unit.test.ts" />
         <item itemvalue="Jest.check CDK deployment" />
         <item itemvalue="Jest.exact match (case 1)" />
