@@ -115,3 +115,6 @@ assets/**/dist
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
+cdk.out
+
+doc/solution/html/

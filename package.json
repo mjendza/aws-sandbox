@@ -4,9 +4,11 @@
     "description": "My AWS Sandbox",
     "scripts": {
         "build:ts": "tsc",
-        "cdk": "cdk",
+        "doc:diag:html": "cfn-dia html -o doc/solution/html/",
+        "doc:diag:drawio": "cfn-dia draw.io -o doc/solution/drawio/",
         "test": "npm run test:unit && npm run test:api",
         "test:unit": "jest unit",
+        "test:coverage": "jest unit --coverage",
         "lint": "npm run lint:eslint && npm run lint:prettier",
         "lint:prettier": "prettier --check \"**/**/!(*.d).{ts,json,md}\"",
         "lint:eslint": "eslint **/*.ts",
@@ -43,6 +45,7 @@
         "prettier": "2.2.1",
         "ts-jest": "26.5.4",
         "ts-node": "9.1.1",
-        "typescript": "4.2.3"
+        "typescript": "4.2.3",
+        "@mhlabs/cfn-diagram": "1.1.22"
     }
 }
