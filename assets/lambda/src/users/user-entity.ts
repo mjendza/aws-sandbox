@@ -9,7 +9,7 @@ export const userEntitySchema = {
     type: 'object',
     properties: {
         email: { type: 'string' },
-        id: { type: 'string'} ,
+        id: { type: 'string' },
         createdAt: { type: 'string' },
         updatedAt: { type: 'string' },
         tags: { type: 'array' },

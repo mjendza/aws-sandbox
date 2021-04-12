@@ -4,8 +4,7 @@ import { UserEvent } from '../events/user-event';
 import * as uuid from 'uuid';
 
 export class CreateUserService {
-    constructor(private repository: UserRepository) {
-    }
+    constructor(private repository: UserRepository) {}
 
     async create(model: UserEvent): Promise<string> {
         const entity: UserEntity = {
@@ -18,8 +17,7 @@ export class CreateUserService {
 }
 
 export class GetUserService {
-    constructor(private repository: UserRepository) {
-    }
+    constructor(private repository: UserRepository) {}
 
     get(id: string): Promise<UserEntity> {
         return this.repository.get(id);

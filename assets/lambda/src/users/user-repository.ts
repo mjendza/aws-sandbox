@@ -13,9 +13,7 @@ export class UserRepository {
         'TABLE_NAME'
     );
 
-    constructor(private documentClient: DynamoDB.DocumentClient) {
-
-    }
+    constructor(private documentClient: DynamoDB.DocumentClient) {}
     async put(item: UserEntity): Promise<void> {
         const params = {
             TableName: this.tableName,
@@ -40,7 +38,10 @@ export class UserRepository {
         log.info(`DynamoDB params: ${JSON.stringify(params)}`);
         try {
             const result = await this.documentClient.get(params).promise();
-            const model = validateEntity<UserEntity>(result.Item, userEntitySchema);
+            const model = validateEntity<UserEntity>(
+                result.Item,
+                userEntitySchema
+            );
             return model;
         } catch (dbError) {
             log.error(`DynamoDB ERROR: ${JSON.stringify(dbError)}`);

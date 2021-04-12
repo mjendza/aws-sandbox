@@ -20,11 +20,11 @@ test('validate UserEvent with validation-helper should return generic object', (
 test('validate UserEntity with validation-helper should return generic object', () => {
     //GIVEN
     const entity = {
-        id: "test-id",
+        id: 'test-id',
         email: 'abc@abc.com',
-        createdAt: "2",
-        updatedAt: "3",
-        tags: []
+        createdAt: '2',
+        updatedAt: '3',
+        tags: [],
     };
 
     // WHEN
@@ -34,29 +34,35 @@ test('validate UserEntity with validation-helper should return generic object', 
     expect(result).not.toBeUndefined();
 });
 
-[{
-    email: 'abc@abc.com',
-    createdAt: "2",
-    updatedAt: "3",
-    tags: []
-}, {
-    id: "test-id",
-    createdAt: "2",
-    updatedAt: "3",
-    tags: []
-},{
-    id: "test-id",
-    email: 'abc@abc.com',
-    updatedAt: "3",
-    tags: []
-},{
-    id: "test-id",
-    email: 'abc@abc.com',
-    createdAt: "2",
-    updatedAt: "3",
-}].forEach(function (entity) {
+[
+    {
+        email: 'abc@abc.com',
+        createdAt: '2',
+        updatedAt: '3',
+        tags: [],
+    },
+    {
+        id: 'test-id',
+        createdAt: '2',
+        updatedAt: '3',
+        tags: [],
+    },
+    {
+        id: 'test-id',
+        email: 'abc@abc.com',
+        updatedAt: '3',
+        tags: [],
+    },
+    {
+        id: 'test-id',
+        email: 'abc@abc.com',
+        createdAt: '2',
+        updatedAt: '3',
+    },
+].forEach(function (entity) {
     test('validate UserEntity with validation-helper should throw  generic object', () => {
-        expect(()=> validateEntity<UserEntity>(entity, userEntitySchema)).toThrow('must have required property');
+        expect(() =>
+            validateEntity<UserEntity>(entity, userEntitySchema)
+        ).toThrow('must have required property');
     });
-
 });

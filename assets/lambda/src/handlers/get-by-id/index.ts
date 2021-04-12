@@ -6,8 +6,8 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
 import { LambdaProxyError } from '../../helpers/lambda-proxy-error';
-import {dynamoClient} from "../../helpers/dynamodb-factory";
-import {UserRepository} from "../../users/user-repository";
+import { dynamoClient } from '../../helpers/dynamodb-factory';
+import { UserRepository } from '../../users/user-repository';
 
 export const handler = async (
     event: APIGatewayProxyEvent
