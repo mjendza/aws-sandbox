@@ -1,4 +1,4 @@
-import { HttpError } from './http-error';
+import { LambdaProxyError } from './lambda-proxy-error';
 import { APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
 
@@ -22,9 +22,9 @@ export function proxyIntegrationError(error: any): APIGatewayProxyResult {
             Object.getOwnPropertyNames(error)
         )}`
     );
-    const httpErrorType = error instanceof HttpError;
+    const httpErrorType = error instanceof LambdaProxyError;
     if (!!httpErrorType) {
-        const httpError = error as HttpError;
+        const httpError = error as LambdaProxyError;
         switch (httpError.statusCode) {
             case 500: {
                 return proxyIntegrationResult(500, {

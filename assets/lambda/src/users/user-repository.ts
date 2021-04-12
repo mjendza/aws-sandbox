@@ -4,18 +4,17 @@ import {
     validateEntity,
 } from '../helpers/validation-helpers';
 import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
-import { dynamoClient } from '../helpers/dynamodb-factory';
 import { DynamoDB } from 'aws-sdk';
 import * as log from 'lambda-log';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 export class UserRepository {
-    private documentClient: DynamoDB.DocumentClient;
     private tableName = getEnvironmentSettingsKey<UserLambdaSettings>(
         'TABLE_NAME'
     );
-    constructor() {
-        this.documentClient = dynamoClient();
+
+    constructor(private documentClient: DynamoDB.DocumentClient) {
+
     }
     async put(item: UserEntity): Promise<void> {
         const params = {
@@ -41,7 +40,7 @@ export class UserRepository {
         log.info(`DynamoDB params: ${JSON.stringify(params)}`);
         try {
             const result = await this.documentClient.get(params).promise();
-            const model = validateEntity<UserEntity>(result, userEntitySchema);
+            const model = validateEntity<UserEntity>(result.Item, userEntitySchema);
             return model;
         } catch (dbError) {
             log.error(`DynamoDB ERROR: ${JSON.stringify(dbError)}`);

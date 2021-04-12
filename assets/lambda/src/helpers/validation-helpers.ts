@@ -1,11 +1,11 @@
 import Ajv from 'ajv';
-import { HttpError } from './http-error';
+import { LambdaProxyError } from './lambda-proxy-error';
 import { APIGatewayProxyEvent } from 'aws-lambda';
 import * as log from 'lambda-log';
 
 export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
     if (!event.body) {
-        throw new HttpError(
+        throw new LambdaProxyError(
             400,
             'invalid request, you are missing the parameter body'
         );
@@ -19,10 +19,10 @@ export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
 
     if (!valid) {
         if (!validate.errors) {
-            throw new HttpError(400, 'General validation error.');
+            throw new LambdaProxyError(400, 'General validation error.');
         }
         const errors = `${validate.errors.map((x) => x.message).join(',')}`;
-        throw new HttpError(400, errors);
+        throw new LambdaProxyError(400, errors);
     }
     return item as T;
 }
@@ -34,10 +34,10 @@ export function validateEntity<T>(data: any, schema: any): T {
 
     if (!valid) {
         if (!validate.errors) {
-            throw new HttpError(400, 'General validation error.');
+            throw new LambdaProxyError(400, 'General validation error.');
         }
         const errors = `${validate.errors.map((x) => x.message).join(',')}`;
-        throw new HttpError(400, errors);
+        throw new LambdaProxyError(400, errors);
     }
     return data as T;
 }
@@ -50,7 +50,7 @@ export function getEnvironmentSettingsKey<T>(
     const name = nameof(key);
     const result = process.env[name];
     if (!result)
-        throw new HttpError(
+        throw new LambdaProxyError(
             500,
             `Key ${name} is not a part of lambda environment.`
         );

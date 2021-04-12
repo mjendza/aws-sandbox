@@ -1,4 +1,4 @@
-export class HttpError extends Error {
+export class LambdaProxyError extends Error {
     constructor(code: number, message?: string) {
         super(message);
         this.statusCode = code;
