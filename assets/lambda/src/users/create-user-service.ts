@@ -11,7 +11,7 @@ export class CreateUserService {
             id: uuid.v4(),
             email: model.email,
             createdAt: new Date(Date.now()).toISOString(),
-            tags:[]
+            tags: [],
         };
         await this.repository.put(entity);
         return entity.id;
