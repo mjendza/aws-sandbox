@@ -8,8 +8,10 @@ export class CreateUserService {
 
     async create(model: UserEvent): Promise<string> {
         const entity: UserEntity = {
-            email: model.email,
             id: uuid.v4(),
+            email: model.email,
+            createdAt: new Date(Date.now()).toISOString(),
+            tags:[]
         };
         await this.repository.put(entity);
         return entity.id;

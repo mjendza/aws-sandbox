@@ -2,7 +2,7 @@ export interface UserEntity {
     id: string;
     email: string;
     createdAt: string;
-    updatedAt: string;
+    updatedAt?: string;
     tags: string[];
 }
 export const userEntitySchema = {
