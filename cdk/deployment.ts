@@ -4,6 +4,7 @@ import {
     ProjectionType,
     BillingMode,
 } from '@aws-cdk/aws-dynamodb';
+import {Topic} from '@aws-cdk/aws-sns';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
@@ -115,6 +116,31 @@ export class Deployment extends Stack {
         const getByIdIntegration = new LambdaIntegration(getById);
         const singleItem = usersApiEndpoint.addResource('{id}');
         singleItem.addMethod('GET', getByIdIntegration);
+
+        const topic = new Topic(this, generateResourceName(resources.lambdaGetUserById), {
+            contentBasedDeduplication: true,
+            displayName: 'User Created Topic',
+            //fifo: true,
+            topicName: 'User Created Topic',
+        });
+
+        topic.addSubscription(new subs.LambdaSubscription(fn, {
+            filterPolicy: {
+                color: sns.SubscriptionFilter.stringFilter({
+                    allowlist: ['red', 'orange'],
+                    matchPrefixes: ['bl']
+                }),
+                size: sns.SubscriptionFilter.stringFilter({
+                    denylist: ['small', 'medium'],
+                }),
+                price: sns.SubscriptionFilter.numericFilter({
+                    between: { start: 100, stop: 200 },
+                    greaterThan: 300
+                }),
+                store: sns.SubscriptionFilter.existsFilter(),
+            }
+        }));
+
     }
 }
 const app = new App();
