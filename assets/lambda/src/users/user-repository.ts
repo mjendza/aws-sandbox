@@ -7,6 +7,7 @@ import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
 import { DynamoDB } from 'aws-sdk';
 import * as log from 'lambda-log';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
+import { LambdaProxyError } from '../helpers/lambda-proxy-error';
 
 export class UserRepository {
     private tableName = getEnvironmentSettingsKey<UserLambdaSettings>(
@@ -36,16 +37,13 @@ export class UserRepository {
             },
         };
         log.info(`DynamoDB params: ${JSON.stringify(params)}`);
-        try {
-            const result = await this.documentClient.get(params).promise();
-            const model = validateEntity<UserEntity>(
-                result.Item,
-                userEntitySchema
-            );
-            return model;
-        } catch (dbError) {
-            log.error(`DynamoDB ERROR: ${JSON.stringify(dbError)}`);
-            throw new Error(`DynamoDB ERROR: ${dbError}`);
+
+        const result = await this.documentClient.get(params).promise();
+        if (!result.Item) {
+            throw new LambdaProxyError(404, 'User does not exists.');
         }
+        log.info(`DynamoDB result: ${JSON.stringify(result.Item)}`);
+        const model = validateEntity<UserEntity>(result.Item, userEntitySchema);
+        return model;
     }
 }
