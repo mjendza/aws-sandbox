@@ -1,4 +1,5 @@
 {
     "repositoryName": "aws-sandbox",
-    "environment": "dev"
+    "environment": "dev",
+    "snsUserNotificationEmails": []
 }

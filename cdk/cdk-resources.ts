@@ -18,5 +18,5 @@ export const resources: CdkResources = {
 
     dynamoDbUserTable: 'users',
 
-    snsUserCreatedTopic: 'user-created-topic'
+    snsUserCreatedTopic: 'user-created-topic',
 };
