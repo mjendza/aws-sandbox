@@ -43,7 +43,7 @@ export function lambdaFactory(
         environment: settings,
         logRetention: defaultLambdaSettings.logRetention,
         timeout: defaultLambdaSettings.timeout,
-        tracing: lambda.Tracing.ACTIVE
+        tracing: lambda.Tracing.ACTIVE,
     });
 }
 
