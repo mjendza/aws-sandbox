@@ -2,7 +2,7 @@ import {
     proxyIntegrationError,
     proxyIntegrationResult,
 } from '../src/helpers/proxy-integration';
-import { HttpError } from '../src/helpers/http-error';
+import { LambdaProxyError } from '../src/helpers/lambda-proxy-error';
 
 test('proxyIntegrationResult should return body as string', () => {
     //GIVEN
@@ -17,7 +17,7 @@ test('proxyIntegrationError should return HttpError message as a json error fiel
     //GIVEN
     const sut = proxyIntegrationError;
     // WHEN
-    const result = sut(new HttpError(400, 'abc'));
+    const result = sut(new LambdaProxyError(400, 'abc'));
     // THEN
     expect(result).not.toBeUndefined();
     expect(result.body).not.toBeUndefined();
