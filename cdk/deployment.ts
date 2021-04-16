@@ -108,12 +108,9 @@ export class Deployment extends Stack {
 
         const topic = new Topic(
             this,
-            generateResourceName(resources.lambdaGetUserById),
+            generateResourceName(resources.snsUserCreatedTopic),
             {
-                contentBasedDeduplication: true,
                 displayName: 'User Created Topic',
-                //fifo: true,
-                topicName: 'User Created Topic',
             }
         );
         this.setupSubscriptionsForEnvironment(
