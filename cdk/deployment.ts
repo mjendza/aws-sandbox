@@ -4,15 +4,19 @@ import {
     ProjectionType,
     BillingMode,
 } from '@aws-cdk/aws-dynamodb';
+import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
+import { Topic } from '@aws-cdk/aws-sns';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceName,
     lambdaFactory,
+    snsFilterHelper,
 } from './cdk-helper';
 import {
     LambdaIntegration,
     MethodLoggingLevel,
+    Resource,
     RestApi,
 } from '@aws-cdk/aws-apigateway';
 import { addCorsOptions } from './deployment-base';
@@ -84,6 +88,24 @@ export class Deployment extends Stack {
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
 
+        this.getAllEndpoint(users, usersApiEndpoint);
+
+        this.getByIdEndpoint(users, usersApiEndpoint);
+
+        const topic = new Topic(
+            this,
+            generateResourceName(resources.snsUserCreatedTopic),
+            {
+                displayName: 'User Created Topic',
+            }
+        );
+        this.setupSubscriptionsForEnvironment(
+            topic,
+            settings.snsUserNotificationEmails
+        );
+    }
+
+    private getAllEndpoint(users: Table, usersApiEndpoint: Resource) {
         const getAllSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
@@ -99,7 +121,9 @@ export class Deployment extends Stack {
         users.grantReadData(getAll);
         const getAllIntegration = new LambdaIntegration(getAll);
         usersApiEndpoint.addMethod('GET', getAllIntegration);
+    }
 
+    private getByIdEndpoint(users: Table, usersApiEndpoint: Resource) {
         const getByIdSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
@@ -116,7 +140,15 @@ export class Deployment extends Stack {
         const singleItem = usersApiEndpoint.addResource('{id}');
         singleItem.addMethod('GET', getByIdIntegration);
     }
+
+    private setupSubscriptionsForEnvironment(topic: Topic, emails: string[]) {
+        const filter = snsFilterHelper();
+        emails.map((email) =>
+            topic.addSubscription(new EmailSubscription(email, filter))
+        );
+    }
 }
+
 const app = new App();
 new Deployment(app, `${settings.environment}-${settings.repositoryName}`);
 app.synth();

@@ -2,6 +2,7 @@ import * as lambda from '@aws-cdk/aws-lambda';
 import * as settings from './settings.json';
 import { Duration } from '@aws-cdk/core';
 import { Stack } from '@aws-cdk/core';
+import { SubscriptionFilter } from '@aws-cdk/aws-sns';
 
 export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
 
@@ -44,4 +45,14 @@ export function lambdaFactory(
         timeout: defaultLambdaSettings.timeout,
         tracing: lambda.Tracing.ACTIVE,
     });
+}
+
+export function snsFilterHelper() {
+    return {
+        filterPolicy: {
+            requestId: SubscriptionFilter.stringFilter({
+                denylist: ['automatic-test'],
+            }),
+        },
+    };
 }
