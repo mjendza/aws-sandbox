@@ -15,7 +15,6 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPl
 
 module.exports = {
     entry: entryObject,
-    mode: "development",
     target: "node",
     module: {
         rules: [
@@ -42,10 +41,12 @@ module.exports = {
     context: __dirname,
     externals: [/aws-sdk/],
     devtool: "nosources-source-map",
-    optimization: {
-        minimize: false,
-        usedExports: true,
-    },
+    mode: 'production',
+    // mode: "development",
+    // optimization: {
+    //     minimize: false,
+    //     usedExports: true,
+    // },
     plugins: [
         new BundleAnalyzerPlugin()
     ],
