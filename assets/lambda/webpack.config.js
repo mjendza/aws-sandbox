@@ -11,7 +11,7 @@ const entryObject = entryArray.reduce((acc, item) => {
     acc[name] = item
     return acc;
 }, {});
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: entryObject,
@@ -47,9 +47,9 @@ module.exports = {
     //     minimize: false,
     //     usedExports: true,
     // },
-    plugins: [
-        new BundleAnalyzerPlugin()
-    ],
+    // plugins: [
+    //     new BundleAnalyzerPlugin()
+    // ],
     // Output directive will generate build/<function-name>/index.js
     output: {
         filename: '[name]/index.js',
