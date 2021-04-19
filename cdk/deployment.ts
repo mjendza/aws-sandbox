@@ -88,21 +88,7 @@ export class Deployment extends Stack {
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
 
-        const getAllSettings: UserLambdaSettings = {
-            TABLE_NAME: users.tableName,
-            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-        };
-
-        const getAll = lambdaFactory(
-            this,
-            generateResourceName(resources.lambdaGetAllUsers),
-            'get-all/',
-            this.lambdaSourceCode,
-            (getAllSettings as unknown) as { [key: string]: string }
-        );
-        users.grantReadData(getAll);
-        const getAllIntegration = new LambdaIntegration(getAll);
-        usersApiEndpoint.addMethod('GET', getAllIntegration);
+        this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
 
@@ -118,6 +104,25 @@ export class Deployment extends Stack {
             settings.snsUserNotificationEmails
         );
     }
+
+    private getAllEndpoint(users: Table, usersApiEndpoint: Resource){
+        const getAllSettings: UserLambdaSettings = {
+            TABLE_NAME: users.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        };
+
+        const getAll = lambdaFactory(
+            this,
+            generateResourceName(resources.lambdaGetAllUsers),
+            'get-all/',
+            this.lambdaSourceCode,
+            (getAllSettings as unknown) as { [key: string]: string }
+        );
+        users.grantReadData(getAll);
+        const getAllIntegration = new LambdaIntegration(getAll);
+        usersApiEndpoint.addMethod('GET', getAllIntegration);
+    }
+
     private getByIdEndpoint(users: Table, usersApiEndpoint: Resource) {
         const getByIdSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
