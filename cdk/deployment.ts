@@ -105,7 +105,7 @@ export class Deployment extends Stack {
         );
     }
 
-    private getAllEndpoint(users: Table, usersApiEndpoint: Resource){
+    private getAllEndpoint(users: Table, usersApiEndpoint: Resource) {
         const getAllSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
