@@ -11,10 +11,10 @@ const entryObject = entryArray.reduce((acc, item) => {
     acc[name] = item
     return acc;
 }, {});
+//const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 module.exports = {
     entry: entryObject,
-    mode: "development",
     target: "node",
     module: {
         rules: [
@@ -41,9 +41,15 @@ module.exports = {
     context: __dirname,
     externals: [/aws-sdk/],
     devtool: "nosources-source-map",
-    optimization: {
-        minimize: false,
-    },
+    mode: 'production',
+    // mode: "development",
+    // optimization: {
+    //     minimize: false,
+    //     usedExports: true,
+    // },
+    // plugins: [
+    //     new BundleAnalyzerPlugin()
+    // ],
     // Output directive will generate build/<function-name>/index.js
     output: {
         filename: '[name]/index.js',
