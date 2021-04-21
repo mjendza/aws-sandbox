@@ -6,6 +6,7 @@ import {
 } from '@aws-cdk/aws-dynamodb';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
+import { EventBus, CfnRule } from '@aws-cdk/aws-events';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
@@ -23,6 +24,7 @@ import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import { UserLambdaSettings } from './settings/lambda-settings';
+import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -103,6 +105,8 @@ export class Deployment extends Stack {
             topic,
             settings.snsUserNotificationEmails
         );
+
+        this.setupEventBridge();
     }
 
     private getAllEndpoint(users: Table, usersApiEndpoint: Resource) {
@@ -146,6 +150,30 @@ export class Deployment extends Stack {
         emails.map((email) =>
             topic.addSubscription(new EmailSubscription(email, filter))
         );
+    }
+
+    private setupEventBridge(){
+        const logGroup = new LogGroup(this, generateResourceName(resources.systemEventBridgeLogGroup), {
+            logGroupName: `/aws/events/${settings.environment}-system-events`,
+            retention: RetentionDays.ONE_DAY
+        });
+
+        const bus = new EventBus(this, generateResourceName(resources.systemEventBridge), {
+        });
+
+        // rule with cloudwatch log group as a target
+        // (using CFN as L2 constructor doesn't allow prefix expressions)
+        new CfnRule(this, generateResourceName(resources.systemCfnRulePushAllEvents), {
+            eventBusName: bus.eventBusName,
+            description: 'Rule matching all events',
+            eventPattern: {
+                source: [{prefix: ''}]
+            },
+            targets: [{
+                id: `${settings.environment}-all-events-cw-logs`,
+                arn: `arn:aws:logs:${logGroup.stack.region}:${logGroup.stack.account}:log-group:${logGroup.logGroupName}`
+            }]
+        });
     }
 }
 
