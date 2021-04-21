@@ -1,0 +1,27 @@
+@startuml
+' to generate svg from puml use:
+' plantuml -tsvg CreateCustomer.puml
+' details https://plantuml.com/command-line
+title Lambda Architecture N-Layer
+
+participant "Client"
+participant "API Gateway" as API
+participant "**<U+03BB>**\nCreateUser" as Lambda
+database "DynamoDB-UserTable" as UserTable
+
+
+Client -> API: POST /users
+API -> Lambda: ProxyIntegration
+
+Lambda -> Lambda: Validate event
+opt invalid event
+    Lambda -> API: 400 Error "event is invalid."
+end
+
+Lambda -> UserTable: put user
+UserTable --> Lambda: OK
+
+Lambda -> API: 200 OK `{ \n\t"id": "e8a9b883-4879-7cb3-bf02-ffdf8f94e6b9" \n}`
+API -> Client: 200 OK with JSON
+
+@enduml
