@@ -152,28 +152,41 @@ export class Deployment extends Stack {
         );
     }
 
-    private setupEventBridge(){
-        const logGroup = new LogGroup(this, generateResourceName(resources.systemEventBridgeLogGroup), {
-            logGroupName: `/aws/events/${settings.environment}-system-events`,
-            retention: RetentionDays.ONE_DAY
-        });
+    private setupEventBridge() {
+        const logGroup = new LogGroup(
+            this,
+            generateResourceName(resources.systemEventBridgeLogGroup),
+            {
+                logGroupName: `/aws/events/${settings.environment}-system-events`,
+                retention: RetentionDays.ONE_DAY,
+            }
+        );
 
-        const bus = new EventBus(this, generateResourceName(resources.systemEventBridge), {
-        });
+        const bus = new EventBus(
+            this,
+            generateResourceName(resources.systemEventBridge),
+            {}
+        );
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
-        new CfnRule(this, generateResourceName(resources.systemCfnRulePushAllEvents), {
-            eventBusName: bus.eventBusName,
-            description: 'Rule matching all events',
-            eventPattern: {
-                source: [{prefix: ''}]
-            },
-            targets: [{
-                id: `${settings.environment}-all-events-cw-logs`,
-                arn: `arn:aws:logs:${logGroup.stack.region}:${logGroup.stack.account}:log-group:${logGroup.logGroupName}`
-            }]
-        });
+        new CfnRule(
+            this,
+            generateResourceName(resources.systemCfnRulePushAllEvents),
+            {
+                eventBusName: bus.eventBusName,
+                description: 'Rule matching all events',
+                eventPattern: {
+                    source: [{ prefix: '' }],
+                },
+                targets: [
+                    {
+                        id: `${settings.environment}-all-events-cw-logs`,
+                        arn: `arn:aws:logs:${logGroup.stack.region}:${logGroup.stack.account}:log-group:${logGroup.logGroupName}`,
+                    },
+                ],
+            }
+        );
     }
 }
 

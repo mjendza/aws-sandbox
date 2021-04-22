@@ -10,7 +10,7 @@ export interface CdkResources {
     snsUserCreatedTopic: string;
 
     systemEventBridge: string;
-    systemEventBridgeLogGroup :string;
+    systemEventBridgeLogGroup: string;
     systemAllEventsBusRule: string;
     systemCfnRulePushAllEvents: string;
 }
@@ -26,7 +26,7 @@ export const resources: CdkResources = {
     snsUserCreatedTopic: 'user-created-topic',
 
     systemEventBridge: 'system-event-bridge',
-    systemEventBridgeLogGroup :'system-event-bridge-log-group',
+    systemEventBridgeLogGroup: 'system-event-bridge-log-group',
     systemAllEventsBusRule: 'system-all-events-bus-rule',
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',
 };
