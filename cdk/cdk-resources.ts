@@ -30,3 +30,9 @@ export const resources: CdkResources = {
     systemAllEventsBusRule: 'system-all-events-bus-rule',
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',
 };
+
+export interface UserCreated {
+    id: string;
+    email: string;
+    createdAt: string;
+}

@@ -4,6 +4,7 @@ import {
     ProjectionType,
     BillingMode,
 } from '@aws-cdk/aws-dynamodb';
+import * as lambda from '@aws-cdk/aws-lambda';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import { EventBus, CfnRule } from '@aws-cdk/aws-events';
@@ -32,6 +33,50 @@ export class Deployment extends Stack {
     constructor(app: App, id: string) {
         super(app, id);
 
+        const users = this.createUsersTable();
+
+        const bus = this.setupEventBridge();
+
+        const api = new RestApi(
+            this,
+            `api-gateway-${settings.repositoryName}`,
+
+            {
+                restApiName: `api-${settings.repositoryName}`,
+                deployOptions: {
+                    stageName: 'beta',
+                    metricsEnabled: true,
+                    loggingLevel: MethodLoggingLevel.ERROR,
+                    dataTraceEnabled: true,
+                    tracingEnabled: true,
+                },
+            }
+        );
+        const usersApiEndpoint = api.root.addResource('users');
+
+        const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
+
+        this.getAllEndpoint(users, usersApiEndpoint);
+
+        this.getByIdEndpoint(users, usersApiEndpoint);
+
+        const topic = new Topic(
+            this,
+            generateResourceName(resources.snsUserCreatedTopic),
+            {
+                displayName: 'User Created Topic',
+            }
+        );
+        this.setupSubscriptionsForEnvironment(
+            topic,
+            settings.snsUserNotificationEmails
+        );
+
+
+        this.useEventBridge(createLambda, bus);
+    }
+
+    private createUsersTable(): Table {
         const users = new Table(
             this,
             generateResourceName(resources.dynamoDbUserTable),
@@ -55,9 +100,14 @@ export class Deployment extends Stack {
             partitionKey: { name: 'email', type: AttributeType.STRING },
             projectionType: ProjectionType.ALL,
         });
+        return users;
+    }
+
+    private createEndpoint(users: Table, usersApiEndpoint: Resource, bus: EventBus): lambda.Function {
         const createOneSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+            EVENT_BUS_NAME: bus.eventBusName
         };
         const createOne = lambdaFactory(
             this,
@@ -69,50 +119,17 @@ export class Deployment extends Stack {
 
         users.grantReadWriteData(createOne);
 
-        const api = new RestApi(
-            this,
-            `api-gateway-${settings.repositoryName}`,
-
-            {
-                restApiName: `api-${settings.repositoryName}`,
-                deployOptions: {
-                    stageName: 'beta',
-                    metricsEnabled: true,
-                    loggingLevel: MethodLoggingLevel.ERROR,
-                    dataTraceEnabled: true,
-                    tracingEnabled: true,
-                },
-            }
-        );
-        const usersApiEndpoint = api.root.addResource('users');
-
         const createOneIntegration = new LambdaIntegration(createOne);
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
-
-        this.getAllEndpoint(users, usersApiEndpoint);
-
-        this.getByIdEndpoint(users, usersApiEndpoint);
-
-        const topic = new Topic(
-            this,
-            generateResourceName(resources.snsUserCreatedTopic),
-            {
-                displayName: 'User Created Topic',
-            }
-        );
-        this.setupSubscriptionsForEnvironment(
-            topic,
-            settings.snsUserNotificationEmails
-        );
-
-        this.setupEventBridge();
+        return createOne;
     }
 
     private getAllEndpoint(users: Table, usersApiEndpoint: Resource) {
         const getAllSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+            EVENT_BUS_NAME: ''
         };
 
         const getAll = lambdaFactory(
@@ -131,6 +148,7 @@ export class Deployment extends Stack {
         const getByIdSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+            EVENT_BUS_NAME: ''
         };
         const getById = lambdaFactory(
             this,
@@ -152,7 +170,7 @@ export class Deployment extends Stack {
         );
     }
 
-    private setupEventBridge() {
+    private setupEventBridge(): EventBus {
         const logGroup = new LogGroup(
             this,
             generateResourceName(resources.systemEventBridgeLogGroup),
@@ -187,6 +205,11 @@ export class Deployment extends Stack {
                 ],
             }
         );
+        return bus;
+    }
+
+    private useEventBridge(lambda: lambda.Function, eb: EventBus){
+        eb.grantPutEventsTo(lambda);
     }
 }
 

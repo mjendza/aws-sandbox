@@ -137,6 +137,12 @@ function dynamoClient(region?: string): DynamoDB.DocumentClient
 
 ### CDK
 
+#### how-to-use
+install or update on the environment
+```
+npm install -g aws-cdk@latest
+```
+
 #### cdk-helpers
 
 ##### lambdaFactory
