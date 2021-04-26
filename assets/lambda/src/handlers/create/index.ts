@@ -8,7 +8,10 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
 import { UserRepository } from '../../users/user-repository';
-import {dynamoClient, EventBridgeRepository} from '../../helpers/dynamodb-factory';
+import {
+    dynamoClient,
+    SystemEventBridgeRepository,
+} from '../../helpers/dynamodb-factory';
 
 export const handler = async (
     event: APIGatewayProxyEvent
@@ -18,7 +21,8 @@ export const handler = async (
         const model = validate<UserEvent>(event, userEventSchema);
         log.info(`model: ${JSON.stringify(model)}`);
         const service = new CreateUserService(
-            new UserRepository(dynamoClient()), new EventBridgeRepository()
+            new UserRepository(dynamoClient()),
+            new SystemEventBridgeRepository()
         );
         const result = await service.create(model);
         log.info(`result: ${JSON.stringify(result)}`);

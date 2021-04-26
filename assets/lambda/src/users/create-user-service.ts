@@ -3,12 +3,12 @@ import { UserRepository } from './user-repository';
 import { UserEvent } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
-import { EventBridgeRepository } from '../helpers/dynamodb-factory';
+import { SystemEventBridgeRepository } from '../helpers/dynamodb-factory';
 
 export class CreateUserService {
     constructor(
         private repository: UserRepository,
-        private hub: EventBridgeRepository
+        private hub: SystemEventBridgeRepository
     ) {}
 
     async create(model: UserEvent): Promise<string> {

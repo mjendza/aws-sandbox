@@ -4,8 +4,8 @@ import { LambdaProxyError } from './lambda-proxy-error';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import * as log from 'lambda-log';
 import { PutEventsRequest } from 'aws-sdk/clients/eventbridge';
-import {getEnvironmentSettingsKey} from "./validation-helpers";
-import {UserLambdaSettings} from "../../../../cdk/settings/lambda-settings";
+import { getEnvironmentSettingsKey } from './validation-helpers';
+import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
 
 export function dynamoClient(region?: string): DynamoDB.DocumentClient {
     const fromEnv = process.env['AWS_REGION'];
@@ -25,10 +25,10 @@ export function dynamoClient(region?: string): DynamoDB.DocumentClient {
     return client;
 }
 
-export class EventBridgeRepository {
+export class SystemEventBridgeRepository {
     private eventBridge: EventBridge;
     private eventBusName = getEnvironmentSettingsKey<UserLambdaSettings>(
-        'TABLE_NAME'
+        'SYSTEM_EVENT_BUS_NAME'
     );
     constructor() {
         this.eventBridge = eventBridgeClient();
@@ -41,7 +41,7 @@ export class EventBridgeRepository {
                     Detail: JSON.stringify(entity),
                     DetailType: type,
                     Source: source,
-                    EventBusName: this.eventBusName
+                    EventBusName: this.eventBusName,
                 },
             ],
         };
@@ -49,6 +49,7 @@ export class EventBridgeRepository {
         return this.eventBridge.putEvents(params).promise();
     }
 }
+
 export function eventBridgeClient(region?: string) {
     const fromEnv = process.env['AWS_REGION'];
     if (!fromEnv) {

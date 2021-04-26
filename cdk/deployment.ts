@@ -72,7 +72,6 @@ export class Deployment extends Stack {
             settings.snsUserNotificationEmails
         );
 
-
         this.useEventBridge(createLambda, bus);
     }
 
@@ -103,11 +102,15 @@ export class Deployment extends Stack {
         return users;
     }
 
-    private createEndpoint(users: Table, usersApiEndpoint: Resource, bus: EventBus): lambda.Function {
+    private createEndpoint(
+        users: Table,
+        usersApiEndpoint: Resource,
+        bus: EventBus
+    ): lambda.Function {
         const createOneSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            EVENT_BUS_NAME: bus.eventBusName
+            SYSTEM_EVENT_BUS_NAME: bus.eventBusName,
         };
         const createOne = lambdaFactory(
             this,
@@ -129,7 +132,7 @@ export class Deployment extends Stack {
         const getAllSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            EVENT_BUS_NAME: ''
+            SYSTEM_EVENT_BUS_NAME: '',
         };
 
         const getAll = lambdaFactory(
@@ -148,7 +151,7 @@ export class Deployment extends Stack {
         const getByIdSettings: UserLambdaSettings = {
             TABLE_NAME: users.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-            EVENT_BUS_NAME: ''
+            SYSTEM_EVENT_BUS_NAME: '',
         };
         const getById = lambdaFactory(
             this,
@@ -208,7 +211,7 @@ export class Deployment extends Stack {
         return bus;
     }
 
-    private useEventBridge(lambda: lambda.Function, eb: EventBus){
+    private useEventBridge(lambda: lambda.Function, eb: EventBus) {
         eb.grantPutEventsTo(lambda);
     }
 }
