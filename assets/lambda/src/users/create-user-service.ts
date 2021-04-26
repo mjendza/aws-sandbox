@@ -3,7 +3,7 @@ import { UserRepository } from './user-repository';
 import { UserEvent } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
-import { SystemEventBridgeRepository } from '../helpers/dynamodb-factory';
+import { SystemEventBridgeRepository } from '../helpers/event-bridge/system-event-bridge-repository';
 
 export class CreateUserService {
     constructor(

@@ -13,6 +13,8 @@ export interface CdkResources {
     systemEventBridgeLogGroup: string;
     systemAllEventsBusRule: string;
     systemCfnRulePushAllEvents: string;
+    lambdaEventStore: string;
+    dynamoDbEventStoreTable: string;
 }
 export const resources: CdkResources = {
     apiGateway: 'api',
@@ -29,6 +31,8 @@ export const resources: CdkResources = {
     systemEventBridgeLogGroup: 'system-event-bridge-log-group',
     systemAllEventsBusRule: 'system-all-events-bus-rule',
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',
+    lambdaEventStore: 'system-event-store-lambda',
+    dynamoDbEventStoreTable: 'system-event-store',
 };
 
 export interface UserCreated {

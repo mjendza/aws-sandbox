@@ -1,26 +1,30 @@
-import { UserEvent, userEventSchema } from '../../events/user-event';
+import {
+    SystemEventStoreEvent,
+    systemSEventStoreEventSchema,
+} from '../../events/user-event';
 import { validate } from '../../helpers/validation-helpers';
-import { CreateUserService } from '../../users/create-user-service';
 import {
     proxyIntegrationError,
     proxyIntegrationResult,
 } from '../../helpers/proxy-integration';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
-import { UserRepository } from '../../users/user-repository';
 import { dynamoClient } from '../../helpers/dynamodb-factory';
-import { SystemEventBridgeRepository } from '../../helpers/event-bridge/system-event-bridge-repository';
+import { SystemEventRepository } from '../../event-store/system-event-repository';
+import { CreateSystemEventStoreEventService } from '../../event-store/create-system-event-store-event-service';
 
 export const handler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
         log.info(`event: ${JSON.stringify(event)}`);
-        const model = validate<UserEvent>(event, userEventSchema);
+        const model = validate<SystemEventStoreEvent>(
+            event,
+            systemSEventStoreEventSchema
+        );
         log.info(`model: ${JSON.stringify(model)}`);
-        const service = new CreateUserService(
-            new UserRepository(dynamoClient()),
-            new SystemEventBridgeRepository()
+        const service = new CreateSystemEventStoreEventService(
+            new SystemEventRepository(dynamoClient())
         );
         const result = await service.create(model);
         log.info(`result: ${JSON.stringify(result)}`);

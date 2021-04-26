@@ -24,7 +24,10 @@ import {
 import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
-import { UserLambdaSettings } from './settings/lambda-settings';
+import {
+    SystemLambdaSettings,
+    UserLambdaSettings,
+} from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 
 export class Deployment extends Stack {
@@ -35,7 +38,10 @@ export class Deployment extends Stack {
 
         const users = this.createUsersTable();
 
-        const bus = this.setupEventBridge();
+        const eventStorage = this.createSystemEventStoreTable();
+        const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
+
+        const bus = this.setupEventBridge(eventStoreHandler);
 
         const api = new RestApi(
             this,
@@ -173,7 +179,7 @@ export class Deployment extends Stack {
         );
     }
 
-    private setupEventBridge(): EventBus {
+    private setupEventBridge(eventStoreHandler: lambda.Function): EventBus {
         const logGroup = new LogGroup(
             this,
             generateResourceName(resources.systemEventBridgeLogGroup),
@@ -205,6 +211,10 @@ export class Deployment extends Stack {
                         id: `${settings.environment}-all-events-cw-logs`,
                         arn: `arn:aws:logs:${logGroup.stack.region}:${logGroup.stack.account}:log-group:${logGroup.logGroupName}`,
                     },
+                    {
+                        id: `${settings.environment}-all-events-event-store`,
+                        arn: eventStoreHandler.functionArn,
+                    },
                 ],
             }
         );
@@ -214,6 +224,61 @@ export class Deployment extends Stack {
     private useEventBridge(lambda: lambda.Function, eb: EventBus) {
         eb.grantPutEventsTo(lambda);
     }
+
+    private createSystemEventStoreTable(): Table {
+        const users = new Table(
+            this,
+            generateResourceName(resources.dynamoDbEventStoreTable),
+            {
+                partitionKey: {
+                    name: 'id',
+                    type: AttributeType.STRING,
+                },
+                billingMode: BillingMode.PAY_PER_REQUEST,
+                replicationRegions: defaultDynamoDBSettings.replicationRegions,
+
+                // The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
+                // the new table, and it will remain in your account until manually deleted. By setting the policy to
+                // DESTROY, cdk destroy will delete the table (even if it has data in it)
+                removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
+            }
+        );
+
+        return users;
+    }
+
+    private systemEventStoreLambda(eventStore: Table): lambda.Function {
+        const createOneSettings: SystemLambdaSettings = {
+            SYSTEM_TABLE_NAME: eventStore.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        };
+        const createOne = lambdaFactory(
+            this,
+            generateResourceName(resources.lambdaEventStore),
+            'event-store/',
+            this.lambdaSourceCode,
+            (createOneSettings as unknown) as { [key: string]: string }
+        );
+
+        eventStore.grantReadWriteData(createOne);
+
+        return createOne;
+    }
+    // private useSnsToConsumeSystemBus(){
+    //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
+    //         message: RuleTargetInput.fromText(
+    //             `Entity with id ${EventField.fromPath('$.detail.entity-id')} has been deleted by ${EventField.fromPath('$.detail.author')}`
+    //         )
+    //     }));
+    // }
+
+    // private useEventStoreToConsumeSystemBus(){
+    //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
+    //         message: RuleTargetInput.fromText(
+    //             `Entity with id ${EventField.fromPath('$.detail.entity-id')} has been deleted by ${EventField.fromPath('$.detail.author')}`
+    //         )
+    //     }));
+    // }
 }
 
 const app = new App();

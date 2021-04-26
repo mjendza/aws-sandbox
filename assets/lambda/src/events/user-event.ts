@@ -11,3 +11,15 @@ export interface UserEvent {
     email: string;
     id?: string;
 }
+
+export const systemSEventStoreEventSchema = {
+    type: 'object',
+    properties: {
+    },
+    required: ['id'],
+    additionalProperties: true,
+};
+
+export interface SystemEventStoreEvent {
+    id: string;
+}
