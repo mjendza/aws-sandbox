@@ -10,12 +10,15 @@ export interface CdkResources {
     snsUserCreatedTopic: string;
 
     systemEventBridge: string;
+    systemEventBridgeRole: string;
+    systemEventBridgeDlq: string;
     systemEventBridgeLogGroup: string;
     systemAllEventsBusRule: string;
     systemCfnRulePushAllEvents: string;
     lambdaEventStore: string;
     dynamoDbEventStoreTable: string;
 }
+
 export const resources: CdkResources = {
     apiGateway: 'api',
 
@@ -28,6 +31,8 @@ export const resources: CdkResources = {
     snsUserCreatedTopic: 'user-created-topic',
 
     systemEventBridge: 'system-event-bridge',
+    systemEventBridgeRole: 'system-event-bridge-role',
+    systemEventBridgeDlq: 'system-event-bridge-dead-letter-queue',
     systemEventBridgeLogGroup: 'system-event-bridge-log-group',
     systemAllEventsBusRule: 'system-all-events-bus-rule',
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',

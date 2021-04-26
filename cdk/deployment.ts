@@ -5,8 +5,10 @@ import {
     BillingMode,
 } from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
+import * as iam from '@aws-cdk/aws-iam';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
+import * as sqs from '@aws-cdk/aws-sqs';
 import { EventBus, CfnRule } from '@aws-cdk/aws-events';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
@@ -42,7 +44,6 @@ export class Deployment extends Stack {
         const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
 
         const bus = this.setupEventBridge(eventStoreHandler);
-
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
@@ -188,16 +189,20 @@ export class Deployment extends Stack {
                 retention: RetentionDays.ONE_DAY,
             }
         );
-
+        const eventRole =  new iam.Role(this, generateResourceName(resources.systemEventBridgeRole), {
+            assumedBy: new iam.ServicePrincipal('events.amazonaws.com')
+        })
         const bus = new EventBus(
             this,
             generateResourceName(resources.systemEventBridge),
-            {}
+            {
+            }
         );
+        const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
-        new CfnRule(
+        const allEventsRule = new CfnRule(
             this,
             generateResourceName(resources.systemCfnRulePushAllEvents),
             {
@@ -209,15 +214,39 @@ export class Deployment extends Stack {
                 targets: [
                     {
                         id: `${settings.environment}-all-events-cw-logs`,
-                        arn: `arn:aws:logs:${logGroup.stack.region}:${logGroup.stack.account}:log-group:${logGroup.logGroupName}`,
+                        arn: logGroup.logGroupArn,
                     },
                     {
                         id: `${settings.environment}-all-events-event-store`,
                         arn: eventStoreHandler.functionArn,
+                        deadLetterConfig: {
+                            arn: queue.queueArn
+                        }
                     },
                 ],
             }
         );
+        queue.addToResourcePolicy(new iam.PolicyStatement({
+            actions: ['sqs:SendMessage'],
+            resources: [queue.queueArn],
+            principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+            conditions: {
+                'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
+            }
+        }));
+        queue.grantSendMessages(eventRole);
+        logGroup.grantWrite(eventRole);
+        eventStoreHandler.grantInvoke(eventRole);
+        // eventStoreHandler.addToResourcePolicy(new iam.PolicyStatement({
+        //     actions: ['lambda:Invoke'],
+        //     resources: [queue.queueArn],
+        //     principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+        //     conditions: {
+        //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
+        //     }
+        // }))
+
+
         return bus;
     }
 
