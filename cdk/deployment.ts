@@ -189,9 +189,9 @@ export class Deployment extends Stack {
                 retention: RetentionDays.ONE_DAY,
             }
         );
-        const eventRole =  new iam.Role(this, generateResourceName(resources.systemEventBridgeRole), {
-            assumedBy: new iam.ServicePrincipal('events.amazonaws.com')
-        })
+        // const eventRole =  new iam.Role(this, generateResourceName(resources.systemEventBridgeRole), {
+        //     assumedBy: new iam.ServicePrincipal('events.amazonaws.com')
+        // });
         const bus = new EventBus(
             this,
             generateResourceName(resources.systemEventBridge),
@@ -234,19 +234,43 @@ export class Deployment extends Stack {
                 'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
             }
         }));
-        queue.grantSendMessages(eventRole);
-        logGroup.grantWrite(eventRole);
-        eventStoreHandler.grantInvoke(eventRole);
-        // eventStoreHandler.addToResourcePolicy(new iam.PolicyStatement({
-        //     actions: ['lambda:Invoke'],
-        //     resources: [queue.queueArn],
-        //     principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+
+        //eventStoreHandler.grantInvoke();
+        // queue.grantSendMessages(eventRole);
+        // logGroup.grantWrite(eventRole);
+        // eventStoreHandler.grantInvoke(eventRole);
+        eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
+            //principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+
+            actions: ['lambda:InvokeFunction'],
+            resources: [eventStoreHandler.functionArn],
+        }))
+        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
+        //     actions: ['lambda:InvokeFunction'],
+        //     resources: [eventStoreHandler.functionArn],
+        //     //principals: [new iam.ServicePrincipal('events.amazonaws.com')],
         //     conditions: {
         //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
         //     }
-        // }))
+        // }));
 
-
+        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
+        //     actions: ['lambda:InvokeFunction'],
+        //     resources: [eventStoreHandler.functionArn],
+        //     //principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+        //     conditions: {
+        //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
+        //     }
+        // }));
+        // const athenaAccessPolicy = new iam.PolicyStatement({
+        //     effect: iam.Effect.ALLOW,
+        //     actions: [
+        //         "lambda:InvokeFunction",
+        //         "athena:*"                            ]
+        //
+        // });
+        // athenaAccessPolicy.addAllResources();
+        // allEventsRule.(athenaAccessPolicy);
         return bus;
     }
 
