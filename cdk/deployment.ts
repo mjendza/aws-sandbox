@@ -194,8 +194,7 @@ export class Deployment extends Stack {
         const bus = new EventBus(
             this,
             generateResourceId(resources.systemEventBridge),
-            {
-            }
+            {}
         );
         const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
 
@@ -213,27 +212,28 @@ export class Deployment extends Stack {
                 targets: [
                     {
                         id: `${settings.environment}-all-events-cw-logs`,
-                        arn: logGroup.logGroupArn
+                        arn: logGroup.logGroupArn,
                     },
                     {
                         id: `${settings.environment}-all-events-event-store`,
                         arn: eventStoreHandler.functionArn,
                         deadLetterConfig: {
                             arn: queue.queueArn,
-
-                        }
+                        },
                     },
                 ],
             }
         );
-        queue.addToResourcePolicy(new iam.PolicyStatement({
-            actions: ['sqs:SendMessage'],
-            resources: [queue.queueArn],
-            principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-            conditions: {
-                'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
-            }
-        }));
+        queue.addToResourcePolicy(
+            new iam.PolicyStatement({
+                actions: ['sqs:SendMessage'],
+                resources: [queue.queueArn],
+                principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+                conditions: {
+                    ArnEquals: { 'aws:SourceArn': allEventsRule.attrArn },
+                },
+            })
+        );
         return bus;
     }
 

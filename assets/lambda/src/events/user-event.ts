@@ -14,8 +14,7 @@ export interface UserEvent {
 
 export const systemSEventStoreEventSchema = {
     type: 'object',
-    properties: {
-    },
+    properties: {},
     required: ['id'],
     additionalProperties: true,
 };

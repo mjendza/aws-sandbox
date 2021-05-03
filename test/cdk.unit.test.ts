@@ -40,7 +40,5 @@ test('EventBridge created', () => {
     // WHEN
     const stack = new sut.Deployment(app, 'MyTestStack');
     //THEN
-    expect(stack).to(
-        haveResource('AWS::Events::EventBus', )
-    );
+    expect(stack).to(haveResource('AWS::Events::EventBus'));
 });
