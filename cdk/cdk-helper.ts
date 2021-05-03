@@ -25,7 +25,7 @@ export interface CdkSettings {
     logRetention: number;
 }
 
-export function generateResourceName(name: string) {
+export function generateResourceId(name: string) {
     return `${settings.environment}-${name}`;
 }
 
@@ -36,7 +36,7 @@ export function lambdaFactory(
     lambdaSourceCode: string,
     settings: { [key: string]: string }
 ): lambda.Function {
-    return new lambda.Function(stack, generateResourceName(resourceName), {
+    return new lambda.Function(stack, generateResourceId(resourceName), {
         code: new lambda.AssetCode(`${lambdaSourceCode}${lambdaFolderName}/`),
         handler: 'index.handler',
         runtime: lambdaNodeVersion,

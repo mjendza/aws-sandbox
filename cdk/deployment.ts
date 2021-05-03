@@ -13,7 +13,7 @@ import { EventBus, CfnRule } from '@aws-cdk/aws-events';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
-    generateResourceName,
+    generateResourceId,
     lambdaFactory,
     snsFilterHelper,
 } from './cdk-helper';
@@ -31,7 +31,8 @@ import {
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-
+//import {Role} from "@aws-cdk/aws-iam";
+//import targets  from "@aws-cdk/aws-events-targets";
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
 
@@ -69,7 +70,7 @@ export class Deployment extends Stack {
 
         const topic = new Topic(
             this,
-            generateResourceName(resources.snsUserCreatedTopic),
+            generateResourceId(resources.snsUserCreatedTopic),
             {
                 displayName: 'User Created Topic',
             }
@@ -85,7 +86,7 @@ export class Deployment extends Stack {
     private createUsersTable(): Table {
         const users = new Table(
             this,
-            generateResourceName(resources.dynamoDbUserTable),
+            generateResourceId(resources.dynamoDbUserTable),
             {
                 partitionKey: {
                     name: 'id',
@@ -121,7 +122,7 @@ export class Deployment extends Stack {
         };
         const createOne = lambdaFactory(
             this,
-            generateResourceName(resources.lambdaCreateUser),
+            generateResourceId(resources.lambdaCreateUser),
             'create/',
             this.lambdaSourceCode,
             (createOneSettings as unknown) as { [key: string]: string }
@@ -144,7 +145,7 @@ export class Deployment extends Stack {
 
         const getAll = lambdaFactory(
             this,
-            generateResourceName(resources.lambdaGetAllUsers),
+            generateResourceId(resources.lambdaGetAllUsers),
             'get-all/',
             this.lambdaSourceCode,
             (getAllSettings as unknown) as { [key: string]: string }
@@ -162,7 +163,7 @@ export class Deployment extends Stack {
         };
         const getById = lambdaFactory(
             this,
-            generateResourceName(resources.lambdaGetUserById),
+            generateResourceId(resources.lambdaGetUserById),
             'get-by-id/',
             this.lambdaSourceCode,
             (getByIdSettings as unknown) as { [key: string]: string }
@@ -183,28 +184,33 @@ export class Deployment extends Stack {
     private setupEventBridge(eventStoreHandler: lambda.Function): EventBus {
         const logGroup = new LogGroup(
             this,
-            generateResourceName(resources.systemEventBridgeLogGroup),
+            generateResourceId(resources.systemEventBridgeLogGroup),
             {
                 logGroupName: `/aws/events/${settings.environment}-system-events`,
                 retention: RetentionDays.ONE_DAY,
             }
         );
-        // const eventRole =  new iam.Role(this, generateResourceName(resources.systemEventBridgeRole), {
+        // const eventRole =  new iam.Role(this, generateResourceId(resources.systemEventBridgeRole), {
         //     assumedBy: new iam.ServicePrincipal('events.amazonaws.com')
         // });
         const bus = new EventBus(
             this,
-            generateResourceName(resources.systemEventBridge),
+            generateResourceId(resources.systemEventBridge),
             {
             }
         );
         const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
-
+        // const allEventsRule = new Rule(this, generateResourceId(resources.systemCfnRulePushAllEvents), {
+        //     eventPattern: {
+        //         source: []
+        //     }
+        // });
+        // allEventsRule.addTarget(new targets.CloudWatchLogGroup(logGroup));
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
         const allEventsRule = new CfnRule(
             this,
-            generateResourceName(resources.systemCfnRulePushAllEvents),
+            generateResourceId(resources.systemCfnRulePushAllEvents),
             {
                 eventBusName: bus.eventBusName,
                 description: 'Rule matching all events',
@@ -214,13 +220,14 @@ export class Deployment extends Stack {
                 targets: [
                     {
                         id: `${settings.environment}-all-events-cw-logs`,
-                        arn: logGroup.logGroupArn,
+                        arn: logGroup.logGroupArn
                     },
                     {
                         id: `${settings.environment}-all-events-event-store`,
                         arn: eventStoreHandler.functionArn,
                         deadLetterConfig: {
-                            arn: queue.queueArn
+                            arn: queue.queueArn,
+
                         }
                     },
                 ],
@@ -234,17 +241,44 @@ export class Deployment extends Stack {
                 'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
             }
         }));
+        //https://github.com/aws/aws-cdk/issues/11410
+        // const cfnRule = rule;
+        // cfnRule.addPropertyOverride('RoleArn', eventRole.roleArn)
+        // eventRole.addToPrincipalPolicy(new iam.PolicyStatement({
+        //     effect: iam.Effect.ALLOW,
+        //     actions: ['sqs:SendMessage'],
+        //     resources: [queue.queueArn]
+        //
+        // }));
+        // provide athena,s3 access to lambda function
+        // const athenaAccessPolicy = new iam.PolicyStatement({
+        //     effect: iam.Effect.ALLOW,
+        //     resources: [eventStoreHandler.functionArn],
+        //     actions: [
+        //         "lambda:InvokeFunction"                           ],
+        //
+        //
+        // });
+        // eventRole.addToPrincipalPolicy(athenaAccessPolicy);
 
-        //eventStoreHandler.grantInvoke();
-        // queue.grantSendMessages(eventRole);
-        // logGroup.grantWrite(eventRole);
+
+        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
+        //     actions: ['lambda:InvokeFunction'],
+        //     resources: [eventStoreHandler.functionArn],
+        //     principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+        //     conditions: {
+        //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
+        //     }
+        // }));
+        //eventStoreHandler.grantInvoke(allEventsRule);
+         // queue.grantSendMessages(eventRole);
+         // logGroup.grantWrite(eventRole);
         // eventStoreHandler.grantInvoke(eventRole);
-        eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
-            //principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-
-            actions: ['lambda:InvokeFunction'],
-            resources: [eventStoreHandler.functionArn],
-        }))
+        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
+        //     principals: [new iam.ServicePrincipal('events.amazonaws.com')],
+        //     actions: ['lambda:InvokeFunction'],
+        //     resources: [eventStoreHandler.functionArn],
+        // }))
         // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
         //     actions: ['lambda:InvokeFunction'],
         //     resources: [eventStoreHandler.functionArn],
@@ -281,7 +315,7 @@ export class Deployment extends Stack {
     private createSystemEventStoreTable(): Table {
         const users = new Table(
             this,
-            generateResourceName(resources.dynamoDbEventStoreTable),
+            generateResourceId(resources.dynamoDbEventStoreTable),
             {
                 partitionKey: {
                     name: 'id',
@@ -307,7 +341,7 @@ export class Deployment extends Stack {
         };
         const createOne = lambdaFactory(
             this,
-            generateResourceName(resources.lambdaEventStore),
+            generateResourceId(resources.lambdaEventStore),
             'event-store/',
             this.lambdaSourceCode,
             (createOneSettings as unknown) as { [key: string]: string }
@@ -317,6 +351,7 @@ export class Deployment extends Stack {
 
         return createOne;
     }
+
     // private useSnsToConsumeSystemBus(){
     //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
     //         message: RuleTargetInput.fromText(
