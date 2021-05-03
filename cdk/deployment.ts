@@ -190,9 +190,7 @@ export class Deployment extends Stack {
                 retention: RetentionDays.ONE_DAY,
             }
         );
-        // const eventRole =  new iam.Role(this, generateResourceId(resources.systemEventBridgeRole), {
-        //     assumedBy: new iam.ServicePrincipal('events.amazonaws.com')
-        // });
+
         const bus = new EventBus(
             this,
             generateResourceId(resources.systemEventBridge),
@@ -200,12 +198,7 @@ export class Deployment extends Stack {
             }
         );
         const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
-        // const allEventsRule = new Rule(this, generateResourceId(resources.systemCfnRulePushAllEvents), {
-        //     eventPattern: {
-        //         source: []
-        //     }
-        // });
-        // allEventsRule.addTarget(new targets.CloudWatchLogGroup(logGroup));
+
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
         const allEventsRule = new CfnRule(
@@ -241,70 +234,6 @@ export class Deployment extends Stack {
                 'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
             }
         }));
-        //https://github.com/aws/aws-cdk/issues/11410
-        // const cfnRule = rule;
-        // cfnRule.addPropertyOverride('RoleArn', eventRole.roleArn)
-        // eventRole.addToPrincipalPolicy(new iam.PolicyStatement({
-        //     effect: iam.Effect.ALLOW,
-        //     actions: ['sqs:SendMessage'],
-        //     resources: [queue.queueArn]
-        //
-        // }));
-        // provide athena,s3 access to lambda function
-        // const athenaAccessPolicy = new iam.PolicyStatement({
-        //     effect: iam.Effect.ALLOW,
-        //     resources: [eventStoreHandler.functionArn],
-        //     actions: [
-        //         "lambda:InvokeFunction"                           ],
-        //
-        //
-        // });
-        // eventRole.addToPrincipalPolicy(athenaAccessPolicy);
-
-
-        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
-        //     actions: ['lambda:InvokeFunction'],
-        //     resources: [eventStoreHandler.functionArn],
-        //     principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-        //     conditions: {
-        //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
-        //     }
-        // }));
-        //eventStoreHandler.grantInvoke(allEventsRule);
-         // queue.grantSendMessages(eventRole);
-         // logGroup.grantWrite(eventRole);
-        // eventStoreHandler.grantInvoke(eventRole);
-        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
-        //     principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-        //     actions: ['lambda:InvokeFunction'],
-        //     resources: [eventStoreHandler.functionArn],
-        // }))
-        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
-        //     actions: ['lambda:InvokeFunction'],
-        //     resources: [eventStoreHandler.functionArn],
-        //     //principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-        //     conditions: {
-        //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
-        //     }
-        // }));
-
-        // eventStoreHandler.addToRolePolicy(new iam.PolicyStatement({
-        //     actions: ['lambda:InvokeFunction'],
-        //     resources: [eventStoreHandler.functionArn],
-        //     //principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-        //     conditions: {
-        //         'ArnEquals': {'aws:SourceArn': allEventsRule.attrArn}
-        //     }
-        // }));
-        // const athenaAccessPolicy = new iam.PolicyStatement({
-        //     effect: iam.Effect.ALLOW,
-        //     actions: [
-        //         "lambda:InvokeFunction",
-        //         "athena:*"                            ]
-        //
-        // });
-        // athenaAccessPolicy.addAllResources();
-        // allEventsRule.(athenaAccessPolicy);
         return bus;
     }
 
