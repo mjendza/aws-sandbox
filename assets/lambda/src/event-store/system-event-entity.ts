@@ -2,7 +2,7 @@ import { SystemEventStorePushEvent } from '../events/user-event';
 
 export interface SystemEventEntity {
     id: string;
-    version: number;
+    version: string;
     event: SystemEventStorePushEvent;
     eventType: string;
     sourceSystem: string;

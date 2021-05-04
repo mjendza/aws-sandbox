@@ -45,7 +45,7 @@ export function validateEntity<T>(data: any, schema: any): T {
 export function validateEventBridge<T>(
     event: EventBridgeEvent<string, any>,
     schema: any
-): T {
+): EventBridgeEvent<string, T> {
     if (!event) {
         throw new LambdaProxyError(
             400,
@@ -63,7 +63,7 @@ export function validateEventBridge<T>(
         const errors = `${validate.errors.map((x) => x.message).join(',')}`;
         throw new LambdaProxyError(400, errors);
     }
-    return event.detail as T;
+    return event as EventBridgeEvent<string, T>;
 }
 const nameof = <T>(name: Extract<keyof T, string>): string => name;
 

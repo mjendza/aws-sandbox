@@ -18,6 +18,11 @@ import {
     snsFilterHelper,
 } from './cdk-helper';
 import {
+    AwsCustomResource,
+    AwsCustomResourcePolicy,
+    PhysicalResourceId,
+} from '@aws-cdk/custom-resources';
+import {
     LambdaIntegration,
     MethodLoggingLevel,
     Resource,
@@ -31,7 +36,7 @@ import {
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-import { ServicePrincipal } from '@aws-cdk/aws-iam';
+import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
 //import {Role} from "@aws-cdk/aws-iam";
 //import targets  from "@aws-cdk/aws-events-targets";
 export class Deployment extends Stack {
@@ -240,6 +245,8 @@ export class Deployment extends Stack {
             sourceArn: allEventsRule.attrArn,
         });
 
+        this.grantWriteLogsForRule(logGroup.logGroupArn);
+
         return bus;
     }
 
@@ -287,6 +294,61 @@ export class Deployment extends Stack {
         return createOne;
     }
 
+    private grantWriteLogsForRule(logGroupArn: string) {
+        // Cloudwatch logs have global resource policies that allow EventBridge to
+        // write logs to a given Cloudwatch Log group. That's currently not exposed
+        // via CloudFormation, so we use a Custom Resource here.
+        // See https://github.com/aws/aws-cdk/issues/5343
+        const policyName = `${this.stackName}-EventBridgeToCloudWatchPolicy`;
+        new AwsCustomResource(this, 'CloudwatchLogResourcePolicy', {
+            resourceType: 'Custom::CloudwatchLogResourcePolicy',
+            onUpdate: {
+                service: 'CloudWatchLogs',
+                action: 'putResourcePolicy',
+                parameters: {
+                    policyName,
+                    // PolicyDocument must be provided as a string, so we can't use the iam.PolicyDocument provisions
+                    // or other CDK niceties here.
+                    policyDocument: JSON.stringify({
+                        Version: '2012-10-17',
+                        Statement: [
+                            {
+                                Sid: policyName,
+                                Effect: 'Allow',
+                                Principal: {
+                                    Service: ['events.amazonaws.com'],
+                                },
+                                Action: [
+                                    'logs:CreateLogStream',
+                                    'logs:PutLogEvents',
+                                    'logs:PutLogEventsBatch',
+                                ],
+                                Resource: logGroupArn,
+                            },
+                        ],
+                    }),
+                },
+                physicalResourceId: PhysicalResourceId.of(policyName),
+            },
+            onDelete: {
+                service: 'CloudWatchLogs',
+                action: 'deleteResourcePolicy',
+                parameters: {
+                    policyName,
+                },
+            },
+            policy: AwsCustomResourcePolicy.fromStatements([
+                new PolicyStatement({
+                    actions: [
+                        'logs:PutResourcePolicy',
+                        'logs:DeleteResourcePolicy',
+                    ],
+                    // Resource Policies are global in Cloudwatch Logs per-region, per-account.
+                    resources: ['*'],
+                }),
+            ]),
+        });
+    }
     // private useSnsToConsumeSystemBus(){
     //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
     //         message: RuleTargetInput.fromText(

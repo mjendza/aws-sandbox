@@ -1,6 +1,6 @@
 import {
-    SystemEventBridgeEvent,
     systemEventBridgeEventSchema,
+    SystemEventStorePushEvent,
 } from '../../events/user-event';
 import { validateEventBridge } from '../../helpers/validation-helpers';
 import { EventBridgeEvent } from 'aws-lambda';
@@ -14,7 +14,7 @@ export const handler = async (
 ): Promise<void> => {
     try {
         log.info(`event: ${JSON.stringify(event)}`);
-        const model = validateEventBridge<SystemEventBridgeEvent>(
+        const model = validateEventBridge<SystemEventStorePushEvent>(
             event,
             systemEventBridgeEventSchema
         );

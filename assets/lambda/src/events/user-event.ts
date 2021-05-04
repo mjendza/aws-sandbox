@@ -28,12 +28,3 @@ export interface UserCreated extends SystemEventStorePushEvent {
     createdAt: string;
     tags: string[];
 }
-
-export interface SystemEventBridgeEvent {
-    id: string;
-    version: number;
-    detail: any;
-    'detail-type': string;
-    source: string;
-    time: string;
-}

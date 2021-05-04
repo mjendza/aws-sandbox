@@ -1,17 +1,17 @@
 import { SystemEventStoreRepository } from './system-event-push-repository';
-import {
-    SystemEventBridgeEvent,
-    SystemEventStorePushEvent,
-} from '../events/user-event';
+import { SystemEventStorePushEvent } from '../events/user-event';
 import { SystemEventEntity } from './system-event-entity';
+import { EventBridgeEvent } from 'aws-lambda';
 
 export class StoreSystemEventService {
     constructor(private repository: SystemEventStoreRepository) {}
 
-    async create(model: SystemEventBridgeEvent): Promise<string> {
+    async create(
+        model: EventBridgeEvent<string, SystemEventStorePushEvent>
+    ): Promise<string> {
         const entity: SystemEventEntity = {
-            id: `${model['detail-type']}${model.id}`,
-            event: model.detail as SystemEventStorePushEvent,
+            id: `${model['detail-type']}${DYNAMO_DB_PIPE}${model.id}`,
+            event: model.detail,
             eventType: model['detail-type'],
             version: model.version,
             time: model.time,
@@ -21,3 +21,4 @@ export class StoreSystemEventService {
         return entity.id;
     }
 }
+export const DYNAMO_DB_PIPE: string = '|';
