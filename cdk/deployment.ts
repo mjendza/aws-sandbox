@@ -31,6 +31,7 @@ import {
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
+import { ServicePrincipal } from '@aws-cdk/aws-iam';
 //import {Role} from "@aws-cdk/aws-iam";
 //import targets  from "@aws-cdk/aws-events-targets";
 export class Deployment extends Stack {
@@ -234,6 +235,11 @@ export class Deployment extends Stack {
                 },
             })
         );
+        eventStoreHandler.addPermission('invoke-eventStoreHandler', {
+            principal: new ServicePrincipal('events.amazonaws.com'),
+            sourceArn: allEventsRule.attrArn,
+        });
+
         return bus;
     }
 
