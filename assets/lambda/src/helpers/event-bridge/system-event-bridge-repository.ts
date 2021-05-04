@@ -26,7 +26,7 @@ export class SystemEventBridgeRepository {
                 {
                     Detail: JSON.stringify(entity),
                     DetailType: type,
-                    //Source: source,
+                    Source: source,
                     EventBusName: this.eventBusName,
                 },
             ],
