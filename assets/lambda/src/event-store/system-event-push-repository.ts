@@ -10,7 +10,7 @@ import { LambdaProxyError } from '../helpers/lambda-proxy-error';
 import {
     SystemEventEntity,
     systemEventEntitySchema,
-} from './create-system-event-store-event-service';
+} from './system-event-entity';
 
 export class SystemEventStoreRepository {
     private tableName = getEnvironmentSettingsKey<SystemLambdaSettings>(
