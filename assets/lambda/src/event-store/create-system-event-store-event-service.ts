@@ -1,5 +1,8 @@
 import { SystemEventStoreRepository } from './system-event-push-repository';
-import {SystemEventBridgeEvent, SystemEventStorePushEvent} from "../events/user-event";
+import {
+    SystemEventBridgeEvent,
+    SystemEventStorePushEvent,
+} from '../events/user-event';
 
 export interface SystemEventEntity {
     id: string;
