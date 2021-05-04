@@ -1,6 +1,6 @@
 import { UserEntity } from './user-entity';
 import { UserRepository } from './user-repository';
-import { UserEvent } from '../events/user-event';
+import { UserCreated, UserEvent } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
 import { SystemEventBridgeRepository } from '../helpers/event-bridge/system-event-bridge-repository';
@@ -19,8 +19,21 @@ export class CreateUserService {
             tags: [],
         };
         await this.repository.put(entity);
-        await this.hub.put(entity, `UserCreated`, resources.lambdaCreateUser);
+        const userCreated = this.createEvent(entity);
+        await this.hub.put(
+            userCreated,
+            `UserCreated`,
+            resources.lambdaCreateUser
+        );
         return entity.id;
+    }
+    private createEvent(entity: UserEntity): UserCreated {
+        return {
+            id: entity.id,
+            email: entity.email,
+            createdAt: entity.createdAt,
+            tags: entity.tags,
+        };
     }
 }
 

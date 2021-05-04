@@ -12,7 +12,7 @@ import {
     systemEventEntitySchema,
 } from './create-system-event-store-event-service';
 
-export class SystemEventRepository {
+export class SystemEventStoreRepository {
     private tableName = getEnvironmentSettingsKey<SystemLambdaSettings>(
         'SYSTEM_TABLE_NAME'
     );
@@ -25,6 +25,7 @@ export class SystemEventRepository {
             Item: item,
         };
         log.info(`DynamoDB params: ${JSON.stringify(params)}`);
+        validateEntity<SystemEventEntity>(item, systemEventEntitySchema);
         try {
             await this.documentClient.put(params).promise();
         } catch (dbError) {

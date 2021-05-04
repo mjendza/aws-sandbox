@@ -1,6 +1,6 @@
 import {
-    SystemEventStoreEvent,
-    systemSEventStoreEventSchema,
+    SystemEventBridgeEvent,
+    systemEventBridgeEventSchema,
 } from '../../events/user-event';
 import { validate } from '../../helpers/validation-helpers';
 import {
@@ -10,21 +10,21 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
 import { dynamoClient } from '../../helpers/dynamodb-factory';
-import { SystemEventRepository } from '../../event-store/system-event-repository';
-import { CreateSystemEventStoreEventService } from '../../event-store/create-system-event-store-event-service';
+import { StoreSystemEventService } from '../../event-store/create-system-event-store-event-service';
+import { SystemEventStoreRepository } from '../../event-store/system-event-push-repository';
 
 export const handler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
         log.info(`event: ${JSON.stringify(event)}`);
-        const model = validate<SystemEventStoreEvent>(
+        const model = validate<SystemEventBridgeEvent>(
             event,
-            systemSEventStoreEventSchema
+            systemEventBridgeEventSchema
         );
         log.info(`model: ${JSON.stringify(model)}`);
-        const service = new CreateSystemEventStoreEventService(
-            new SystemEventRepository(dynamoClient())
+        const service = new StoreSystemEventService(
+            new SystemEventStoreRepository(dynamoClient())
         );
         const result = await service.create(model);
         log.info(`result: ${JSON.stringify(result)}`);

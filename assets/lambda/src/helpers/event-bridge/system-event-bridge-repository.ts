@@ -4,6 +4,7 @@ import { UserLambdaSettings } from '../../../../../cdk/settings/lambda-settings'
 import { eventBridgeClient } from './event-bridge-client';
 import { PutEventsRequest } from 'aws-sdk/clients/eventbridge';
 import * as log from 'lambda-log';
+import { SystemEventStorePushEvent } from '../../events/user-event';
 
 export class SystemEventBridgeRepository {
     private eventBridge: EventBridge;
@@ -15,13 +16,17 @@ export class SystemEventBridgeRepository {
         this.eventBridge = eventBridgeClient();
     }
 
-    put(entity: any, type: string, source: string): Promise<any> {
+    put(
+        entity: SystemEventStorePushEvent,
+        type: string,
+        source: string
+    ): Promise<any> {
         const params: PutEventsRequest = {
             Entries: [
                 {
                     Detail: JSON.stringify(entity),
                     DetailType: type,
-                    Source: source,
+                    //Source: source,
                     EventBusName: this.eventBusName,
                 },
             ],
