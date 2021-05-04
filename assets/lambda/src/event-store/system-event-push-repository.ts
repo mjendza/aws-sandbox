@@ -26,12 +26,8 @@ export class SystemEventStoreRepository {
         };
         log.info(`DynamoDB params: ${JSON.stringify(params)}`);
         validateEntity<SystemEventEntity>(item, systemEventEntitySchema);
-        try {
-            await this.documentClient.put(params).promise();
-        } catch (dbError) {
-            log.error(`DynamoDB ERROR: ${JSON.stringify(dbError)}`);
-            throw new Error(`DynamoDB ERROR: ${dbError}`);
-        }
+        const result = await this.documentClient.put(params).promise();
+        log.info(`DynamoDB result: ${JSON.stringify(result)}`);
     }
 
     async get(id: string): Promise<SystemEventEntity> {

@@ -1,6 +1,7 @@
 import Ajv from 'ajv';
 import { LambdaProxyError } from './lambda-proxy-error';
 import { APIGatewayProxyEvent } from 'aws-lambda';
+import { EventBridgeEvent } from 'aws-lambda';
 import * as log from 'lambda-log';
 
 export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
@@ -41,7 +42,29 @@ export function validateEntity<T>(data: any, schema: any): T {
     }
     return data as T;
 }
+export function validateEventBridge<T>(
+    event: EventBridgeEvent<string, any>,
+    schema: any
+): T {
+    if (!event) {
+        throw new LambdaProxyError(
+            400,
+            'invalid request, you are missing the parameter body'
+        );
+    }
+    const ajv = new Ajv();
+    const validate = ajv.compile(schema);
+    const valid = validate(event.detail);
 
+    if (!valid) {
+        if (!validate.errors) {
+            throw new LambdaProxyError(400, 'General validation error.');
+        }
+        const errors = `${validate.errors.map((x) => x.message).join(',')}`;
+        throw new LambdaProxyError(400, errors);
+    }
+    return event.detail as T;
+}
 const nameof = <T>(name: Extract<keyof T, string>): string => name;
 
 export function getEnvironmentSettingsKey<T>(
