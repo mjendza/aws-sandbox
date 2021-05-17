@@ -1,8 +1,9 @@
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as settings from './settings.json';
+import * as envSettings from './settings.json';
 import { Duration } from '@aws-cdk/core';
 import { Stack } from '@aws-cdk/core';
 import { SubscriptionFilter } from '@aws-cdk/aws-sns';
+import { StringParameter } from '@aws-cdk/aws-ssm';
 
 export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
 
@@ -26,7 +27,7 @@ export interface CdkSettings {
 }
 
 export function generateResourceId(name: string) {
-    return `${settings.environment}-${name}`;
+    return `${envSettings.environment}-${name}`;
 }
 
 export function lambdaFactory(
@@ -36,7 +37,8 @@ export function lambdaFactory(
     lambdaSourceCode: string,
     settings: { [key: string]: string }
 ): lambda.Function {
-    return new lambda.Function(stack, generateResourceId(resourceName), {
+    const lambdaResourceName = generateResourceId(resourceName);
+    const lambdaInstance = new lambda.Function(stack, lambdaResourceName, {
         code: new lambda.AssetCode(`${lambdaSourceCode}${lambdaFolderName}/`),
         handler: 'index.handler',
         runtime: lambdaNodeVersion,
@@ -45,6 +47,17 @@ export function lambdaFactory(
         timeout: defaultLambdaSettings.timeout,
         tracing: lambda.Tracing.ACTIVE,
     });
+    // Create a new SSM Parameter holding a lambda name
+    const ssmName = `${envSettings.environment}/${envSettings.repositoryName}/${lambdaResourceName}`;
+    new StringParameter(stack, 'StringParameter', {
+        description: lambdaResourceName,
+        parameterName: ssmName,
+        stringValue: lambdaInstance.functionName,
+        // allowedPattern: '.*',
+    });
+    // Grant read access to some Role
+    //param.grantRead(role);
+    return lambdaInstance;
 }
 
 export function snsFilterHelper() {
