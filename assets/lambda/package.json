@@ -25,7 +25,6 @@
     },
     "devDependencies": {
         "@types/lambda-log": "2.2.0",
-        "sls-test-tools": "1.0.0-alpha.3",
         "@types/aws-lambda": "8.10.73",
         "@types/uuid": "8.3.0",
         "@types/jest": "26.0.21",

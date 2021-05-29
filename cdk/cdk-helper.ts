@@ -30,15 +30,18 @@ export function generateResourceId(name: string) {
     return `${envSettings.environment}-${name}`;
 }
 
+export function ssmParameterBuilder(lambdaResourceName: string): string {
+    return `/${envSettings.environment}/${envSettings.repositoryName}/${lambdaResourceName}`;
+}
+
 export function lambdaFactory(
     stack: Stack,
-    resourceName: string,
+    lambdaResourceId: string,
     lambdaFolderName: string,
     lambdaSourceCode: string,
     settings: { [key: string]: string }
 ): lambda.Function {
-    const lambdaResourceName = generateResourceId(resourceName);
-    const lambdaInstance = new lambda.Function(stack, lambdaResourceName, {
+    const lambdaInstance = new lambda.Function(stack, lambdaResourceId, {
         code: new lambda.AssetCode(`${lambdaSourceCode}${lambdaFolderName}/`),
         handler: 'index.handler',
         runtime: lambdaNodeVersion,
@@ -48,9 +51,10 @@ export function lambdaFactory(
         tracing: lambda.Tracing.ACTIVE,
     });
     // Create a new SSM Parameter holding a lambda name
-    const ssmName = `${envSettings.environment}/${envSettings.repositoryName}/${lambdaResourceName}`;
-    new StringParameter(stack, 'StringParameter', {
-        description: lambdaResourceName,
+    const ssmId = generateResourceId(`${lambdaResourceId}StringParameter`);
+    const ssmName = ssmParameterBuilder(lambdaResourceId);
+    new StringParameter(stack, ssmId, {
+        description: lambdaResourceId,
         parameterName: ssmName,
         stringValue: lambdaInstance.functionName,
         // allowedPattern: '.*',
