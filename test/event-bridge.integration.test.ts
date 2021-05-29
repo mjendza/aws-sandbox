@@ -9,6 +9,7 @@ import { toHaveEvent } from 'sls-test-tools';
 import { ConfigurationManager } from '../assets/lambda/src/helpers/ssm/helper';
 import { generateResourceId, ssmParameterBuilder } from '../cdk/cdk-helper';
 import { resources } from '../cdk/cdk-resources';
+import { v4 } from 'uuid';
 
 declare global {
     namespace jest {
@@ -40,10 +41,9 @@ describe('Integration Testing Event Bridge', () => {
     it('correctly publishes an event to the event bus when the lambda is invoked', async () => {
         const event = {
             body: JSON.stringify({
-                email: 'abc',
+                email: `TestTools-EventBridge-IntegrationTest-${v4()}@test.uu`,
             }),
         };
-        // Invoke Lambda Function
         const params = {
             FunctionName: functionName,
             Payload: JSON.stringify(event),
