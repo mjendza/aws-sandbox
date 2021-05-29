@@ -2,7 +2,7 @@
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 # https://ardalis.com/rest-commands-and-queries-in-vs-code
 
-@hostname =  https://ox30sgdw46.execute-api.eu-central-1.amazonaws.com/beta/
+@hostname =  https://fake.execute-api.eu-central-1.amazonaws.com/beta/
 
 
 @port = 7071
