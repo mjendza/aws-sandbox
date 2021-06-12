@@ -10,11 +10,48 @@ import { ConfigurationManager } from '../assets/lambda/src/helpers/ssm/helper';
 import { generateResourceId, ssmParameterBuilder } from '../cdk/cdk-helper';
 import { resources } from '../cdk/cdk-resources';
 import { v4 } from 'uuid';
+import CustomMatcherResult = jest.CustomMatcherResult;
+expect.extend({
+    toHaveMessageWith(
+        eventBridgeEvents: any,
+        message: any
+    ): CustomMatcherResult {
+        const events = eventBridgeEvents.Messages.map((x: { Body: any }) =>
+            JSON.parse(x.Body)
+        );
+        const messages = events.map((x: { detail: any }) => x.detail);
+        const pass = this.equals(
+            messages,
+            expect.arrayContaining([expect.objectContaining(message)])
+        );
+
+        if (pass) {
+            return {
+                message: () =>
+                    `expected ${this.utils.printReceived(
+                        events
+                    )} not to contain object ${this.utils.printExpected(
+                        message
+                    )}`,
+                pass: true,
+            };
+        } else {
+            return {
+                message: () =>
+                    `expected ${this.utils.printReceived(
+                        events
+                    )} to contain object ${this.utils.printExpected(message)}`,
+                pass: false,
+            };
+        }
+    },
+});
 
 declare global {
     namespace jest {
         interface Matchers<R> {
             toHaveEventWithSource(data: string): CustomMatcherResult;
+            toHaveMessageWith(data: any): CustomMatcherResult;
         }
     }
 }
@@ -39,9 +76,10 @@ describe('Integration Testing Event Bridge', () => {
     });
 
     it('correctly publishes an event to the event bus when the lambda is invoked', async () => {
+        const email = `TestTools-EventBridge-IntegrationTest-${v4()}@test.uu`;
         const event = {
             body: JSON.stringify({
-                email: `TestTools-EventBridge-IntegrationTest-${v4()}@test.uu`,
+                email,
             }),
         };
         const params = {
@@ -51,7 +89,9 @@ describe('Integration Testing Event Bridge', () => {
         await lambda.invoke(params).promise();
 
         const eventBridgeEvents = await eventBridge.getEvents();
-        //expect(eventBridgeEvents).toHaveEvent();
+        expect(eventBridgeEvents).toHaveMessageWith({
+            email,
+        });
         expect(eventBridgeEvents).toHaveEventWithSource(
             resources.lambdaCreateUser
         );
