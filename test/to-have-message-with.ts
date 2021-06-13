@@ -35,7 +35,7 @@ expect.extend({
     },
 });
 
-export {}
+export {};
 
 declare global {
     namespace jest {

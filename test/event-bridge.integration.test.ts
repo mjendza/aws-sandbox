@@ -10,7 +10,7 @@ import { ConfigurationManager } from '../assets/lambda/src/helpers/ssm/helper';
 import { generateResourceId, ssmParameterBuilder } from '../cdk/cdk-helper';
 import { resources } from '../cdk/cdk-resources';
 import { v4 } from 'uuid';
-import "./to-have-message-with"
+import './to-have-message-with';
 
 jest.setTimeout(50000);
 
