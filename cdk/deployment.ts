@@ -16,6 +16,7 @@ import {
     generateResourceId,
     lambdaFactory,
     snsFilterHelper,
+    ssmParameterBuilder,
 } from './cdk-helper';
 import {
     AwsCustomResource,
@@ -37,6 +38,7 @@ import {
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { StringParameter } from '@aws-cdk/aws-ssm';
 //import {Role} from "@aws-cdk/aws-iam";
 //import targets  from "@aws-cdk/aws-events-targets";
 export class Deployment extends Stack {
@@ -196,12 +198,17 @@ export class Deployment extends Stack {
                 retention: RetentionDays.ONE_DAY,
             }
         );
+        const busId = generateResourceId(resources.systemEventBridge);
+        const bus = new EventBus(this, busId, {});
+        const ssmId = generateResourceId(`${busId}StringParameter`);
+        const ssmName = ssmParameterBuilder(busId);
+        new StringParameter(this, ssmId, {
+            description: busId,
+            parameterName: ssmName,
+            stringValue: bus.eventBusName,
+            // allowedPattern: '.*',
+        });
 
-        const bus = new EventBus(
-            this,
-            generateResourceId(resources.systemEventBridge),
-            {}
-        );
         const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
 
         // rule with cloudwatch log group as a target
