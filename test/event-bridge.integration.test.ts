@@ -10,51 +10,8 @@ import { ConfigurationManager } from '../assets/lambda/src/helpers/ssm/helper';
 import { generateResourceId, ssmParameterBuilder } from '../cdk/cdk-helper';
 import { resources } from '../cdk/cdk-resources';
 import { v4 } from 'uuid';
-import CustomMatcherResult = jest.CustomMatcherResult;
-expect.extend({
-    toHaveMessageWith(
-        eventBridgeEvents: any,
-        message: any
-    ): CustomMatcherResult {
-        const events = eventBridgeEvents.Messages.map((x: { Body: any }) =>
-            JSON.parse(x.Body)
-        );
-        const messages = events.map((x: { detail: any }) => x.detail);
-        const pass = this.equals(
-            messages,
-            expect.arrayContaining([expect.objectContaining(message)])
-        );
+import "./to-have-message-with"
 
-        if (pass) {
-            return {
-                message: () =>
-                    `expected ${this.utils.printReceived(
-                        events
-                    )} not to contain object ${this.utils.printExpected(
-                        message
-                    )}`,
-                pass: true,
-            };
-        } else {
-            return {
-                message: () =>
-                    `expected ${this.utils.printReceived(
-                        events
-                    )} to contain object ${this.utils.printExpected(message)}`,
-                pass: false,
-            };
-        }
-    },
-});
-
-declare global {
-    namespace jest {
-        interface Matchers<R> {
-            toHaveEventWithSource(data: string): CustomMatcherResult;
-            toHaveMessageWith(data: any): CustomMatcherResult;
-        }
-    }
-}
 jest.setTimeout(50000);
 
 describe('Integration Testing Event Bridge', () => {
