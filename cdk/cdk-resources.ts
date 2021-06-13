@@ -5,6 +5,8 @@ export interface CdkResources {
     lambdaGetAllUsers: string;
     lambdaGetUserById: string;
 
+    lambdaCreateUserEventHandler: string;
+
     dynamoDbUserTable: string;
 
     snsUserCreatedTopic: string;
@@ -25,6 +27,8 @@ export const resources: CdkResources = {
     lambdaCreateUser: 'lambda-users-create',
     lambdaGetAllUsers: 'lambda-users-get-all',
     lambdaGetUserById: 'lambda-user-get-by-id',
+
+    lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
 
     dynamoDbUserTable: 'users',
 

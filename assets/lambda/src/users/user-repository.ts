@@ -3,18 +3,19 @@ import {
     getEnvironmentSettingsKey,
     validateEntity,
 } from '../helpers/validation-helpers';
-import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
+import { CreateUserHandlerLambdaSettings } from '../../../../cdk/settings/lambda-settings';
 import { DynamoDB } from 'aws-sdk';
 import * as log from 'lambda-log';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { LambdaProxyError } from '../helpers/lambda-proxy-error';
 
 export class UserRepository {
-    private tableName = getEnvironmentSettingsKey<UserLambdaSettings>(
-        'TABLE_NAME'
+    private tableName = getEnvironmentSettingsKey<CreateUserHandlerLambdaSettings>(
+        'USER_TABLE_NAME'
     );
 
     constructor(private documentClient: DynamoDB.DocumentClient) {}
+
     async put(item: UserEntity): Promise<void> {
         const params = {
             TableName: this.tableName,

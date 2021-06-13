@@ -33,6 +33,8 @@ import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import {
+    CreateUserApiLambdaSettings,
+    CreateUserHandlerLambdaSettings,
     SystemLambdaSettings,
     UserLambdaSettings,
 } from './settings/lambda-settings';
@@ -71,6 +73,8 @@ export class Deployment extends Stack {
         const usersApiEndpoint = api.root.addResource('users');
 
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
+
+        this.createUserEventHandlerLambda(users);
 
         this.getAllEndpoint(users, usersApiEndpoint);
 
@@ -123,9 +127,7 @@ export class Deployment extends Stack {
         usersApiEndpoint: Resource,
         bus: EventBus
     ): lambda.Function {
-        const createOneSettings: UserLambdaSettings = {
-            TABLE_NAME: users.tableName,
-            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        const createOneSettings: CreateUserApiLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: bus.eventBusName,
         };
         const createOne = lambdaFactory(
@@ -281,6 +283,24 @@ export class Deployment extends Stack {
         );
 
         return users;
+    }
+
+    private createUserEventHandlerLambda(userTable: Table): lambda.Function {
+        const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
+            USER_TABLE_NAME: userTable.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        };
+        const createUser = lambdaFactory(
+            this,
+            generateResourceId(resources.lambdaCreateUserEventHandler),
+            'create-user/',
+            this.lambdaSourceCode,
+            (createUserHandlerSettings as unknown) as { [key: string]: string }
+        );
+
+        userTable.grantReadWriteData(createUser);
+
+        return createUser;
     }
 
     private systemEventStoreLambda(eventStore: Table): lambda.Function {

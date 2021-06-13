@@ -4,7 +4,7 @@ import { UserLambdaSettings } from '../../../../../cdk/settings/lambda-settings'
 import { eventBridgeClient } from './event-bridge-client';
 import { PutEventsRequest } from 'aws-sdk/clients/eventbridge';
 import * as log from 'lambda-log';
-import { SystemEventStorePushEvent } from '../../events/user-event';
+import { SystemEventStorePushEvent } from '../../events/system-event-store-push-event';
 
 export class SystemEventBridgeRepository {
     private eventBridge: EventBridge;
