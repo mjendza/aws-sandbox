@@ -36,3 +36,8 @@ export interface CreateUserEvent {
     createdAt: string;
     tags: string[];
 }
+
+export enum UserEvents {
+    CreateUser = "CreateUser",
+    UserCreated = "UserCreated"
+}

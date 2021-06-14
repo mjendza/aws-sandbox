@@ -3,7 +3,7 @@ import { UserRepository } from './user-repository';
 import {
     CreateUserApiEvent,
     CreateUserEvent,
-    UserCreated,
+    UserCreated, UserEvents,
 } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
@@ -54,7 +54,7 @@ export class CreateUserApiService {
         const createUser = this.createEvent(entity);
         await this.hub.put(
             createUser,
-            `CreateUser`,
+            UserEvents.CreateUser,
             resources.lambdaCreateUser
         );
         return entity.id;

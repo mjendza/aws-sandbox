@@ -1,16 +1,12 @@
-import {
-    Table,
-    AttributeType,
-    ProjectionType,
-    BillingMode,
-} from '@aws-cdk/aws-dynamodb';
+import {AttributeType, BillingMode, ProjectionType, Table} from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as iam from '@aws-cdk/aws-iam';
-import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
-import { Topic } from '@aws-cdk/aws-sns';
+import {PolicyStatement, ServicePrincipal} from '@aws-cdk/aws-iam';
+import {EmailSubscription} from '@aws-cdk/aws-sns-subscriptions';
+import {Topic} from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
-import { EventBus, CfnRule } from '@aws-cdk/aws-events';
-import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
+import {CfnRule, EventBus} from '@aws-cdk/aws-events';
+import {App, Duration, RemovalPolicy, Stack} from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -18,31 +14,24 @@ import {
     snsFilterHelper,
     ssmParameterBuilder,
 } from './cdk-helper';
-import {
-    AwsCustomResource,
-    AwsCustomResourcePolicy,
-    PhysicalResourceId,
-} from '@aws-cdk/custom-resources';
-import {
-    LambdaIntegration,
-    MethodLoggingLevel,
-    Resource,
-    RestApi,
-} from '@aws-cdk/aws-apigateway';
-import { addCorsOptions } from './deployment-base';
+import {AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId,} from '@aws-cdk/custom-resources';
+import {LambdaIntegration, MethodLoggingLevel, Resource, RestApi,} from '@aws-cdk/aws-apigateway';
+import {addCorsOptions} from './deployment-base';
 import * as settings from './settings.json';
-import { resources } from './cdk-resources';
+import {resources} from './cdk-resources';
 import {
     CreateUserApiLambdaSettings,
     CreateUserHandlerLambdaSettings,
     SystemLambdaSettings,
     UserLambdaSettings,
 } from './settings/lambda-settings';
-import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
-import { StringParameter } from '@aws-cdk/aws-ssm';
+import {LogGroup, RetentionDays} from '@aws-cdk/aws-logs';
+import {StringParameter} from '@aws-cdk/aws-ssm';
 //import {Role} from "@aws-cdk/aws-iam";
-//import targets  from "@aws-cdk/aws-events-targets";
+import { LambdaFunction as LambdaFunctionTarget } from "@aws-cdk/aws-events-targets";
+import { Rule } from '@aws-cdk/aws-events';
+import {UserEvents} from "../assets/lambda/src/events/user-event";
+
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
 
@@ -74,8 +63,8 @@ export class Deployment extends Stack {
 
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
 
-        this.createUserEventHandlerLambda(users);
-
+        const createUserHandler = this.createUserEventHandlerLambda(users);
+        this.useEventBridgeLambdaHandler("", createUserHandler, bus);
         this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
@@ -119,6 +108,17 @@ export class Deployment extends Stack {
             partitionKey: { name: 'email', type: AttributeType.STRING },
             projectionType: ProjectionType.ALL,
         });
+
+        users.addGlobalSecondaryIndex({
+            indexName: 'email_sorted',
+            partitionKey: { name: 'email', type: AttributeType.STRING },
+            sortKey: {
+                name: "createdAt",
+                type: AttributeType.STRING,
+            },
+            projectionType: ProjectionType.ALL,
+        });
+
         return users;
     }
 
@@ -263,6 +263,20 @@ export class Deployment extends Stack {
         eb.grantPutEventsTo(lambda);
     }
 
+    private useEventBridgeLambdaHandler(eventName: string, lambda: lambda.Function, eb: EventBus) {
+        const rule = new Rule(this, 'rule', {
+            eventPattern: {
+                detailType: [UserEvents.CreateUser],
+            },
+        });
+        //const queue = new sqs.Queue(this, 'Queue');
+        rule.addTarget(new LambdaFunctionTarget(lambda, {
+            // deadLetterQueue: queue, // Optional: add a dead letter queue
+            maxEventAge: Duration.hours(2), // Optional: set the maxEventAge retry policy
+            retryAttempts: 4, // Optional: set the max number of retry attempts
+        }));
+    }
+
     private createSystemEventStoreTable(): Table {
         const users = new Table(
             this,
@@ -376,15 +390,8 @@ export class Deployment extends Stack {
             ]),
         });
     }
-    // private useSnsToConsumeSystemBus(){
-    //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
-    //         message: RuleTargetInput.fromText(
-    //             `Entity with id ${EventField.fromPath('$.detail.entity-id')} has been deleted by ${EventField.fromPath('$.detail.author')}`
-    //         )
-    //     }));
-    // }
 
-    // private useEventStoreToConsumeSystemBus(){
+    // private useSnsToConsumeSystemBus(){
     //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
     //         message: RuleTargetInput.fromText(
     //             `Entity with id ${EventField.fromPath('$.detail.entity-id')} has been deleted by ${EventField.fromPath('$.detail.author')}`
