@@ -38,6 +38,6 @@ export interface CreateUserEvent {
 }
 
 export enum UserEvents {
-    CreateUser = "CreateUser",
-    UserCreated = "UserCreated"
+    CreateUser = 'CreateUser',
+    UserCreated = 'UserCreated',
 }

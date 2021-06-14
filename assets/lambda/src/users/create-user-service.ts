@@ -3,7 +3,8 @@ import { UserRepository } from './user-repository';
 import {
     CreateUserApiEvent,
     CreateUserEvent,
-    UserCreated, UserEvents,
+    UserCreated,
+    UserEvents,
 } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';

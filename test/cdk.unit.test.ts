@@ -1,4 +1,9 @@
-import {countResources, expect, haveResource, haveResourceLike} from '@aws-cdk/assert';
+import {
+    countResources,
+    expect,
+    haveResource,
+    haveResourceLike,
+} from '@aws-cdk/assert';
 import * as cdk from '@aws-cdk/core';
 import * as sut from '../cdk/deployment';
 
@@ -30,9 +35,7 @@ test('CDK Lambda functions', () => {
         Handler: 'index.handler',
         Runtime: 'nodejs14.x',
     });
-    expect(stack).to(result
-
-    );
+    expect(stack).to(result);
     expect(stack).to(countResources('AWS::Lambda::Function', 7));
 });
 
