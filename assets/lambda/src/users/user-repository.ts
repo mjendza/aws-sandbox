@@ -13,7 +13,7 @@ export class UserRepository {
     private tableName = getEnvironmentSettingsKey<CreateUserHandlerLambdaSettings>(
         'USER_TABLE_NAME'
     );
-
+    static IndexSeparator: string = '_';
     constructor(private documentClient: DynamoDB.DocumentClient) {}
 
     async put(item: UserEntity): Promise<void> {

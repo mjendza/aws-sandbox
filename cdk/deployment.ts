@@ -78,7 +78,12 @@ export class Deployment extends Stack {
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
 
         const createUserHandler = this.createUserEventHandlerLambda(users);
-        this.useEventBridgeLambdaHandler('', createUserHandler, bus);
+        this.useEventBridgeLambdaHandler(
+            UserEvents.CreateUser,
+            createUserHandler,
+            bus,
+            resources.eventRuleCreateUserHandler
+        );
         this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
@@ -124,8 +129,8 @@ export class Deployment extends Stack {
         });
 
         users.addGlobalSecondaryIndex({
-            indexName: 'email_sorted',
-            partitionKey: { name: 'email', type: AttributeType.STRING },
+            indexName: resources.dynamoDbUserHomeRegionSortedGSI,
+            partitionKey: { name: 'homeRegion', type: AttributeType.STRING },
             sortKey: {
                 name: 'createdAt',
                 type: AttributeType.STRING,
@@ -280,11 +285,13 @@ export class Deployment extends Stack {
     private useEventBridgeLambdaHandler(
         eventName: string,
         lambda: lambda.Function,
-        eb: EventBus
+        eb: EventBus,
+        ruleId: string
     ) {
-        const rule = new Rule(this, 'rule', {
+        const rule = new Rule(this, generateResourceId(ruleId), {
+            eventBus: eb,
             eventPattern: {
-                detailType: [UserEvents.CreateUser],
+                detailType: [eventName],
             },
         });
         //const queue = new sqs.Queue(this, 'Queue');

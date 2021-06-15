@@ -6,8 +6,10 @@ export interface CdkResources {
     lambdaGetUserById: string;
 
     lambdaCreateUserEventHandler: string;
+    eventRuleCreateUserHandler: string;
 
     dynamoDbUserTable: string;
+    dynamoDbUserHomeRegionSortedGSI: string;
 
     snsUserCreatedTopic: string;
 
@@ -29,8 +31,10 @@ export const resources: CdkResources = {
     lambdaGetUserById: 'lambda-user-get-by-id',
 
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
+    eventRuleCreateUserHandler: 'rule-create-user-event-handler',
 
     dynamoDbUserTable: 'users',
+    dynamoDbUserHomeRegionSortedGSI: 'homeRegion',
 
     snsUserCreatedTopic: 'user-created-topic',
 

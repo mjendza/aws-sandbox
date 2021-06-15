@@ -1,6 +1,5 @@
 import { CreateUserApiEvent, userEventSchema } from '../../events/user-event';
 import { validate } from '../../helpers/validation-helpers';
-import { CreateUserApiService } from '../../users/create-user-service';
 import {
     proxyIntegrationError,
     proxyIntegrationResult,
@@ -8,6 +7,7 @@ import {
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
 import { SystemEventBridgeRepository } from '../../helpers/event-bridge/system-event-bridge-repository';
+import { CreateUserApiService } from '../../users/create-user-api-service';
 
 export const handler = async (
     event: APIGatewayProxyEvent
