@@ -1,13 +1,11 @@
 import { UserEntity, userEntitySchema } from './user-entity';
-import {
-    getEnvironmentSettingsKey,
-    validateEntity,
-} from '../helpers/validation-helpers';
+import { validateEntity } from '../helpers/validation-helpers';
 import { CreateUserHandlerLambdaSettings } from '../../../../cdk/settings/lambda-settings';
 import { DynamoDB } from 'aws-sdk';
 import * as log from 'lambda-log';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 import { LambdaProxyError } from '../helpers/lambda-proxy-error';
+import { getEnvironmentSettingsKey } from '../helpers/get-environment-settings-key';
 
 export class UserRepository {
     private tableName = getEnvironmentSettingsKey<CreateUserHandlerLambdaSettings>(

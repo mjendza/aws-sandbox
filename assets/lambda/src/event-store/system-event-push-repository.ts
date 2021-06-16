@@ -1,7 +1,4 @@
-import {
-    getEnvironmentSettingsKey,
-    validateEntity,
-} from '../helpers/validation-helpers';
+import { validateEntity } from '../helpers/validation-helpers';
 import { SystemLambdaSettings } from '../../../../cdk/settings/lambda-settings';
 import { DynamoDB } from 'aws-sdk';
 import * as log from 'lambda-log';
@@ -11,6 +8,7 @@ import {
     SystemEventEntity,
     systemEventEntitySchema,
 } from './system-event-entity';
+import { getEnvironmentSettingsKey } from '../helpers/get-environment-settings-key';
 
 export class SystemEventStoreRepository {
     private tableName = getEnvironmentSettingsKey<SystemLambdaSettings>(

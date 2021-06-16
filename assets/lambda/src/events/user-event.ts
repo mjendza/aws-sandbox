@@ -27,7 +27,7 @@ export const createUserEventSchema = {
         id: { type: 'string' },
     },
     required: ['email', 'id'],
-    additionalProperties: false,
+    additionalProperties: true,
 };
 
 export interface CreateUserEvent {
