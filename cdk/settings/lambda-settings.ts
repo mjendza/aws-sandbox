@@ -1,6 +1,5 @@
-export interface LambdaWithDynamoDbSettings {
-    AWS_NODEJS_CONNECTION_REUSE_ENABLED: string;
-}
+import { LambdaWithDynamoDbSettings } from './lambda-with-dynamo-db-settings';
+import { UseSystemEventBusLambdaSettings } from './use-system-event-bus-lambda-settings';
 
 export interface UserLambdaSettings extends LambdaWithDynamoDbSettings {
     TABLE_NAME: string;
@@ -11,10 +10,7 @@ export interface CreateUserApiLambdaSettings {
 }
 
 export interface CreateUserHandlerLambdaSettings
-    extends LambdaWithDynamoDbSettings {
+    extends LambdaWithDynamoDbSettings,
+        UseSystemEventBusLambdaSettings {
     USER_TABLE_NAME: string;
-}
-
-export interface SystemLambdaSettings extends LambdaWithDynamoDbSettings {
-    SYSTEM_TABLE_NAME: string;
 }

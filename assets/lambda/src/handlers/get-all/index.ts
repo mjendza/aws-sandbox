@@ -7,7 +7,7 @@ export const handler = async (): Promise<any> => {
 
     const params: DocumentClient.QueryInput = {
         TableName: TABLE_NAME,
-        ScanIndexForward: true,
+        ScanIndexForward: false,
         KeyConditionExpression: `${resources.dynamoDbUserHomeRegionSortedGSI} = :value`,
         ExpressionAttributeValues: {
             ':value': 'eu-central-1',

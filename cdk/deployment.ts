@@ -11,7 +11,7 @@ import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
-import { App, Duration, RemovalPolicy, Stack } from '@aws-cdk/core';
+import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -36,15 +36,16 @@ import { resources } from './cdk-resources';
 import {
     CreateUserApiLambdaSettings,
     CreateUserHandlerLambdaSettings,
-    SystemLambdaSettings,
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { StringParameter } from '@aws-cdk/aws-ssm';
-//import {Role} from "@aws-cdk/aws-iam";
-import { LambdaFunction as LambdaFunctionTarget } from '@aws-cdk/aws-events-targets';
-import { Rule } from '@aws-cdk/aws-events';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
+import { SystemLambdaSettings } from './settings/system-lambda-settings';
+import {
+    useEventBridge,
+    useEventBridgeLambdaHandler,
+} from './helpers/event-bridge/lambda-helpers';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -77,8 +78,10 @@ export class Deployment extends Stack {
 
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
 
-        const createUserHandler = this.createUserEventHandlerLambda(users);
-        this.useEventBridgeLambdaHandler(
+        const createUserHandler = this.createUserEventHandlerLambda(users, bus);
+
+        useEventBridgeLambdaHandler(
+            this,
             UserEvents.CreateUser,
             createUserHandler,
             bus,
@@ -95,12 +98,14 @@ export class Deployment extends Stack {
                 displayName: 'User Created Topic',
             }
         );
+
         this.setupSubscriptionsForEnvironment(
             topic,
             settings.snsUserNotificationEmails
         );
 
-        this.useEventBridge(createLambda, bus);
+        useEventBridge(createLambda, bus);
+        useEventBridge(createUserHandler, bus);
     }
 
     private createUsersTable(): Table {
@@ -156,8 +161,6 @@ export class Deployment extends Stack {
             this.lambdaSourceCode,
             (createOneSettings as unknown) as { [key: string]: string }
         );
-
-        users.grantReadWriteData(createOne);
 
         const createOneIntegration = new LambdaIntegration(createOne);
         usersApiEndpoint.addMethod('POST', createOneIntegration);
@@ -278,32 +281,6 @@ export class Deployment extends Stack {
         return bus;
     }
 
-    private useEventBridge(lambda: lambda.Function, eb: EventBus) {
-        eb.grantPutEventsTo(lambda);
-    }
-
-    private useEventBridgeLambdaHandler(
-        eventName: string,
-        lambda: lambda.Function,
-        eb: EventBus,
-        ruleId: string
-    ) {
-        const rule = new Rule(this, generateResourceId(ruleId), {
-            eventBus: eb,
-            eventPattern: {
-                detailType: [eventName],
-            },
-        });
-        //const queue = new sqs.Queue(this, 'Queue');
-        rule.addTarget(
-            new LambdaFunctionTarget(lambda, {
-                // deadLetterQueue: queue, // Optional: add a dead letter queue
-                maxEventAge: Duration.hours(2), // Optional: set the maxEventAge retry policy
-                retryAttempts: 4, // Optional: set the max number of retry attempts
-            })
-        );
-    }
-
     private createSystemEventStoreTable(): Table {
         const users = new Table(
             this,
@@ -326,10 +303,14 @@ export class Deployment extends Stack {
         return users;
     }
 
-    private createUserEventHandlerLambda(userTable: Table): lambda.Function {
+    private createUserEventHandlerLambda(
+        userTable: Table,
+        systemBus: EventBus
+    ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+            SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
         const createUser = lambdaFactory(
             this,
