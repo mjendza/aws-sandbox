@@ -14,3 +14,7 @@ export interface CreateUserHandlerLambdaSettings
         UseSystemEventBusLambdaSettings {
     USER_TABLE_NAME: string;
 }
+
+export interface CreatedUserEventPublisherLambdaSettings {
+    SYSTEM_EVENT_BUS_NAME: string;
+}

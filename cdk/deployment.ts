@@ -2,6 +2,7 @@ import {
     AttributeType,
     BillingMode,
     ProjectionType,
+    StreamViewType,
     Table,
 } from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
@@ -11,6 +12,7 @@ import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
+import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
@@ -34,6 +36,7 @@ import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import {
+    CreatedUserEventPublisherLambdaSettings,
     CreateUserApiLambdaSettings,
     CreateUserHandlerLambdaSettings,
     UserLambdaSettings,
@@ -46,6 +49,7 @@ import {
     useEventBridge,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
+import { StartingPosition } from '@aws-cdk/aws-lambda';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -79,6 +83,8 @@ export class Deployment extends Stack {
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
 
         const createUserHandler = this.createUserEventHandlerLambda(users, bus);
+
+        this.createdUserEventPublisherLambda(users, bus);
 
         useEventBridgeLambdaHandler(
             this,
@@ -119,7 +125,7 @@ export class Deployment extends Stack {
                 },
                 billingMode: BillingMode.PAY_PER_REQUEST,
                 replicationRegions: defaultDynamoDBSettings.replicationRegions,
-
+                stream: StreamViewType.NEW_AND_OLD_IMAGES,
                 // The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
                 // the new table, and it will remain in your account until manually deleted. By setting the policy to
                 // DESTROY, cdk destroy will delete the table (even if it has data in it)
@@ -301,6 +307,31 @@ export class Deployment extends Stack {
         );
 
         return users;
+    }
+
+    private createdUserEventPublisherLambda(
+        users: Table,
+        systemBus: EventBus
+    ): lambda.Function {
+        const settings: CreatedUserEventPublisherLambdaSettings = {
+            SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
+        };
+        const lambda = lambdaFactory(
+            this,
+            generateResourceId(resources.lambdaCreatedUserEventPublisher),
+            'created-user-publisher/',
+            this.lambdaSourceCode,
+            (settings as unknown) as { [key: string]: string }
+        );
+
+        lambda.addEventSource(
+            new DynamoEventSource(users, {
+                startingPosition: StartingPosition.LATEST,
+            })
+        );
+        systemBus.grantPutEventsTo(lambda);
+
+        return lambda;
     }
 
     private createUserEventHandlerLambda(

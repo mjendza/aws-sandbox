@@ -18,6 +18,7 @@ export interface UserCreated extends SystemEventStorePushEvent {
     email: string;
     createdAt: string;
     tags: string[];
+    homeRegion: string;
 }
 
 export const createUserEventSchema = {
