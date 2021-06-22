@@ -9,23 +9,24 @@ input UserInput {
 }
 type UserOutput {
   id: ID!
-  email: String!
 }
 
 input UpdateUserInput {
   id: ID!
   email: String
 }
-
+input UpdateUserOutput {
+  id: ID!
+}
 type Query {
   getById(userId: String!): User
   listUsers: [User]
 }
 
 type Mutation {
-  createNote(user: UserInput!): UserOutput
-  updateNote(user: UpdateUserInput!): UserOutput
-  deleteNote(userId: String!): String
+  createUser(user: UserInput!): UserOutput
+  updateUser(user: UpdateUserInput!): UpdateUserOutput
+  deleteUser(userId: String!): String
 }
 
 type Subscription {
