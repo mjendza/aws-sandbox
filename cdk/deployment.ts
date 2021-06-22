@@ -13,7 +13,14 @@ import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
+import {
+    App,
+    CfnOutput,
+    Duration,
+    Expiration,
+    RemovalPolicy,
+    Stack,
+} from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -50,6 +57,7 @@ import {
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
+import { AuthorizationType, GraphqlApi, Schema } from '@aws-cdk/aws-appsync';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -66,7 +74,6 @@ export class Deployment extends Stack {
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
-
             {
                 restApiName: `api-${settings.repositoryName}`,
                 deployOptions: {
@@ -78,6 +85,9 @@ export class Deployment extends Stack {
                 },
             }
         );
+
+        this.setupAppSync(this);
+
         const usersApiEndpoint = api.root.addResource('users');
 
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
@@ -437,6 +447,37 @@ export class Deployment extends Stack {
     //         )
     //     }));
     // }
+
+    private setupAppSync(stack: Stack) {
+        const api = new GraphqlApi(this, `api-graphql-${settings.repositoryName}`, {
+            name: `api-graphql-${settings.repositoryName}`,
+            schema: Schema.fromAsset('cdk/schema.graphql'),
+            authorizationConfig: {
+                defaultAuthorization: {
+                    authorizationType: AuthorizationType.API_KEY,
+                    apiKeyConfig: {
+                        expires: Expiration.after(Duration.days(365)),
+                    },
+                },
+            },
+            xrayEnabled: true,
+        });
+
+        // print out the AppSync GraphQL endpoint to the terminal
+        new CfnOutput(stack, 'graphql-api-url', {
+            value: api.graphqlUrl,
+        });
+
+        // print out the AppSync API Key to the terminal
+        new CfnOutput(stack, 'graphql-api-key', {
+            value: api.apiKey || '',
+        });
+
+        // print out the stack region
+        new CfnOutput(this, 'stack-region', {
+            value: this.region,
+        });
+    }
 }
 
 const app = new App();

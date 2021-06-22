@@ -1,0 +1,38 @@
+type User {
+  id: ID!
+  email: String!
+}
+
+input UserInput {
+  id: ID!
+  email: String!
+}
+type UserOutput {
+  id: ID!
+  email: String!
+}
+
+input UpdateUserInput {
+  id: ID!
+  email: String
+}
+
+type Query {
+  getById(userId: String!): User
+  listUsers: [User]
+}
+
+type Mutation {
+  createNote(user: UserInput!): UserOutput
+  updateNote(user: UpdateUserInput!): UserOutput
+  deleteNote(userId: String!): String
+}
+
+type Subscription {
+  onCreateUser: UserOutput
+    @aws_subscribe(mutations: ["createUser"])
+  onDeleteUser: String
+    @aws_subscribe(mutations: ["deleteUser"])
+  onUpdateNote: UserOutput
+    @aws_subscribe(mutations: ["updateUser"])
+}
