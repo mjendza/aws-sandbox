@@ -1,39 +1,18 @@
 type User {
-  id: ID!
+  id: String!
   email: String!
 }
 
-input UserInput {
-  id: ID!
-  email: String!
-}
-type UserOutput {
-  id: ID!
+type PaginatedUsers {
+  items: [User]
+  nextToken: String
 }
 
-input UpdateUserInput {
-  id: ID!
-  email: String
-}
-input UpdateUserOutput {
-  id: ID!
-}
 type Query {
-  getById(userId: String!): User
-  listUsers: [User]
+  getUserById(id: String!): User
+  listUsers(limit: Int, nextToken: String): PaginatedUsers
 }
 
 type Mutation {
-  createUser(user: UserInput!): UserOutput
-  updateUser(user: UpdateUserInput!): UpdateUserOutput
-  deleteUser(userId: String!): String
-}
-
-type Subscription {
-  onCreateUser: UserOutput
-    @aws_subscribe(mutations: ["createUser"])
-  onDeleteUser: String
-    @aws_subscribe(mutations: ["deleteUser"])
-  onUpdateNote: UserOutput
-    @aws_subscribe(mutations: ["updateUser"])
+  syncUsers: [User]
 }
