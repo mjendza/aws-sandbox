@@ -1,7 +1,7 @@
 import { SystemEventStoreRepository } from './system-event-push-repository';
-import { SystemEventStorePushEvent } from '../events/user-event';
 import { SystemEventEntity } from './system-event-entity';
 import { EventBridgeEvent } from 'aws-lambda';
+import { SystemEventStorePushEvent } from '../events/system-event-store-push-event';
 
 export class StoreSystemEventService {
     constructor(private repository: SystemEventStoreRepository) {}

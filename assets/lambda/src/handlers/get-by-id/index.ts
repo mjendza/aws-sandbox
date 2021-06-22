@@ -1,4 +1,3 @@
-import { GetUserService } from '../../users/create-user-service';
 import {
     proxyIntegrationError,
     proxyIntegrationResult,
@@ -8,6 +7,7 @@ import * as log from 'lambda-log';
 import { LambdaProxyError } from '../../helpers/lambda-proxy-error';
 import { dynamoClient } from '../../helpers/dynamodb-factory';
 import { UserRepository } from '../../users/user-repository';
+import { GetUserService } from '../../users/get-user-service';
 
 export const handler = async (
     event: APIGatewayProxyEvent

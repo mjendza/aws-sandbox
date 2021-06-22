@@ -1,15 +1,16 @@
 import {
-    Table,
     AttributeType,
-    ProjectionType,
     BillingMode,
+    ProjectionType,
+    Table,
 } from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as iam from '@aws-cdk/aws-iam';
+import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
-import { EventBus, CfnRule } from '@aws-cdk/aws-events';
+import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
@@ -33,14 +34,19 @@ import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import {
-    SystemLambdaSettings,
+    CreateUserApiLambdaSettings,
+    CreateUserHandlerLambdaSettings,
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { StringParameter } from '@aws-cdk/aws-ssm';
-//import {Role} from "@aws-cdk/aws-iam";
-//import targets  from "@aws-cdk/aws-events-targets";
+import { UserEvents } from '../assets/lambda/src/events/user-event';
+import { SystemLambdaSettings } from './settings/system-lambda-settings';
+import {
+    useEventBridge,
+    useEventBridgeLambdaHandler,
+} from './helpers/event-bridge/lambda-helpers';
+
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
 
@@ -72,6 +78,15 @@ export class Deployment extends Stack {
 
         const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
 
+        const createUserHandler = this.createUserEventHandlerLambda(users, bus);
+
+        useEventBridgeLambdaHandler(
+            this,
+            UserEvents.CreateUser,
+            createUserHandler,
+            bus,
+            resources.eventRuleCreateUserHandler
+        );
         this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
@@ -83,12 +98,14 @@ export class Deployment extends Stack {
                 displayName: 'User Created Topic',
             }
         );
+
         this.setupSubscriptionsForEnvironment(
             topic,
             settings.snsUserNotificationEmails
         );
 
-        this.useEventBridge(createLambda, bus);
+        useEventBridge(createLambda, bus);
+        useEventBridge(createUserHandler, bus);
     }
 
     private createUsersTable(): Table {
@@ -115,6 +132,17 @@ export class Deployment extends Stack {
             partitionKey: { name: 'email', type: AttributeType.STRING },
             projectionType: ProjectionType.ALL,
         });
+
+        users.addGlobalSecondaryIndex({
+            indexName: resources.dynamoDbUserHomeRegionSortedGSI,
+            partitionKey: { name: 'homeRegion', type: AttributeType.STRING },
+            sortKey: {
+                name: 'createdAt',
+                type: AttributeType.STRING,
+            },
+            projectionType: ProjectionType.ALL,
+        });
+
         return users;
     }
 
@@ -123,9 +151,7 @@ export class Deployment extends Stack {
         usersApiEndpoint: Resource,
         bus: EventBus
     ): lambda.Function {
-        const createOneSettings: UserLambdaSettings = {
-            TABLE_NAME: users.tableName,
-            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+        const createOneSettings: CreateUserApiLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: bus.eventBusName,
         };
         const createOne = lambdaFactory(
@@ -135,8 +161,6 @@ export class Deployment extends Stack {
             this.lambdaSourceCode,
             (createOneSettings as unknown) as { [key: string]: string }
         );
-
-        users.grantReadWriteData(createOne);
 
         const createOneIntegration = new LambdaIntegration(createOne);
         usersApiEndpoint.addMethod('POST', createOneIntegration);
@@ -257,10 +281,6 @@ export class Deployment extends Stack {
         return bus;
     }
 
-    private useEventBridge(lambda: lambda.Function, eb: EventBus) {
-        eb.grantPutEventsTo(lambda);
-    }
-
     private createSystemEventStoreTable(): Table {
         const users = new Table(
             this,
@@ -281,6 +301,28 @@ export class Deployment extends Stack {
         );
 
         return users;
+    }
+
+    private createUserEventHandlerLambda(
+        userTable: Table,
+        systemBus: EventBus
+    ): lambda.Function {
+        const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
+            USER_TABLE_NAME: userTable.tableName,
+            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
+            SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
+        };
+        const createUser = lambdaFactory(
+            this,
+            generateResourceId(resources.lambdaCreateUserEventHandler),
+            'create-user/',
+            this.lambdaSourceCode,
+            (createUserHandlerSettings as unknown) as { [key: string]: string }
+        );
+
+        userTable.grantReadWriteData(createUser);
+
+        return createUser;
     }
 
     private systemEventStoreLambda(eventStore: Table): lambda.Function {
@@ -356,15 +398,8 @@ export class Deployment extends Stack {
             ]),
         });
     }
-    // private useSnsToConsumeSystemBus(){
-    //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
-    //         message: RuleTargetInput.fromText(
-    //             `Entity with id ${EventField.fromPath('$.detail.entity-id')} has been deleted by ${EventField.fromPath('$.detail.author')}`
-    //         )
-    //     }));
-    // }
 
-    // private useEventStoreToConsumeSystemBus(){
+    // private useSnsToConsumeSystemBus(){
     //     deletedEntitiesRule.addTarget(new targets.SnsTopic(topic, {
     //         message: RuleTargetInput.fromText(
     //             `Entity with id ${EventField.fromPath('$.detail.entity-id')} has been deleted by ${EventField.fromPath('$.detail.author')}`

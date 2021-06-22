@@ -1,7 +1,6 @@
 import Ajv from 'ajv';
 import { LambdaProxyError } from './lambda-proxy-error';
-import { APIGatewayProxyEvent } from 'aws-lambda';
-import { EventBridgeEvent } from 'aws-lambda';
+import { APIGatewayProxyEvent, EventBridgeEvent } from 'aws-lambda';
 import * as log from 'lambda-log';
 
 export function validate<T>(event: APIGatewayProxyEvent, schema: any): T {
@@ -64,18 +63,4 @@ export function validateEventBridge<T>(
         throw new LambdaProxyError(400, errors);
     }
     return event as EventBridgeEvent<string, T>;
-}
-const nameof = <T>(name: Extract<keyof T, string>): string => name;
-
-export function getEnvironmentSettingsKey<T>(
-    key: Extract<keyof T, string>
-): string {
-    const name = nameof(key);
-    const result = process.env[name];
-    if (!result)
-        throw new LambdaProxyError(
-            500,
-            `Key ${name} is not a part of lambda environment.`
-        );
-    return result;
 }

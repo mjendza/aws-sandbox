@@ -1,6 +1,6 @@
 import { UserEntity } from './user-entity';
 import { UserRepository } from './user-repository';
-import { UserCreated, UserEvent } from '../events/user-event';
+import { CreateUserEvent, UserCreated } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
 import { SystemEventBridgeRepository } from '../helpers/event-bridge/system-event-bridge-repository';
@@ -11,12 +11,13 @@ export class CreateUserService {
         private hub: SystemEventBridgeRepository
     ) {}
 
-    async create(model: UserEvent): Promise<string> {
+    async create(model: CreateUserEvent): Promise<string> {
         const entity: UserEntity = {
             id: uuid.v4(),
             email: model.email,
             createdAt: new Date(Date.now()).toISOString(),
             tags: [],
+            homeRegion: `eu-central-1`,
         };
         await this.repository.put(entity);
         const userCreated = this.createEvent(entity);
@@ -34,13 +35,5 @@ export class CreateUserService {
             createdAt: entity.createdAt,
             tags: entity.tags,
         };
-    }
-}
-
-export class GetUserService {
-    constructor(private repository: UserRepository) {}
-
-    get(id: string): Promise<UserEntity> {
-        return this.repository.get(id);
     }
 }

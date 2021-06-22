@@ -1,4 +1,4 @@
-import { SystemEventStorePushEvent } from '../events/user-event';
+import { SystemEventStorePushEvent } from '../events/system-event-store-push-event';
 
 export interface SystemEventEntity {
     id: string;

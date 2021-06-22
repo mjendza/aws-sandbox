@@ -1,3 +1,5 @@
+import { SystemEventStorePushEvent } from './system-event-store-push-event';
+
 export const userEventSchema = {
     type: 'object',
     properties: {
@@ -7,24 +9,35 @@ export const userEventSchema = {
     additionalProperties: false,
 };
 
-export interface UserEvent {
+export interface CreateUserApiEvent {
     email: string;
     id?: string;
-}
-
-export const systemEventBridgeEventSchema = {
-    type: 'object',
-    properties: {},
-    required: ['id'],
-    additionalProperties: true,
-};
-
-export interface SystemEventStorePushEvent {
-    id: string;
 }
 
 export interface UserCreated extends SystemEventStorePushEvent {
     email: string;
     createdAt: string;
     tags: string[];
+}
+
+export const createUserEventSchema = {
+    type: 'object',
+    properties: {
+        email: { type: 'string' },
+        id: { type: 'string' },
+    },
+    required: ['email', 'id'],
+    additionalProperties: true,
+};
+
+export interface CreateUserEvent {
+    email: string;
+    id: string;
+    createdAt: string;
+    tags: string[];
+}
+
+export enum UserEvents {
+    CreateUser = 'CreateUser',
+    UserCreated = 'UserCreated',
 }
