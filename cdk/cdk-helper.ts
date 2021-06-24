@@ -73,3 +73,7 @@ export function snsFilterHelper() {
         },
     };
 }
+
+export function replaceWithGround(toConvert:string): string{
+    return toConvert.replace(/-/g, '_');
+}

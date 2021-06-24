@@ -24,7 +24,7 @@ import {
 import {
     defaultDynamoDBSettings,
     generateResourceId,
-    lambdaFactory,
+    lambdaFactory, replaceWithGround,
     snsFilterHelper,
     ssmParameterBuilder,
 } from './cdk-helper';
@@ -459,7 +459,7 @@ export class Deployment extends Stack {
             this,
             `graphql_api`,
             {
-                name: `api-graphql-${settings.repositoryName}`,
+                name: replaceWithGround(`api-graphql-${settings.repositoryName}`),
                 schema: Schema.fromAsset('cdk/schema.graphql'),
                 authorizationConfig: {
                     defaultAuthorization: {
@@ -474,7 +474,7 @@ export class Deployment extends Stack {
         );
         const dynamodbDataSource = new DynamoDbDataSource(
             this,
-            `api-graphql-${settings.repositoryName}-dynamo-data-source`,
+            replaceWithGround(`api-graphql-${settings.repositoryName}-dynamo-data-source`),
             {
                 api,
                 table: users,
