@@ -4,6 +4,7 @@
     "description": "My AWS Sandbox",
     "scripts": {
         "build:ts": "tsc",
+        "doc:diag:big-picture": "cdk-dia",
         "doc:diag:html": "cfn-dia html -o doc/solution/html/",
         "doc:diag:drawio": "cfn-dia draw.io -o doc/solution/drawio/",
         "test": "npm run test:unit && npm run test:api",
@@ -22,15 +23,24 @@
     },
     "license": "Apache",
     "dependencies": {
-        "@aws-cdk/aws-apigateway": "1.98.0",
-        "@aws-cdk/aws-dynamodb": "1.98.0",
-        "@aws-cdk/aws-lambda": "1.98.0",
-        "@aws-cdk/core": "1.98.0",
-        "@aws-cdk/aws-sns-subscriptions": "1.98.0"
+        "@aws-cdk/aws-ssm": "1.100.0",
+        "@aws-cdk/aws-apigateway": "1.100.0",
+        "@aws-cdk/aws-dynamodb": "1.100.0",
+        "@aws-cdk/aws-iam": "1.100.0",
+        "@aws-cdk/aws-lambda": "1.100.0",
+        "@aws-cdk/core": "1.100.0",
+        "@aws-cdk/aws-sns-subscriptions": "1.100.0",
+        "@aws-cdk/aws-events-targets": "1.100.0",
+        "@aws-cdk/aws-stepfunctions-tasks": "1.100.0",
+        "@aws-cdk/aws-lambda-event-sources": "1.100.0",
+        "@aws-cdk/aws-s3": "1.100.0"
     },
     "devDependencies": {
-        "@aws-cdk/assert": "1.98.0",
+        "uuid": "8.3.2",
+        "sls-test-tools": "1.0.0-alpha.4",
+        "@aws-cdk/assert": "1.100.0",
         "@types/jest": "26.0.21",
+        "@types/uuid": "8.3.0",
         "@types/node": "14.14.33",
         "@typescript-eslint/eslint-plugin": "4.17.0",
         "@typescript-eslint/parser": "4.17.0",

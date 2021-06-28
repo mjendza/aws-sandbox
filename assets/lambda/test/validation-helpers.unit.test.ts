@@ -1,8 +1,8 @@
 import { validate, validateEntity } from '../src/helpers/validation-helpers';
-import { UserEvent, userEventSchema } from '../src/events/user-event';
+import { CreateUserApiEvent, userEventSchema } from '../src/events/user-event';
 import { UserEntity, userEntitySchema } from '../src/users/user-entity';
 
-test('validate UserEvent with validation-helper should return generic object', () => {
+test('validate CreateUserApiEvent with validation-helper should return generic object', () => {
     //GIVEN
     const event = {
         body: JSON.stringify({
@@ -11,7 +11,7 @@ test('validate UserEvent with validation-helper should return generic object', (
     } as any;
 
     // WHEN
-    const result = validate<UserEvent>(event, userEventSchema);
+    const result = validate<CreateUserApiEvent>(event, userEventSchema);
 
     // THEN
     expect(result).not.toBeUndefined();

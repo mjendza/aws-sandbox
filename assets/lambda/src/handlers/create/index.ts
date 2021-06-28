@@ -1,24 +1,23 @@
-import { UserEvent, userEventSchema } from '../../events/user-event';
+import { CreateUserApiEvent, userEventSchema } from '../../events/user-event';
 import { validate } from '../../helpers/validation-helpers';
-import { CreateUserService } from '../../users/create-user-service';
 import {
     proxyIntegrationError,
     proxyIntegrationResult,
 } from '../../helpers/proxy-integration';
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
-import { UserRepository } from '../../users/user-repository';
-import { dynamoClient } from '../../helpers/dynamodb-factory';
+import { SystemEventBridgeRepository } from '../../helpers/event-bridge/system-event-bridge-repository';
+import { CreateUserApiService } from '../../users/create-user-api-service';
 
 export const handler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
         log.info(`event: ${JSON.stringify(event)}`);
-        const model = validate<UserEvent>(event, userEventSchema);
+        const model = validate<CreateUserApiEvent>(event, userEventSchema);
         log.info(`model: ${JSON.stringify(model)}`);
-        const service = new CreateUserService(
-            new UserRepository(dynamoClient())
+        const service = new CreateUserApiService(
+            new SystemEventBridgeRepository()
         );
         const result = await service.create(model);
         log.info(`result: ${JSON.stringify(result)}`);
