@@ -6,6 +6,7 @@ export interface CdkResources {
     lambdaGetUserById: string;
 
     lambdaCreateUserEventHandler: string;
+    lambdaCreatedUserEventPublisher: string;
     eventRuleCreateUserHandler: string;
 
     dynamoDbUserTable: string;
@@ -31,6 +32,7 @@ export const resources: CdkResources = {
     lambdaGetUserById: 'lambda-user-get-by-id',
 
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
+    lambdaCreatedUserEventPublisher: 'lambda-created-user-event-publisher',
     eventRuleCreateUserHandler: 'rule-create-user-event-handler',
 
     dynamoDbUserTable: 'users',

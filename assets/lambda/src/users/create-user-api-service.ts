@@ -33,6 +33,7 @@ export class CreateUserApiService {
             email: entity.email,
             createdAt: entity.createdAt,
             tags: entity.tags,
+            homeRegion: 'eu-central-1',
         };
     }
 }
