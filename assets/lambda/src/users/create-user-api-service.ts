@@ -2,7 +2,7 @@ import { SystemEventBridgeRepository } from '../helpers/event-bridge/system-even
 import {
     CreateUserApiEvent,
     CreateUserEvent,
-    UserCreated,
+    UserCreatedEvent,
     UserEvents,
 } from '../events/user-event';
 import * as uuid from 'uuid';
@@ -27,7 +27,7 @@ export class CreateUserApiService {
         return event.id;
     }
 
-    private createEvent(entity: CreateUserEvent): UserCreated {
+    private createEvent(entity: CreateUserEvent): UserCreatedEvent {
         return {
             id: entity.id,
             email: entity.email,

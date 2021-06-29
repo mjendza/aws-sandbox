@@ -1,6 +1,6 @@
 import { UserEntity } from './user-entity';
 import { UserRepository } from './user-repository';
-import { CreateUserEvent, UserCreated } from '../events/user-event';
+import { CreateUserEvent, UserCreatedEvent } from '../events/user-event';
 import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
 import { SystemEventBridgeRepository } from '../helpers/event-bridge/system-event-bridge-repository';
@@ -28,7 +28,7 @@ export class CreateUserService {
         );
         return entity.id;
     }
-    private createEvent(entity: UserEntity): UserCreated {
+    private createEvent(entity: UserEntity): UserCreatedEvent {
         return {
             id: entity.id,
             email: entity.email,

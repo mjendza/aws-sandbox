@@ -8,6 +8,8 @@ export interface CdkResources {
     lambdaCreateUserEventHandler: string;
     lambdaCreatedUserEventPublisher: string;
     eventRuleCreateUserHandler: string;
+    lambdaPaymentFlowEventHandler: string;
+    eventRuleUserCreatedHandler: string;
 
     dynamoDbUserTable: string;
     dynamoDbUserHomeRegionSortedGSI: string;
@@ -34,6 +36,8 @@ export const resources: CdkResources = {
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
     lambdaCreatedUserEventPublisher: 'lambda-created-user-event-publisher',
     eventRuleCreateUserHandler: 'rule-create-user-event-handler',
+    lambdaPaymentFlowEventHandler: 'lambda-payment-flow-event-handler',
+    eventRuleUserCreatedHandler: 'rule-user-created-event-handler',
 
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',

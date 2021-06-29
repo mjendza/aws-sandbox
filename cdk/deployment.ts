@@ -50,6 +50,7 @@ import {
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
+import { paymentFlowLambda } from './payment-flow/infrastructure';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -86,13 +87,8 @@ export class Deployment extends Stack {
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        useEventBridgeLambdaHandler(
-            this,
-            UserEvents.CreateUser,
-            createUserHandler,
-            bus,
-            resources.eventRuleCreateUserHandler
-        );
+        paymentFlowLambda(this, this.lambdaSourceCode, bus);
+
         this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
@@ -343,7 +339,7 @@ export class Deployment extends Stack {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const createUser = lambdaFactory(
+        const lambda = lambdaFactory(
             this,
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
@@ -351,9 +347,17 @@ export class Deployment extends Stack {
             (createUserHandlerSettings as unknown) as { [key: string]: string }
         );
 
-        userTable.grantReadWriteData(createUser);
+        userTable.grantReadWriteData(lambda);
 
-        return createUser;
+        useEventBridgeLambdaHandler(
+            this,
+            UserEvents.CreateUser,
+            lambda,
+            systemBus,
+            resources.eventRuleCreateUserHandler
+        );
+
+        return lambda;
     }
 
     private systemEventStoreLambda(eventStore: Table): lambda.Function {
