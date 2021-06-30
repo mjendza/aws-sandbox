@@ -14,11 +14,13 @@ export interface CdkResources {
     dynamoDbUserTable: string;
     dynamoDbUserHomeRegionSortedGSI: string;
 
+    sqsUserEventsDeadLetterQueue: string;
     snsUserCreatedTopic: string;
 
     systemEventBridge: string;
     systemEventBridgeRole: string;
     systemEventBridgeDlq: string;
+
     systemEventBridgeLogGroup: string;
     systemAllEventsBusRule: string;
     systemCfnRulePushAllEvents: string;
@@ -42,6 +44,7 @@ export const resources: CdkResources = {
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',
 
+    sqsUserEventsDeadLetterQueue: 'sqs-users-event-dlq',
     snsUserCreatedTopic: 'user-created-topic',
 
     systemEventBridge: 'system-event-bridge',

@@ -7,7 +7,10 @@ import { EventBridgeEvent } from 'aws-lambda';
 import * as log from 'lambda-log';
 import { getEnvironmentSettingsKey } from '../../helpers/get-environment-settings-key';
 import { LambdaProxyError } from '../../helpers/lambda-proxy-error';
-import {PaymentFlow, PaymentFlowHandlerLambdaSettings} from "../../../../../cdk/payment-flow/infrastructure";
+import {
+    PaymentFlow,
+    PaymentFlowHandlerLambdaSettings,
+} from '../../../../../cdk/payment-flow/infrastructure';
 
 export const handler = async (
     event: EventBridgeEvent<string, any>

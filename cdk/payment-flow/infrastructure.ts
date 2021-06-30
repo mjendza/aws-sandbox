@@ -4,11 +4,13 @@ import { Stack } from '@aws-cdk/core';
 import { useEventBridgeLambdaHandler } from '../helpers/event-bridge/lambda-helpers';
 import { UserEvents } from '../../assets/lambda/src/events/user-event';
 import { EventBus } from '@aws-cdk/aws-events';
+import { IQueue } from '@aws-cdk/aws-sqs';
 
 export function paymentFlowLambda(
     stack: Stack,
     lambdaSourceCode: string,
-    bus: EventBus
+    bus: EventBus,
+    userDlq: IQueue
 ) {
     const settings: PaymentFlowHandlerLambdaSettings = {
         flowType: PaymentFlow.error,
@@ -25,7 +27,8 @@ export function paymentFlowLambda(
         UserEvents.UserCreated,
         lambda,
         bus,
-        resources.eventRuleUserCreatedHandler
+        resources.eventRuleUserCreatedHandler,
+        userDlq
     );
     return lambda;
 }
@@ -34,6 +37,6 @@ export interface PaymentFlowHandlerLambdaSettings {
     flowType: string;
 }
 
-export enum PaymentFlow{
-    error="ERROR"
+export enum PaymentFlow {
+    error = 'ERROR',
 }

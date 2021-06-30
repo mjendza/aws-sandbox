@@ -45,12 +45,10 @@ import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
-import {
-    useEventBridge,
-    useEventBridgeLambdaHandler,
-} from './helpers/event-bridge/lambda-helpers';
+import { useEventBridgeLambdaHandler } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
 import { paymentFlowLambda } from './payment-flow/infrastructure';
+import { IQueue } from '@aws-cdk/aws-sqs';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -64,6 +62,11 @@ export class Deployment extends Stack {
         const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
 
         const bus = this.setupEventBridge(eventStoreHandler);
+        const userDlq = new sqs.Queue(
+            this,
+            resources.sqsUserEventsDeadLetterQueue
+        );
+
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
@@ -81,13 +84,13 @@ export class Deployment extends Stack {
         );
         const usersApiEndpoint = api.root.addResource('users');
 
-        const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
+        this.createEndpoint(users, usersApiEndpoint, bus);
 
-        const createUserHandler = this.createUserEventHandlerLambda(users, bus);
+        this.createUserEventHandlerLambda(users, bus, userDlq);
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        paymentFlowLambda(this, this.lambdaSourceCode, bus);
+        paymentFlowLambda(this, this.lambdaSourceCode, bus, userDlq);
 
         this.getAllEndpoint(users, usersApiEndpoint);
 
@@ -105,9 +108,6 @@ export class Deployment extends Stack {
             topic,
             settings.snsUserNotificationEmails
         );
-
-        useEventBridge(createLambda, bus);
-        useEventBridge(createUserHandler, bus);
     }
 
     private createUsersTable(): Table {
@@ -332,7 +332,8 @@ export class Deployment extends Stack {
 
     private createUserEventHandlerLambda(
         userTable: Table,
-        systemBus: EventBus
+        systemBus: EventBus,
+        queue: IQueue
     ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
@@ -354,7 +355,8 @@ export class Deployment extends Stack {
             UserEvents.CreateUser,
             lambda,
             systemBus,
-            resources.eventRuleCreateUserHandler
+            resources.eventRuleCreateUserHandler,
+            queue
         );
 
         return lambda;
