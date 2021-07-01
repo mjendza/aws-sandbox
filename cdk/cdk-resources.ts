@@ -31,9 +31,9 @@ export interface CdkResources {
 export const resources: CdkResources = {
     apiGateway: 'api',
 
-    lambdaCreateUser: 'lambda-users-create',
-    lambdaGetAllUsers: 'lambda-users-get-all',
-    lambdaGetUserById: 'lambda-user-get-by-id',
+    lambdaCreateUser: 'lambda-users-rest-api-create',
+    lambdaGetAllUsers: 'lambda-users-rest-api-get-all',
+    lambdaGetUserById: 'lambda-user-rest-api-get-by-id',
 
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
     lambdaCreatedUserEventPublisher: 'lambda-created-user-event-publisher',
@@ -57,8 +57,3 @@ export const resources: CdkResources = {
     dynamoDbEventStoreTable: 'system-event-store',
 };
 
-export interface UserCreated {
-    id: string;
-    email: string;
-    createdAt: string;
-}

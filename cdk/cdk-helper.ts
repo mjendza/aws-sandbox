@@ -27,7 +27,7 @@ export interface CdkSettings {
 }
 
 export function generateResourceId(name: string) {
-    return `${envSettings.environment}-${name}`;
+    return `${name}`;
 }
 
 export function ssmParameterBuilder(lambdaResourceName: string): string {
