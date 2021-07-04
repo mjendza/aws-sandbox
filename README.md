@@ -118,6 +118,16 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 
 ## architecture
 
+### well architecture framework
+
+#### operational
+##### design principles
+- [x] Perform operations as code. With the CDK we keep each operation in the code and with helpers we can keep the elements in the best conditions (unit test CDK elements, governance with the project rules)
+- [x] Make frequent, small, reversible changes. With the Cloud Formation with each `cdk synth` operation we can apply changes in the stack with the rollback on failure.
+- [] Refine operations procedures frequently.
+- [] Anticipate failure. [issue](https://github.com/mjendza/aws-sandbox/issues/31)
+- [] Learn from all operational failures. 
+
 ### :cloud:
 
 #### Event Driven Architecture
