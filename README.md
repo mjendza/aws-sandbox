@@ -121,18 +121,33 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 ### well architecture framework
 
 #### operational
-##### design principles
-- [x] Perform operations as code. With the CDK we keep each operation in the code and with helpers we can keep the elements in the best conditions (unit test CDK elements, governance with the project rules)
-- [x] Make frequent, small, reversible changes. With the Cloud Formation with each `cdk synth` operation we can apply changes in the stack with the rollback on failure.
-- [] Refine operations procedures frequently.
-- [] Anticipate failure. [issue](https://github.com/mjendza/aws-sandbox/issues/31)
-- [] Learn from all operational failures. 
 
-#### reliability 
-##### design principles 
-- automatically recover from failure
-- Test recovery procedures
-- Scale horizontally to increase aggregate workload availability. To achieve the goal replicate dynamodb data to many regions. 
+##### design principles
+
+-   [x] Perform operations as code. With the CDK we keep each operation in the code and with helpers we can keep the elements in the best conditions (unit test CDK elements, governance with the project rules)
+-   [x] Make frequent, small, reversible changes. With the Cloud Formation with each `cdk synth` operation we can apply changes in the stack with the rollback on failure.
+-   [ ] Refine operations procedures frequently.
+-   [ ] Anticipate failure. [Issue](https://github.com/mjendza/aws-sandbox/issues/31)
+-   [ ] Learn from all operational failures.
+
+#### reliability
+
+##### design principles
+
+-   automatically recover from failure
+-   Test recovery procedures
+-   Scale horizontally to increase aggregate workload availability. To achieve the goal replicate dynamodb data to many regions.
+
+#### performance efficiency
+
+##### design principles
+
+-   [x] Democratize advanced technologies: Make advanced technology implementation easier for your team. In the current solution there is DynamoDB as a storage.
+-   [ ] Go global in minutes. [Issue](https://github.com/mjendza/aws-sandbox/issues/32)
+-   [x] Use serverless architectures. We use Lambda :cloud:
+-   [x] Experiment more often. With Lumigo account we can check-compare speed (memory) for lambda and time-response.
+-   [ ] Consider mechanical sympathy.
+
 ### :cloud:
 
 #### Event Driven Architecture
