@@ -128,6 +128,11 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 - [] Anticipate failure. [issue](https://github.com/mjendza/aws-sandbox/issues/31)
 - [] Learn from all operational failures. 
 
+#### reliability 
+##### design principles 
+- automatically recover from failure
+- Test recovery procedures
+- Scale horizontally to increase aggregate workload availability. To achieve the goal replicate dynamodb data to many regions. 
 ### :cloud:
 
 #### Event Driven Architecture
