@@ -45,7 +45,10 @@ import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
-import {useEventBridge, useEventBridgeLambdaHandler} from './helpers/event-bridge/lambda-helpers';
+import {
+    useEventBridge,
+    useEventBridgeLambdaHandler,
+} from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
 import { paymentFlowLambda } from './payment-flow/infrastructure';
 import { IQueue } from '@aws-cdk/aws-sqs';
@@ -87,7 +90,6 @@ export class Deployment extends Stack {
         this.createEndpoint(users, usersApiEndpoint, bus);
 
         this.createUserEventHandlerLambda(users, bus, userDlq);
-
 
         this.createdUserEventPublisherLambda(users, bus);
 

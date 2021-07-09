@@ -56,4 +56,3 @@ export const resources: CdkResources = {
     lambdaEventStore: 'system-event-store-lambda',
     dynamoDbEventStoreTable: 'system-event-store',
 };
-
