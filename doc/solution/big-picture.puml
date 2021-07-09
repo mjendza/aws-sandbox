@@ -1,0 +1,47 @@
+@startuml Application Architecture (b2c)
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+title
+Application Architecture
+end title
+
+caption MJendza
+
+
+System_Boundary(System, "System") {
+    Container(EventBridge, "EventBridge", "", "EventBus")
+    Person_Ext(MyEndUser, User, "End-User")
+}
+
+System_Boundary(users, "Users") {
+    ContainerDb(users_table, "Users Database", "DynamoDB", "Stores user data")
+
+    System_Boundary(Front, "API") {
+        Container(UsersAPI, "Users API", "API Gateway", "Api")
+    }
+
+    Container(CreateUserHandler, "CreateUserHandlerLambda", "Lambda", "ProxyIntegration Lambda Handler for API event")
+
+    Container(GetByIdUserHandler, "GetByIdUserHandler", "Lambda", "ProxyIntegration Lambda Handler for API event")
+
+    Container(QueryUserHandler, "CreateUserHandlerLambda", "Lambda", "ProxyIntegration Lambda Handler for API event")
+
+    Container(UserCreatedHandler, "CreateUserHandlerLambda", "Lambda", "Lambda Handler for DynamoDB streams event")
+    Container(CreateUserBusHandler, "CreateUserBusHandlerLambda", "Lambda", "Lambda Handler for EventBridge event")
+
+}
+Rel(UsersAPI, CreateUserHandler, "Uses", "HTTP POST create user")
+Rel(UsersAPI, GetByIdUserHandler, "Uses", "HTTP GET by id")
+Rel(UsersAPI, QueryUserHandler, "Uses", "HTTP GET query")
+
+Rel(MyEndUser, UsersAPI, "Uses")
+
+Rel(users_table, UserCreatedHandler, "publish stream")
+
+
+Rel(UserCreatedHandler, EventBridge, "publish UserCreated")
+Rel(EventBridge, CreateUserBusHandler, "publish CreateUser")
+
+
+Rel(CreateUserBusHandler, users_table, "put user")
+@enduml

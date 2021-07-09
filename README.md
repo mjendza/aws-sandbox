@@ -6,7 +6,7 @@ This is my sandbox AWS Serverless stack.
 
 ## Big Picture
 
-![big-picture](doc/solution/big-picture.png)
+![big-picture](doc/solution/Application_Architecture.png)
 
 ## Limitations
 
