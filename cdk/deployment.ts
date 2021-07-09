@@ -24,7 +24,8 @@ import {
 import {
     defaultDynamoDBSettings,
     generateResourceId,
-    lambdaFactory, replaceWithGround,
+    lambdaFactory,
+    replaceWithGround,
     snsFilterHelper,
     ssmParameterBuilder,
 } from './cdk-helper';
@@ -42,6 +43,14 @@ import {
 import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
+import { StartingPosition } from '@aws-cdk/aws-lambda';
+import {
+    AuthorizationType,
+    DynamoDbDataSource,
+    GraphqlApi,
+    MappingTemplate,
+    Schema,
+} from '@aws-cdk/aws-appsync';
 import {
     CreatedUserEventPublisherLambdaSettings,
     CreateUserApiLambdaSettings,
@@ -56,14 +65,8 @@ import {
     useEventBridge,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
-import { StartingPosition } from '@aws-cdk/aws-lambda';
-import {
-    AuthorizationType,
-    DynamoDbDataSource,
-    GraphqlApi,
-    MappingTemplate,
-    Schema,
-} from '@aws-cdk/aws-appsync';
+import { paymentFlowLambda } from './payment-flow/infrastructure';
+import { IQueue } from '@aws-cdk/aws-sqs';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -77,6 +80,11 @@ export class Deployment extends Stack {
         const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
 
         const bus = this.setupEventBridge(eventStoreHandler);
+        const userDlq = new sqs.Queue(
+            this,
+            resources.sqsUserEventsDeadLetterQueue
+        );
+
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
@@ -96,19 +104,14 @@ export class Deployment extends Stack {
 
         const usersApiEndpoint = api.root.addResource('users');
 
-        const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
+        this.createEndpoint(users, usersApiEndpoint, bus);
 
-        const createUserHandler = this.createUserEventHandlerLambda(users, bus);
+        this.createUserEventHandlerLambda(users, bus, userDlq);
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        useEventBridgeLambdaHandler(
-            this,
-            UserEvents.CreateUser,
-            createUserHandler,
-            bus,
-            resources.eventRuleCreateUserHandler
-        );
+        paymentFlowLambda(this, this.lambdaSourceCode, bus, userDlq);
+
         this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
@@ -125,9 +128,6 @@ export class Deployment extends Stack {
             topic,
             settings.snsUserNotificationEmails
         );
-
-        useEventBridge(createLambda, bus);
-        useEventBridge(createUserHandler, bus);
     }
 
     private createUsersTable(): Table {
@@ -187,6 +187,8 @@ export class Deployment extends Stack {
         const createOneIntegration = new LambdaIntegration(createOne);
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
+
+        useEventBridge(createOne, bus);
         return createOne;
     }
 
@@ -352,14 +354,15 @@ export class Deployment extends Stack {
 
     private createUserEventHandlerLambda(
         userTable: Table,
-        systemBus: EventBus
+        systemBus: EventBus,
+        queue: IQueue
     ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const createUser = lambdaFactory(
+        const lambda = lambdaFactory(
             this,
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
@@ -367,9 +370,18 @@ export class Deployment extends Stack {
             (createUserHandlerSettings as unknown) as { [key: string]: string }
         );
 
-        userTable.grantReadWriteData(createUser);
+        userTable.grantReadWriteData(lambda);
 
-        return createUser;
+        useEventBridgeLambdaHandler(
+            this,
+            UserEvents.CreateUser,
+            lambda,
+            systemBus,
+            resources.eventRuleCreateUserHandler,
+            queue
+        );
+
+        return lambda;
     }
 
     private systemEventStoreLambda(eventStore: Table): lambda.Function {
@@ -455,26 +467,24 @@ export class Deployment extends Stack {
     // }
 
     private setupAppSync(stack: Stack, users: Table) {
-        const api = new GraphqlApi(
-            this,
-            `graphql_api`,
-            {
-                name: replaceWithGround(`api-graphql-${settings.repositoryName}`),
-                schema: Schema.fromAsset('cdk/schema.graphql'),
-                authorizationConfig: {
-                    defaultAuthorization: {
-                        authorizationType: AuthorizationType.API_KEY,
-                        apiKeyConfig: {
-                            expires: Expiration.after(Duration.days(365)),
-                        },
+        const api = new GraphqlApi(this, `graphql_api`, {
+            name: replaceWithGround(`api-graphql-${settings.repositoryName}`),
+            schema: Schema.fromAsset('cdk/schema.graphql'),
+            authorizationConfig: {
+                defaultAuthorization: {
+                    authorizationType: AuthorizationType.API_KEY,
+                    apiKeyConfig: {
+                        expires: Expiration.after(Duration.days(365)),
                     },
                 },
-                xrayEnabled: true,
-            }
-        );
+            },
+            xrayEnabled: true,
+        });
         const dynamodbDataSource = new DynamoDbDataSource(
             this,
-            replaceWithGround(`api-graphql-${settings.repositoryName}-dynamo-data-source`),
+            replaceWithGround(
+                `api-graphql-${settings.repositoryName}-dynamo-data-source`
+            ),
             {
                 api,
                 table: users,

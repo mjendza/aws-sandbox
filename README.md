@@ -12,6 +12,8 @@ This is my sandbox AWS Serverless stack.
 
 This is single repository stack. In one place and as single CDK deployment we are creating all is needed to deliver working application.
 
+AWS vendor locked-in
+
 ## AWS
 
 -   CDK
@@ -40,7 +42,7 @@ This is single repository stack. In one place and as single CDK deployment we ar
 ```bash
 
 npm install
-npm run build:ts
+npm run build
 ```
 
 This will install the necessary CDK, then this example's dependencies, and then build your TypeScript files and your CloudFormation template.
@@ -49,23 +51,15 @@ This will install the necessary CDK, then this example's dependencies, and then 
 
 ### Prerequisites
 
-```
+```bash
 npm install -g aws-cdk
 ```
 
 ### Deployment needed commands
 
-$ cdk ls
-<list all stacks in this program>
-
-$ cdk synth
-<generates and outputs cloudformation template>
-
-$ cdk deploy
-<deploys stack to your account>
-
-$ cdk diff
-<shows diff against deployed stack>
+```bash
+npm run deploy
+```
 
 ## Development
 
@@ -99,6 +93,7 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 
 | Decision                            | Description                                                                                                                                                                                                                                   | Timeframe                                                         |
 | ----------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| :cloud: vendor locked-in            | The solution is locked-in in the AWS Cloud - we don't want to build Multi Cloud solution.                                                                                                                                                     | 21.03.2021 [PR1](https://github.com/mjendza/aws-sandbox/pull/1)   |
 | :hammer: Typescript                 | Typescript is awesome :heart: language for microservices (Typesafe and for small size of the repositories is maintainable). Very fast for prototyping and delivering simple solution.                                                         | 21.03.2021 [PR1](https://github.com/mjendza/aws-sandbox/pull/1)   |
 | :cloud: CDK                         | We can define deployment with the Typescript language and forget about YAML or JSON.                                                                                                                                                          | 21.03.2021 [PR1](https://github.com/mjendza/aws-sandbox/pull/1)   |
 | :cloud: github actions              | I want to try github actions as build server to CI. For now we don't want to publish stack to AWS.                                                                                                                                            | 23.03.2021 [PR3](https://github.com/mjendza/aws-sandbox/pull/3)   |
@@ -136,6 +131,11 @@ To deliver lousily coupled architecture the best option is to use the EventBridg
 -   max 5 targets
 
 ### lambda
+
+The lambda is written in N-Layer. This is a microservice, so logic should be so 'easy' and hope in this can be migrated without any refactoring into hexagonal architecture.  
+On the picture there is a flow inside the lambda. There is a Service Layer with the dedicated model from the Lambda event. For the persistence layer is a repository to communicate (makes) requests to the DynamoDB.
+
+![n-layer](doc/solution/lambda-architecture-Lambda_Architecture_N_Layer.png)
 
 #### helpers
 

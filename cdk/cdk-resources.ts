@@ -8,15 +8,19 @@ export interface CdkResources {
     lambdaCreateUserEventHandler: string;
     lambdaCreatedUserEventPublisher: string;
     eventRuleCreateUserHandler: string;
+    lambdaPaymentFlowEventHandler: string;
+    eventRuleUserCreatedHandler: string;
 
     dynamoDbUserTable: string;
     dynamoDbUserHomeRegionSortedGSI: string;
 
+    sqsUserEventsDeadLetterQueue: string;
     snsUserCreatedTopic: string;
 
     systemEventBridge: string;
     systemEventBridgeRole: string;
     systemEventBridgeDlq: string;
+
     systemEventBridgeLogGroup: string;
     systemAllEventsBusRule: string;
     systemCfnRulePushAllEvents: string;
@@ -27,17 +31,20 @@ export interface CdkResources {
 export const resources: CdkResources = {
     apiGateway: 'api',
 
-    lambdaCreateUser: 'lambda-users-create',
-    lambdaGetAllUsers: 'lambda-users-get-all',
-    lambdaGetUserById: 'lambda-user-get-by-id',
+    lambdaCreateUser: 'lambda-users-rest-api-create',
+    lambdaGetAllUsers: 'lambda-users-rest-api-get-all',
+    lambdaGetUserById: 'lambda-user-rest-api-get-by-id',
 
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
     lambdaCreatedUserEventPublisher: 'lambda-created-user-event-publisher',
     eventRuleCreateUserHandler: 'rule-create-user-event-handler',
+    lambdaPaymentFlowEventHandler: 'lambda-payment-flow-event-handler',
+    eventRuleUserCreatedHandler: 'rule-user-created-event-handler',
 
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',
 
+    sqsUserEventsDeadLetterQueue: 'sqs-users-event-dlq',
     snsUserCreatedTopic: 'user-created-topic',
 
     systemEventBridge: 'system-event-bridge',

@@ -27,7 +27,7 @@ export interface CdkSettings {
 }
 
 export function generateResourceId(name: string) {
-    return `${envSettings.environment}-${name}`;
+    return `${name}`;
 }
 
 export function ssmParameterBuilder(lambdaResourceName: string): string {
@@ -74,6 +74,6 @@ export function snsFilterHelper() {
     };
 }
 
-export function replaceWithGround(toConvert:string): string{
+export function replaceWithGround(toConvert: string): string {
     return toConvert.replace(/-/g, '_');
 }

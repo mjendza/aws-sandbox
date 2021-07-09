@@ -36,7 +36,7 @@ test('CDK Lambda functions', () => {
         Runtime: 'nodejs14.x',
     });
     expect(stack).to(result);
-    expect(stack).to(countResources('AWS::Lambda::Function', 8));
+    expect(stack).to(countResources('AWS::Lambda::Function', 9));
 });
 
 test('CDK EventBridge', () => {
