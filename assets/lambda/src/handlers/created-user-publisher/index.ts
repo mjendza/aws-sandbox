@@ -23,6 +23,7 @@ export const handler = async (event: any): Promise<any> => {
                         UserEvents.UserCreated,
                         'DynamoDB-Event-Stream'
                     );
+                    log.info(`START USER-CREATE DYNAMO-DB`);
                 }
             })
         );

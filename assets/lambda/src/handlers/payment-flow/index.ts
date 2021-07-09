@@ -16,6 +16,7 @@ export const handler = async (
     event: EventBridgeEvent<string, any>
 ): Promise<void> => {
     try {
+        log.info(`START USER-CREATE PAYMENT`);
         log.info(`event: ${JSON.stringify(event)}`);
         const model = validateEventBridge<UserCreatedEvent>(
             event,
