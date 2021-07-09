@@ -42,7 +42,7 @@ AWS vendor locked-in
 ```bash
 
 npm install
-npm run build:ts
+npm run build
 ```
 
 This will install the necessary CDK, then this example's dependencies, and then build your TypeScript files and your CloudFormation template.
@@ -51,23 +51,15 @@ This will install the necessary CDK, then this example's dependencies, and then 
 
 ### Prerequisites
 
-```
+```bash
 npm install -g aws-cdk
 ```
 
 ### Deployment needed commands
 
-$ cdk ls
-<list all stacks in this program>
-
-$ cdk synth
-<generates and outputs cloudformation template>
-
-$ cdk deploy
-<deploys stack to your account>
-
-$ cdk diff
-<shows diff against deployed stack>
+```bash
+npm run deploy
+```
 
 ## Development
 

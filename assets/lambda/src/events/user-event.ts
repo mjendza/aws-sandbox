@@ -14,7 +14,7 @@ export interface CreateUserApiEvent {
     id?: string;
 }
 
-export interface UserCreated extends SystemEventStorePushEvent {
+export interface UserCreatedEvent extends SystemEventStorePushEvent {
     email: string;
     createdAt: string;
     tags: string[];
