@@ -1,7 +1,6 @@
 import { UserEntity } from './user-entity';
 import { UserRepository } from './user-repository';
 import { CreateUserEvent, UserCreatedEvent } from '../events/user-event';
-import * as uuid from 'uuid';
 import { resources } from '../../../../cdk/cdk-resources';
 import { SystemEventBridgeRepository } from '../helpers/event-bridge/system-event-bridge-repository';
 
@@ -13,7 +12,7 @@ export class CreateUserService {
 
     async create(model: CreateUserEvent): Promise<string> {
         const entity: UserEntity = {
-            id: uuid.v4(),
+            id: model.id,
             email: model.email,
             createdAt: new Date(Date.now()).toISOString(),
             tags: [],
