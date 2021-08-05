@@ -4,6 +4,7 @@
     "description": "My AWS Sandbox",
     "scripts": {
         "deploy": "npm run build --prefix ./assets/lambda && npm run build && cdk synth && cdk deploy --all",
+        "deploy:check": "npm run build --prefix ./assets/lambda && npm run build && cdk synth",
         "build:ts": "tsc",
         "build": "npm run build:ts && npm run test",
         "doc:diag:big-picture": "cdk-dia",
