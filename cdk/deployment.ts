@@ -6,8 +6,7 @@ import {
     Table,
 } from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as iam from '@aws-cdk/aws-iam';
-import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { PolicyStatement } from '@aws-cdk/aws-iam';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
@@ -46,7 +45,9 @@ import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
+    allowCfnRoleToInvokeLambda,
     allowLambdaToPushEventsToEventBridge,
+    allowToEventBridgeCfnRuleCanPushMessageToDlq,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
@@ -80,10 +81,6 @@ export class Deployment extends Stack {
             eventStoreHandler,
             systemEventBridgeDeadLetterQueue
         );
-        // const userDlq = new sqs.Queue(
-        //     this,
-        //     resources.sqsUserEventsDeadLetterQueue
-        // );
 
         const api = new RestApi(
             this,
@@ -293,17 +290,9 @@ export class Deployment extends Stack {
                 ],
             }
         );
-        queue.addToResourcePolicy(
-            new iam.PolicyStatement({
-                actions: ['sqs:SendMessage'],
-                resources: [queue.queueArn],
-                principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-            })
-        );
-        eventStoreHandler.addPermission('invoke-eventStoreHandler', {
-            principal: new ServicePrincipal('events.amazonaws.com'),
-            sourceArn: allEventsRule.attrArn,
-        });
+        allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus);
+
+        allowCfnRoleToInvokeLambda(eventStoreHandler, bus, allEventsRule);
 
         this.grantWriteLogsForRule(logGroup.logGroupArn);
 

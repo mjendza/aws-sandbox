@@ -1,11 +1,10 @@
-import { EventBus, Rule } from '@aws-cdk/aws-events';
+import { CfnRule, EventBus, Rule } from '@aws-cdk/aws-events';
 import * as lambda from '@aws-cdk/aws-lambda';
 import { generateResourceId } from '../../cdk-helper';
 import { Duration, Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
-import * as iam from '@aws-cdk/aws-iam';
-import { ServicePrincipal } from '@aws-cdk/aws-iam';
 import { LambdaFunction as LambdaFunctionTarget } from '@aws-cdk/aws-events-targets';
+import { ServicePrincipal } from '@aws-cdk/aws-iam';
 
 export function allowLambdaToPushEventsToEventBridge(
     lambda: lambda.Function,
@@ -14,27 +13,39 @@ export function allowLambdaToPushEventsToEventBridge(
     eb.grantPutEventsTo(lambda);
 }
 
+export function allowCfnRoleToInvokeLambda(
+    lambda: lambda.Function,
+    eb: EventBus,
+    rule: CfnRule
+) {
+    //lambda.grantInvoke(new ArnPrincipal(rule.attrArn));
+    lambda.grantInvoke(new ServicePrincipal('events.amazonaws.com'));
+}
+
 export function allowEventBridgeRuleToInvokeLambdaHandler(
     lambda: lambda.Function,
     rule: Rule,
     ruleId: string
 ) {
-    lambda.addPermission(
-        `${generateResourceId(ruleId)}-rule-lambda-call-Permission`,
-        {
-            principal: new ServicePrincipal('events.amazonaws.com'),
-            sourceArn: rule.ruleArn,
-        }
-    );
+    lambda.grantInvoke(new ServicePrincipal('events.amazonaws.com'));
 }
-export function allowToEventBridgeCanPushMessageToDlq(queue: IQueue) {
-    queue.addToResourcePolicy(
-        new iam.PolicyStatement({
-            actions: ['sqs:SendMessage', 'sqs:SendMessageBatch', 'sqs:ChangeMessageVisibilityBatch'],
-            resources: [queue.queueArn],
-            principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-        })
-    );
+
+export function allowToEventBridgeCfnRuleCanPushMessageToDlq(
+    queue: IQueue,
+    rule: CfnRule,
+    bus: EventBus
+) {
+    // queue.grantSendMessages(new ArnPrincipal(bus.eventBusArn));
+    // queue.grantSendMessages(new ArnPrincipal(rule.attrArn));
+}
+
+export function allowToEventBridgeCanPushMessageToDlq(
+    queue: IQueue,
+    rule: Rule,
+    bus: EventBus
+) {
+    // queue.grantSendMessages(new ArnPrincipal(bus.eventBusArn));
+    // queue.grantSendMessages(new ArnPrincipal(rule.ruleArn));
 }
 
 export function useEventBridgeLambdaHandler(
@@ -60,9 +71,9 @@ export function useEventBridgeLambdaHandler(
             retryAttempts: 4, // Optional: set the max number of retry attempts
         })
     );
-    if(assignPermissions===undefined || assignPermissions == true){
-        allowEventBridgeRuleToInvokeLambdaHandler(lambda, rule, ruleId);
+    if (assignPermissions === undefined || assignPermissions == true) {
     }
-    allowToEventBridgeCanPushMessageToDlq(queue);
+    allowToEventBridgeCanPushMessageToDlq(queue, rule, eb);
+    allowEventBridgeRuleToInvokeLambdaHandler(lambda, rule, ruleId);
     allowLambdaToPushEventsToEventBridge(lambda, eb);
 }
