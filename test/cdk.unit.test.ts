@@ -44,7 +44,7 @@ test('CDK EventBridge', () => {
 //     }));
 // });
 
-function getSut(){
+function getSut() {
     const app = new cdk.App();
     return new sut.Deployment(app, 'MyTestStack', {});
 }

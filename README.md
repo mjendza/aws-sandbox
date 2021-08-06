@@ -61,10 +61,10 @@ npm install -g aws-cdk
 npm run deploy
 ```
 
-
 ```bash
 npx cdk deploy --profile name-of-the-profile
 ```
+
 ## Development
 
 ### CDK
