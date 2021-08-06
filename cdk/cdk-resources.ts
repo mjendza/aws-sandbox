@@ -20,6 +20,7 @@ export interface CdkResources {
     systemEventBridge: string;
     systemEventBridgeRole: string;
     systemEventBridgeDlq: string;
+    systemEventBridgeDlqAlarm: string;
 
     systemEventBridgeLogGroup: string;
     systemAllEventsBusRule: string;
@@ -50,6 +51,8 @@ export const resources: CdkResources = {
     systemEventBridge: 'system-event-bridge',
     systemEventBridgeRole: 'system-event-bridge-role',
     systemEventBridgeDlq: 'system-event-bridge-dead-letter-queue',
+    systemEventBridgeDlqAlarm: 'system-event-bridge-dead-letter-queue-alarm',
+
     systemEventBridgeLogGroup: 'system-event-bridge-log-group',
     systemAllEventsBusRule: 'system-all-events-bus-rule',
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',
