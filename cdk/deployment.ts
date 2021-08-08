@@ -1,18 +1,14 @@
-import {
-    AttributeType,
-    BillingMode,
-    ProjectionType,
-    StreamViewType,
-    Table,
-} from '@aws-cdk/aws-dynamodb';
+import {AttributeType, BillingMode, ProjectionType, StreamViewType, Table,} from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
-import { PolicyStatement } from '@aws-cdk/aws-iam';
-import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
-import { Topic } from '@aws-cdk/aws-sns';
+import {StartingPosition} from '@aws-cdk/aws-lambda';
+import { Effect, PolicyStatement} from '@aws-cdk/aws-iam';
+import {EmailSubscription} from '@aws-cdk/aws-sns-subscriptions';
+import {Topic} from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
-import { CfnRule, EventBus } from '@aws-cdk/aws-events';
-import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
+import {IQueue} from '@aws-cdk/aws-sqs';
+import {CfnRule, EventBus} from '@aws-cdk/aws-events';
+import {DynamoEventSource} from '@aws-cdk/aws-lambda-event-sources';
+import {App, RemovalPolicy, Stack, StackProps} from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -20,40 +16,29 @@ import {
     snsFilterHelper,
     ssmParameterBuilder,
 } from './cdk-helper';
-import {
-    AwsCustomResource,
-    AwsCustomResourcePolicy,
-    PhysicalResourceId,
-} from '@aws-cdk/custom-resources';
-import {
-    LambdaIntegration,
-    MethodLoggingLevel,
-    Resource,
-    RestApi,
-} from '@aws-cdk/aws-apigateway';
-import { addCorsOptions } from './deployment-base';
+import {AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId,} from '@aws-cdk/custom-resources';
+import {LambdaIntegration, MethodLoggingLevel, Resource, RestApi,} from '@aws-cdk/aws-apigateway';
+import {addCorsOptions} from './deployment-base';
 import * as settings from './settings.json';
-import { resources } from './cdk-resources';
+import {resources} from './cdk-resources';
 import {
     CreatedUserEventPublisherLambdaSettings,
     CreateUserApiLambdaSettings,
     CreateUserHandlerLambdaSettings,
     UserLambdaSettings,
 } from './settings/lambda-settings';
-import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-import { StringParameter } from '@aws-cdk/aws-ssm';
-import { UserEvents } from '../assets/lambda/src/events/user-event';
-import { SystemLambdaSettings } from './settings/system-lambda-settings';
+import {LogGroup, RetentionDays} from '@aws-cdk/aws-logs';
+import {StringParameter} from '@aws-cdk/aws-ssm';
+import {UserEvents} from '../assets/lambda/src/events/user-event';
+import {SystemLambdaSettings} from './settings/system-lambda-settings';
 import {
     allowCfnRoleToInvokeLambda,
     allowLambdaToPushEventsToEventBridge,
     allowToEventBridgeCfnRuleCanPushMessageToDlq,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
-import { StartingPosition } from '@aws-cdk/aws-lambda';
-import { paymentFlowLambda } from './payment-flow/infrastructure';
-import { IQueue } from '@aws-cdk/aws-sqs';
-import { Alarm } from '@aws-cdk/aws-cloudwatch';
+import {paymentFlowLambda} from './payment-flow/infrastructure';
+import {Alarm} from '@aws-cdk/aws-cloudwatch';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -69,7 +54,12 @@ export class Deployment extends Stack {
             this,
             resources.systemEventBridgeDlq
         );
-
+        const qPolicy = new PolicyStatement();
+        qPolicy.effect = Effect.ALLOW;
+        qPolicy.addServicePrincipal('events.amazonaws.com');
+        qPolicy.addActions("sqs:SendMessage", "sqs:GetQueueAttributes", "sqs:GetQueueUrl");
+        qPolicy.addResources(systemEventBridgeDeadLetterQueue.queueArn);
+        systemEventBridgeDeadLetterQueue.addToResourcePolicy(qPolicy);
         new Alarm(this, `${id}-Alarm`, {
             alarmDescription: `Event listener ${id} has failed to process an event.`,
             evaluationPeriods: 1,
@@ -79,7 +69,8 @@ export class Deployment extends Stack {
 
         const bus = this.setupEventBridge(
             eventStoreHandler,
-            systemEventBridgeDeadLetterQueue
+            systemEventBridgeDeadLetterQueue,
+            qPolicy
         );
 
         const api = new RestApi(
@@ -104,7 +95,8 @@ export class Deployment extends Stack {
         this.createUserEventHandlerLambda(
             users,
             bus,
-            systemEventBridgeDeadLetterQueue
+            systemEventBridgeDeadLetterQueue,
+            qPolicy
         );
 
         this.createdUserEventPublisherLambda(users, bus);
@@ -113,7 +105,8 @@ export class Deployment extends Stack {
             this,
             this.lambdaSourceCode,
             bus,
-            systemEventBridgeDeadLetterQueue
+            systemEventBridgeDeadLetterQueue,
+            qPolicy
         );
 
         this.getAllEndpoint(users, usersApiEndpoint);
@@ -132,6 +125,8 @@ export class Deployment extends Stack {
             topic,
             settings.snsUserNotificationEmails
         );
+
+
     }
 
     private createUsersTable(): Table {
@@ -243,7 +238,8 @@ export class Deployment extends Stack {
 
     private setupEventBridge(
         eventStoreHandler: lambda.Function,
-        queue: IQueue
+        queue: IQueue,
+        qPolicy: PolicyStatement
     ): EventBus {
         const logGroup = new LogGroup(
             this,
@@ -290,12 +286,37 @@ export class Deployment extends Stack {
                 ],
             }
         );
-        allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus);
+        allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus, qPolicy);
 
         allowCfnRoleToInvokeLambda(eventStoreHandler, bus, allEventsRule);
 
         this.grantWriteLogsForRule(logGroup.logGroupArn);
 
+
+        // qPolicy.addStatements({
+        //     effect: Effect.ALLOW,
+        //     principal: new ServicePrincipal('events.amazonaws.com'),
+        //     action: ,
+        //     resource: queue.queueArn,
+        //     condition
+        // });
+        ///
+        // {
+        //     "Sid": "Dead-letter queue permissions",
+        //     "Effect": "Allow",
+        //     "Principal": {
+        //     "Service": "events.amazonaws.com"
+        // },
+        //     "Action": "sqs:SendMessage",
+        //     "Resource": "arn:aws:sqs:us-west-2:123456789012:MyEventDLQ",
+        //     "Condition": {
+        //     "ArnEquals": {
+        //         "aws:SourceArn": "arn:aws:events:us-west-2:123456789012:rule/MyTestRule"
+        //     }
+        // }
+        // }
+        //queue.grantSendMessages(new ServicePrincipal('events.amazonaws.com'));
+        // queue.grantSendMessages(new ArnPrincipal('arn:aws:events:eu-central-1:073659099934:rule/devawssandboxsystemeventbridgeBD79C593/dev-aws-sandbox-ruleusercreatedeventhandler7D7B710-AGD2CHV3A21'));
         return bus;
     }
 
@@ -349,7 +370,8 @@ export class Deployment extends Stack {
     private createUserEventHandlerLambda(
         userTable: Table,
         systemBus: EventBus,
-        queue: IQueue
+        queue: IQueue,
+        qPolicy: PolicyStatement
     ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
@@ -372,7 +394,8 @@ export class Deployment extends Stack {
             lambda,
             systemBus,
             resources.eventRuleCreateUserHandler,
-            queue
+            queue,
+            qPolicy
         );
 
         return lambda;
