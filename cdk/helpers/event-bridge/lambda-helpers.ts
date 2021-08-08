@@ -4,7 +4,7 @@ import { generateResourceId } from '../../cdk-helper';
 import { Duration, Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
 import { LambdaFunction as LambdaFunctionTarget } from '@aws-cdk/aws-events-targets';
-import {PolicyStatement, ServicePrincipal} from '@aws-cdk/aws-iam';
+import {Effect, PolicyStatement, ServicePrincipal} from '@aws-cdk/aws-iam';
 
 export function allowLambdaToPushEventsToEventBridge(
     lambda: lambda.Function,
@@ -33,12 +33,18 @@ export function allowEventBridgeRuleToInvokeLambdaHandler(
 export function allowToEventBridgeCfnRuleCanPushMessageToDlq(
     queue: IQueue,
     rule: CfnRule,
-    bus: EventBus,
-    qPolicy: PolicyStatement
+    bus: EventBus
 ) {
+    const qPolicy = new PolicyStatement();
+    qPolicy.effect = Effect.ALLOW;
+    qPolicy.addServicePrincipal('events.amazonaws.com');
+    qPolicy.addActions("sqs:SendMessage", "sqs:GetQueueAttributes", "sqs:GetQueueUrl");
+    qPolicy.addResources(queue.queueArn);
+
     qPolicy.addCondition("ArnEquals", {
         "aws:SourceArn": rule.attrArn
     });
+    queue.addToResourcePolicy(qPolicy);
     //queue.grantSendMessages(new ServicePrincipal('events.amazonaws.com'));
     // queue.grantSendMessages(new ArnPrincipal(bus.eventBusArn));
     //queue.grantSendMessages(new ArnPrincipal(rule.attrArn));
@@ -47,12 +53,18 @@ export function allowToEventBridgeCfnRuleCanPushMessageToDlq(
 export function allowToEventBridgeCanPushMessageToDlq(
     queue: IQueue,
     rule: Rule,
-    bus: EventBus,
-    qPolicy: PolicyStatement
+    bus: EventBus
 ) {
+    const qPolicy = new PolicyStatement();
+    qPolicy.effect = Effect.ALLOW;
+    qPolicy.addServicePrincipal('events.amazonaws.com');
+    qPolicy.addActions("sqs:SendMessage", "sqs:GetQueueAttributes", "sqs:GetQueueUrl");
+    qPolicy.addResources(queue.queueArn);
+
     qPolicy.addCondition("ArnEquals", {
         "aws:SourceArn": rule.ruleArn
     });
+    queue.addToResourcePolicy(qPolicy);
     //queue.grantSendMessages(new ServicePrincipal('events.amazonaws.com'));
     // queue.grantSendMessages(new ArnPrincipal(bus.eventBusArn));
     // queue.grantSendMessages(new ArnPrincipal(rule.ruleArn));
@@ -65,7 +77,6 @@ export function useEventBridgeLambdaHandler(
     eb: EventBus,
     ruleId: string,
     queue: IQueue,
-    qPolicy: PolicyStatement ,
     assignPermissions?: boolean
 ) {
     const rule = new Rule(stack, generateResourceId(ruleId), {
@@ -83,8 +94,9 @@ export function useEventBridgeLambdaHandler(
         })
     );
     if (assignPermissions === undefined || assignPermissions == true) {
+        allowEventBridgeRuleToInvokeLambdaHandler(lambda, rule, ruleId);
+        allowLambdaToPushEventsToEventBridge(lambda, eb);
     }
-    allowToEventBridgeCanPushMessageToDlq(queue, rule, eb, qPolicy);
-    allowEventBridgeRuleToInvokeLambdaHandler(lambda, rule, ruleId);
-    allowLambdaToPushEventsToEventBridge(lambda, eb);
+    allowToEventBridgeCanPushMessageToDlq(queue, rule, eb);
+
 }

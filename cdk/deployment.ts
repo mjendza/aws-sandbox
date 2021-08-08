@@ -1,7 +1,7 @@
 import {AttributeType, BillingMode, ProjectionType, StreamViewType, Table,} from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
 import {StartingPosition} from '@aws-cdk/aws-lambda';
-import { Effect, PolicyStatement} from '@aws-cdk/aws-iam';
+import { PolicyStatement} from '@aws-cdk/aws-iam';
 import {EmailSubscription} from '@aws-cdk/aws-sns-subscriptions';
 import {Topic} from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
@@ -54,12 +54,7 @@ export class Deployment extends Stack {
             this,
             resources.systemEventBridgeDlq
         );
-        const qPolicy = new PolicyStatement();
-        qPolicy.effect = Effect.ALLOW;
-        qPolicy.addServicePrincipal('events.amazonaws.com');
-        qPolicy.addActions("sqs:SendMessage", "sqs:GetQueueAttributes", "sqs:GetQueueUrl");
-        qPolicy.addResources(systemEventBridgeDeadLetterQueue.queueArn);
-        systemEventBridgeDeadLetterQueue.addToResourcePolicy(qPolicy);
+
         new Alarm(this, `${id}-Alarm`, {
             alarmDescription: `Event listener ${id} has failed to process an event.`,
             evaluationPeriods: 1,
@@ -69,8 +64,7 @@ export class Deployment extends Stack {
 
         const bus = this.setupEventBridge(
             eventStoreHandler,
-            systemEventBridgeDeadLetterQueue,
-            qPolicy
+            systemEventBridgeDeadLetterQueue
         );
 
         const api = new RestApi(
@@ -95,8 +89,7 @@ export class Deployment extends Stack {
         this.createUserEventHandlerLambda(
             users,
             bus,
-            systemEventBridgeDeadLetterQueue,
-            qPolicy
+            systemEventBridgeDeadLetterQueue
         );
 
         this.createdUserEventPublisherLambda(users, bus);
@@ -105,8 +98,7 @@ export class Deployment extends Stack {
             this,
             this.lambdaSourceCode,
             bus,
-            systemEventBridgeDeadLetterQueue,
-            qPolicy
+            systemEventBridgeDeadLetterQueue
         );
 
         this.getAllEndpoint(users, usersApiEndpoint);
@@ -238,8 +230,7 @@ export class Deployment extends Stack {
 
     private setupEventBridge(
         eventStoreHandler: lambda.Function,
-        queue: IQueue,
-        qPolicy: PolicyStatement
+        queue: IQueue
     ): EventBus {
         const logGroup = new LogGroup(
             this,
@@ -286,7 +277,7 @@ export class Deployment extends Stack {
                 ],
             }
         );
-        allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus, qPolicy);
+        allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus);
 
         allowCfnRoleToInvokeLambda(eventStoreHandler, bus, allEventsRule);
 
@@ -370,8 +361,7 @@ export class Deployment extends Stack {
     private createUserEventHandlerLambda(
         userTable: Table,
         systemBus: EventBus,
-        queue: IQueue,
-        qPolicy: PolicyStatement
+        queue: IQueue
     ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
@@ -394,8 +384,7 @@ export class Deployment extends Stack {
             lambda,
             systemBus,
             resources.eventRuleCreateUserHandler,
-            queue,
-            qPolicy
+            queue
         );
 
         return lambda;

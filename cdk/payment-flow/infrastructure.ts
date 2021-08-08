@@ -5,14 +5,12 @@ import { useEventBridgeLambdaHandler } from '../helpers/event-bridge/lambda-help
 import { UserEvents } from '../../assets/lambda/src/events/user-event';
 import { EventBus } from '@aws-cdk/aws-events';
 import { IQueue } from '@aws-cdk/aws-sqs';
-import {PolicyStatement} from "@aws-cdk/aws-iam";
 
 export function paymentFlowLambda(
     stack: Stack,
     lambdaSourceCode: string,
     bus: EventBus,
-    userDlq: IQueue,
-    qPolicy: PolicyStatement
+    userDlq: IQueue
 ) {
     const settings: PaymentFlowHandlerLambdaSettings = {
         flowType: PaymentFlow.error,
@@ -31,7 +29,6 @@ export function paymentFlowLambda(
         bus,
         resources.eventRuleUserCreatedHandler,
         userDlq,
-        qPolicy,
         false
     );
     return lambda;
