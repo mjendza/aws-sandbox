@@ -28,7 +28,8 @@ export function paymentFlowLambda(
         lambda,
         bus,
         resources.eventRuleUserCreatedHandler,
-        userDlq
+        userDlq,
+        false
     );
     return lambda;
 }

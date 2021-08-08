@@ -6,14 +6,15 @@ import {
     Table,
 } from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
-import * as iam from '@aws-cdk/aws-iam';
-import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
+import { StartingPosition } from '@aws-cdk/aws-lambda';
+import { PolicyStatement } from '@aws-cdk/aws-iam';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
+import { IQueue } from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
+import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -46,28 +47,39 @@ import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
-    useEventBridge,
+    allowEventBridgeToInvokeLambda,
+    allowLambdaToPushEventsToEventBridge,
+    allowToEventBridgeCfnRuleCanPushMessageToDlq,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
-import { StartingPosition } from '@aws-cdk/aws-lambda';
 import { paymentFlowLambda } from './payment-flow/infrastructure';
-import { IQueue } from '@aws-cdk/aws-sqs';
+import { Alarm } from '@aws-cdk/aws-cloudwatch';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
 
-    constructor(app: App, id: string) {
-        super(app, id);
+    constructor(app: App, id: string, prop: StackProps) {
+        super(app, id, prop);
 
         const users = this.createUsersTable();
 
         const eventStorage = this.createSystemEventStoreTable();
         const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
-
-        const bus = this.setupEventBridge(eventStoreHandler);
-        const userDlq = new sqs.Queue(
+        const systemEventBridgeDeadLetterQueue = new sqs.Queue(
             this,
-            resources.sqsUserEventsDeadLetterQueue
+            resources.systemEventBridgeDlq
+        );
+
+        new Alarm(this, `${id}-Alarm`, {
+            alarmDescription: `Event listener ${id} has failed to process an event.`,
+            evaluationPeriods: 1,
+            metric: systemEventBridgeDeadLetterQueue.metricNumberOfMessagesReceived(),
+            threshold: 1,
+        });
+
+        const bus = this.setupEventBridge(
+            eventStoreHandler,
+            systemEventBridgeDeadLetterQueue
         );
 
         const api = new RestApi(
@@ -89,11 +101,20 @@ export class Deployment extends Stack {
 
         this.createEndpoint(users, usersApiEndpoint, bus);
 
-        this.createUserEventHandlerLambda(users, bus, userDlq);
+        this.createUserEventHandlerLambda(
+            users,
+            bus,
+            systemEventBridgeDeadLetterQueue
+        );
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        paymentFlowLambda(this, this.lambdaSourceCode, bus, userDlq);
+        paymentFlowLambda(
+            this,
+            this.lambdaSourceCode,
+            bus,
+            systemEventBridgeDeadLetterQueue
+        );
 
         this.getAllEndpoint(users, usersApiEndpoint);
 
@@ -111,6 +132,8 @@ export class Deployment extends Stack {
             topic,
             settings.snsUserNotificationEmails
         );
+
+        allowEventBridgeToInvokeLambda(eventStoreHandler, bus);
     }
 
     private createUsersTable(): Table {
@@ -171,7 +194,7 @@ export class Deployment extends Stack {
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
 
-        useEventBridge(createOne, bus);
+        allowLambdaToPushEventsToEventBridge(createOne, bus);
         return createOne;
     }
 
@@ -220,13 +243,16 @@ export class Deployment extends Stack {
         );
     }
 
-    private setupEventBridge(eventStoreHandler: lambda.Function): EventBus {
+    private setupEventBridge(
+        eventStoreHandler: lambda.Function,
+        queue: IQueue
+    ): EventBus {
         const logGroup = new LogGroup(
             this,
             generateResourceId(resources.systemEventBridgeLogGroup),
             {
-                logGroupName: `/aws/events/${settings.environment}-system-events`,
-                retention: RetentionDays.ONE_DAY,
+                logGroupName: `/aws/events/${settings.environment}/${settings.repositoryName}-system-events`,
+                retention: RetentionDays.ONE_MONTH,
             }
         );
         const busId = generateResourceId(resources.systemEventBridge);
@@ -239,8 +265,6 @@ export class Deployment extends Stack {
             stringValue: bus.eventBusName,
             // allowedPattern: '.*',
         });
-
-        const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
@@ -268,23 +292,34 @@ export class Deployment extends Stack {
                 ],
             }
         );
-        queue.addToResourcePolicy(
-            new iam.PolicyStatement({
-                actions: ['sqs:SendMessage'],
-                resources: [queue.queueArn],
-                principals: [new iam.ServicePrincipal('events.amazonaws.com')],
-                conditions: {
-                    ArnEquals: { 'aws:SourceArn': allEventsRule.attrArn },
-                },
-            })
-        );
-        eventStoreHandler.addPermission('invoke-eventStoreHandler', {
-            principal: new ServicePrincipal('events.amazonaws.com'),
-            sourceArn: allEventsRule.attrArn,
-        });
+        allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus);
 
         this.grantWriteLogsForRule(logGroup.logGroupArn);
 
+        // qPolicy.addStatements({
+        //     effect: Effect.ALLOW,
+        //     principal: new ServicePrincipal('events.amazonaws.com'),
+        //     action: ,
+        //     resource: queue.queueArn,
+        //     condition
+        // });
+        ///
+        // {
+        //     "Sid": "Dead-letter queue permissions",
+        //     "Effect": "Allow",
+        //     "Principal": {
+        //     "Service": "events.amazonaws.com"
+        // },
+        //     "Action": "sqs:SendMessage",
+        //     "Resource": "arn:aws:sqs:us-west-2:123456789012:MyEventDLQ",
+        //     "Condition": {
+        //     "ArnEquals": {
+        //         "aws:SourceArn": "arn:aws:events:us-west-2:123456789012:rule/MyTestRule"
+        //     }
+        // }
+        // }
+        //queue.grantSendMessages(new ServicePrincipal('events.amazonaws.com'));
+        // queue.grantSendMessages(new ArnPrincipal('arn:aws:events:eu-central-1:073659099934:rule/devawssandboxsystemeventbridgeBD79C593/dev-aws-sandbox-ruleusercreatedeventhandler7D7B710-AGD2CHV3A21'));
         return bus;
     }
 
@@ -367,9 +402,9 @@ export class Deployment extends Stack {
         return lambda;
     }
 
-    private systemEventStoreLambda(eventStore: Table): lambda.Function {
+    private systemEventStoreLambda(eventStoreTable: Table): lambda.Function {
         const createOneSettings: SystemLambdaSettings = {
-            SYSTEM_TABLE_NAME: eventStore.tableName,
+            SYSTEM_TABLE_NAME: eventStoreTable.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
         };
         const createOne = lambdaFactory(
@@ -380,7 +415,7 @@ export class Deployment extends Stack {
             (createOneSettings as unknown) as { [key: string]: string }
         );
 
-        eventStore.grantReadWriteData(createOne);
+        eventStoreTable.grantReadWriteData(createOne);
 
         return createOne;
     }
@@ -449,7 +484,13 @@ export class Deployment extends Stack {
     //     }));
     // }
 }
-
+console.log(`CDK_DEFAULT_ACCOUNT: ${process.env['CDK_DEFAULT_ACCOUNT']}`);
+console.log(`CDK_DEFAULT_REGION: ${process.env['CDK_DEFAULT_REGION']}`);
 const app = new App();
-new Deployment(app, `${settings.environment}-${settings.repositoryName}`);
+new Deployment(app, `${settings.environment}-${settings.repositoryName}`, {
+    env: {
+        account: process.env['CDK_DEFAULT_ACCOUNT'],
+        region: process.env['CDK_DEFAULT_REGION'],
+    },
+});
 app.synth();
