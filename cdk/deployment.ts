@@ -31,8 +31,7 @@ import {LogGroup, RetentionDays} from '@aws-cdk/aws-logs';
 import {StringParameter} from '@aws-cdk/aws-ssm';
 import {UserEvents} from '../assets/lambda/src/events/user-event';
 import {SystemLambdaSettings} from './settings/system-lambda-settings';
-import {
-    allowCfnRoleToInvokeLambda,
+import {allowEventBridgeToInvokeLambda,
     allowLambdaToPushEventsToEventBridge,
     allowToEventBridgeCfnRuleCanPushMessageToDlq,
     useEventBridgeLambdaHandler,
@@ -118,7 +117,7 @@ export class Deployment extends Stack {
             settings.snsUserNotificationEmails
         );
 
-
+        allowEventBridgeToInvokeLambda(eventStoreHandler, bus);
     }
 
     private createUsersTable(): Table {
@@ -279,7 +278,7 @@ export class Deployment extends Stack {
         );
         allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus);
 
-        allowCfnRoleToInvokeLambda(eventStoreHandler, bus, allEventsRule);
+
 
         this.grantWriteLogsForRule(logGroup.logGroupArn);
 

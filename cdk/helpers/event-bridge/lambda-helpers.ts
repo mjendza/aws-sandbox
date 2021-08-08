@@ -1,10 +1,10 @@
 import { CfnRule, EventBus, Rule } from '@aws-cdk/aws-events';
 import * as lambda from '@aws-cdk/aws-lambda';
-import { generateResourceId } from '../../cdk-helper';
-import { Duration, Stack } from '@aws-cdk/core';
+import { Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
-import { LambdaFunction as LambdaFunctionTarget } from '@aws-cdk/aws-events-targets';
-import {Effect, PolicyStatement, ServicePrincipal} from '@aws-cdk/aws-iam';
+import { Effect, PolicyDocument, PolicyStatement, Role, ServicePrincipal} from '@aws-cdk/aws-iam';
+import {createEventBridgeRule} from "./helpers";
+import {generateResourceId} from "../../cdk-helper";
 
 export function allowLambdaToPushEventsToEventBridge(
     lambda: lambda.Function,
@@ -13,16 +13,40 @@ export function allowLambdaToPushEventsToEventBridge(
     eb.grantPutEventsTo(lambda);
 }
 
-export function allowCfnRoleToInvokeLambda(
+export function allowEventBridgeToInvokeLambda(
     lambda: lambda.Function,
-    eb: EventBus,
-    rule: CfnRule
+    eb: EventBus
 ) {
     //lambda.grantInvoke(new ArnPrincipal(rule.attrArn));
     lambda.grantInvoke(new ServicePrincipal('events.amazonaws.com'));
 }
 
-export function allowEventBridgeRuleToInvokeLambdaHandler(
+export function allowCfnRuleToInvokeLambda(stack:Stack,
+    lambda: lambda.Function,
+    eb: EventBus,
+                                           id: string
+): Role {
+    return new Role(stack, `${generateResourceId(id)}-RuleRole`, {
+        assumedBy: new ServicePrincipal('events.amazonaws.com'),
+        inlinePolicies: {
+            LambdaInvoke: new PolicyDocument({
+                statements: [
+                    new PolicyStatement({
+                        actions: [
+                            'lambda:InvokeFunction',
+                        ],
+                        effect: Effect.ALLOW,
+                        resources: [lambda.functionArn],
+                    }),
+                ],
+            }),
+        },
+    });
+    //lambda.grantInvoke(new ArnPrincipal(rule.attrArn));
+    //lambda.grantInvoke(new ServicePrincipal('events.amazonaws.com'));
+}
+
+export function allowRuleToInvokeLambdaHandler(
     lambda: lambda.Function,
     rule: Rule,
     ruleId: string
@@ -79,24 +103,27 @@ export function useEventBridgeLambdaHandler(
     queue: IQueue,
     assignPermissions?: boolean
 ) {
-    const rule = new Rule(stack, generateResourceId(ruleId), {
-        eventBus: eb,
-        eventPattern: {
-            detailType: [eventName],
-        },
-    });
+    // const rule = new Rule(stack, generateResourceId(ruleId), {
+    //     eventBus: eb,
+    //     eventPattern: {
+    //         detailType: [eventName],
+    //     },
+    // });
+    //
+    // rule.addTarget(
+    //     new LambdaFunctionTarget(lambda, {
+    //         deadLetterQueue: queue, // Optional: add a dead letter queue
+    //         maxEventAge: Duration.minutes(3), // Optional: set the maxEventAge retry policy
+    //         retryAttempts: 4, // Optional: set the max number of retry attempts
+    //     })
+    // );
+    const role = allowCfnRuleToInvokeLambda(stack, lambda, eb, ruleId);
+    const rule = createEventBridgeRule(stack, ruleId, eb, eventName, lambda, queue, role);
+    allowLambdaToPushEventsToEventBridge(lambda, eb);
 
-    rule.addTarget(
-        new LambdaFunctionTarget(lambda, {
-            deadLetterQueue: queue, // Optional: add a dead letter queue
-            maxEventAge: Duration.minutes(3), // Optional: set the maxEventAge retry policy
-            retryAttempts: 4, // Optional: set the max number of retry attempts
-        })
-    );
+
     if (assignPermissions === undefined || assignPermissions == true) {
-        allowEventBridgeRuleToInvokeLambdaHandler(lambda, rule, ruleId);
-        allowLambdaToPushEventsToEventBridge(lambda, eb);
     }
-    allowToEventBridgeCanPushMessageToDlq(queue, rule, eb);
+    allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, rule, eb);
 
 }
