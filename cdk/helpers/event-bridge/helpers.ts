@@ -5,6 +5,7 @@ import {Duration, Stack} from "@aws-cdk/core";
 import * as lambda from '@aws-cdk/aws-lambda';
 import {IQueue} from "@aws-cdk/aws-sqs";
 import {Role} from "@aws-cdk/aws-iam";
+import {CfnPermission} from "@aws-cdk/aws-lambda";
 
 export function createEventBridgeRule(stack: Stack, id: string, bus: EventBus, eventName: string, lambda: lambda.Function, queue: IQueue, role: Role): CfnRule{
     const rule = new CfnRule(
@@ -28,10 +29,17 @@ export function createEventBridgeRule(stack: Stack, id: string, bus: EventBus, e
                         maximumRetryAttempts: 4,
                         maximumEventAgeInSeconds: Duration.minutes(4).toSeconds()
                     },
-                    roleArn: role.roleArn
+                    //roleArn: role.roleArn
                 },
             ],
         });
+     new CfnPermission(stack, `${generateResourceId(id)}-CfnLambdaPermission`, {
+         action: 'lambda:InvokeFunction',
+         functionName: lambda.functionName,
+         principal: "events.amazonaws.com",
+        sourceArn: rule.attrArn,
+    });
+
     allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, rule, bus);
     return  rule;
 }

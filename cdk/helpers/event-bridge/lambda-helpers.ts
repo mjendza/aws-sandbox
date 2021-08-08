@@ -2,7 +2,7 @@ import { CfnRule, EventBus, Rule } from '@aws-cdk/aws-events';
 import * as lambda from '@aws-cdk/aws-lambda';
 import { Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
-import { Effect, PolicyDocument, PolicyStatement, Role, ServicePrincipal} from '@aws-cdk/aws-iam';
+import {Effect,  PolicyStatement, Role, ServicePrincipal} from '@aws-cdk/aws-iam';
 import {createEventBridgeRule} from "./helpers";
 import {generateResourceId} from "../../cdk-helper";
 
@@ -26,22 +26,37 @@ export function allowCfnRuleToInvokeLambda(stack:Stack,
     eb: EventBus,
                                            id: string
 ): Role {
-    return new Role(stack, `${generateResourceId(id)}-RuleRole`, {
+    const role= new Role(stack, `${generateResourceId(id)}-RuleRole`, {
         assumedBy: new ServicePrincipal('events.amazonaws.com'),
-        inlinePolicies: {
-            LambdaInvoke: new PolicyDocument({
-                statements: [
-                    new PolicyStatement({
-                        actions: [
-                            'lambda:InvokeFunction',
-                        ],
-                        effect: Effect.ALLOW,
-                        resources: [lambda.functionArn],
-                    }),
-                ],
-            }),
-        },
+        // inlinePolicies: {
+        //     LambdaInvoke: ,
+        // },
     });
+    // const pd = new PolicyDocument({
+    //     statements: [
+    //         new PolicyStatement({
+    //             actions: [
+    //                 'lambda:InvokeFunction',
+    //             ],
+    //             effect: Effect.ALLOW,
+    //             resources: [lambda.functionArn],
+    //         }),
+    //     ],
+    // });
+    const qPolicy = new PolicyStatement();
+    qPolicy.effect = Effect.ALLOW;
+    //qPolicy.addServicePrincipal('events.amazonaws.com');
+    qPolicy.addActions("lambda:InvokeFunction");
+    qPolicy.addResources(lambda.functionArn);
+
+    // qPolicy.addCondition("ArnEquals", {
+    //     "aws:SourceArn": rule.attrArn
+    // });
+    // const policy = new Policy(stack, `${generateResourceId(id)}-RuleRolePolicy`);
+    // policy.addStatements(qPolicy);
+    role.addToPolicy(qPolicy);
+
+    return role;
     //lambda.grantInvoke(new ArnPrincipal(rule.attrArn));
     //lambda.grantInvoke(new ServicePrincipal('events.amazonaws.com'));
 }
