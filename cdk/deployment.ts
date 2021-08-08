@@ -1,14 +1,20 @@
-import {AttributeType, BillingMode, ProjectionType, StreamViewType, Table,} from '@aws-cdk/aws-dynamodb';
+import {
+    AttributeType,
+    BillingMode,
+    ProjectionType,
+    StreamViewType,
+    Table,
+} from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
-import {StartingPosition} from '@aws-cdk/aws-lambda';
-import { PolicyStatement} from '@aws-cdk/aws-iam';
-import {EmailSubscription} from '@aws-cdk/aws-sns-subscriptions';
-import {Topic} from '@aws-cdk/aws-sns';
+import { StartingPosition } from '@aws-cdk/aws-lambda';
+import { PolicyStatement } from '@aws-cdk/aws-iam';
+import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
+import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
-import {IQueue} from '@aws-cdk/aws-sqs';
-import {CfnRule, EventBus} from '@aws-cdk/aws-events';
-import {DynamoEventSource} from '@aws-cdk/aws-lambda-event-sources';
-import {App, RemovalPolicy, Stack, StackProps} from '@aws-cdk/core';
+import { IQueue } from '@aws-cdk/aws-sqs';
+import { CfnRule, EventBus } from '@aws-cdk/aws-events';
+import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
+import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -16,28 +22,38 @@ import {
     snsFilterHelper,
     ssmParameterBuilder,
 } from './cdk-helper';
-import {AwsCustomResource, AwsCustomResourcePolicy, PhysicalResourceId,} from '@aws-cdk/custom-resources';
-import {LambdaIntegration, MethodLoggingLevel, Resource, RestApi,} from '@aws-cdk/aws-apigateway';
-import {addCorsOptions} from './deployment-base';
+import {
+    AwsCustomResource,
+    AwsCustomResourcePolicy,
+    PhysicalResourceId,
+} from '@aws-cdk/custom-resources';
+import {
+    LambdaIntegration,
+    MethodLoggingLevel,
+    Resource,
+    RestApi,
+} from '@aws-cdk/aws-apigateway';
+import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
-import {resources} from './cdk-resources';
+import { resources } from './cdk-resources';
 import {
     CreatedUserEventPublisherLambdaSettings,
     CreateUserApiLambdaSettings,
     CreateUserHandlerLambdaSettings,
     UserLambdaSettings,
 } from './settings/lambda-settings';
-import {LogGroup, RetentionDays} from '@aws-cdk/aws-logs';
-import {StringParameter} from '@aws-cdk/aws-ssm';
-import {UserEvents} from '../assets/lambda/src/events/user-event';
-import {SystemLambdaSettings} from './settings/system-lambda-settings';
-import {allowEventBridgeToInvokeLambda,
+import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
+import { StringParameter } from '@aws-cdk/aws-ssm';
+import { UserEvents } from '../assets/lambda/src/events/user-event';
+import { SystemLambdaSettings } from './settings/system-lambda-settings';
+import {
+    allowEventBridgeToInvokeLambda,
     allowLambdaToPushEventsToEventBridge,
     allowToEventBridgeCfnRuleCanPushMessageToDlq,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
-import {paymentFlowLambda} from './payment-flow/infrastructure';
-import {Alarm} from '@aws-cdk/aws-cloudwatch';
+import { paymentFlowLambda } from './payment-flow/infrastructure';
+import { Alarm } from '@aws-cdk/aws-cloudwatch';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -278,10 +294,7 @@ export class Deployment extends Stack {
         );
         allowToEventBridgeCfnRuleCanPushMessageToDlq(queue, allEventsRule, bus);
 
-
-
         this.grantWriteLogsForRule(logGroup.logGroupArn);
-
 
         // qPolicy.addStatements({
         //     effect: Effect.ALLOW,
