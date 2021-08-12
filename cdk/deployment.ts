@@ -7,13 +7,13 @@ import {
 } from '@aws-cdk/aws-dynamodb';
 import * as lambda from '@aws-cdk/aws-lambda';
 import * as iam from '@aws-cdk/aws-iam';
-import { PolicyStatement } from '@aws-cdk/aws-iam';
+import { PolicyStatement, ServicePrincipal } from '@aws-cdk/aws-iam';
 import { EmailSubscription } from '@aws-cdk/aws-sns-subscriptions';
 import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import {App, RemovalPolicy, Stack, StackProps} from '@aws-cdk/core';
+import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -63,8 +63,14 @@ export class Deployment extends Stack {
 
         const eventStorage = this.createSystemEventStoreTable();
         const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
-        const systemEventBridgeDeadLetterQueue = new sqs.Queue(this, resources.systemEventBridgeDlq);
-        const bus = this.setupEventBridge(eventStoreHandler, systemEventBridgeDeadLetterQueue);
+        const systemEventBridgeDeadLetterQueue = new sqs.Queue(
+            this,
+            resources.systemEventBridgeDlq
+        );
+        const bus = this.setupEventBridge(
+            eventStoreHandler,
+            systemEventBridgeDeadLetterQueue
+        );
         // const userDlq = new sqs.Queue(
         //     this,
         //     resources.sqsUserEventsDeadLetterQueue
@@ -89,11 +95,20 @@ export class Deployment extends Stack {
 
         this.createEndpoint(users, usersApiEndpoint, bus);
 
-        this.createUserEventHandlerLambda(users, bus, systemEventBridgeDeadLetterQueue);
+        this.createUserEventHandlerLambda(
+            users,
+            bus,
+            systemEventBridgeDeadLetterQueue
+        );
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        paymentFlowLambda(this, this.lambdaSourceCode, bus, systemEventBridgeDeadLetterQueue);
+        paymentFlowLambda(
+            this,
+            this.lambdaSourceCode,
+            bus,
+            systemEventBridgeDeadLetterQueue
+        );
 
         this.getAllEndpoint(users, usersApiEndpoint);
 
@@ -220,7 +235,10 @@ export class Deployment extends Stack {
         );
     }
 
-    private setupEventBridge(eventStoreHandler: lambda.Function, queue: IQueue): EventBus {
+    private setupEventBridge(
+        eventStoreHandler: lambda.Function,
+        queue: IQueue
+    ): EventBus {
         const logGroup = new LogGroup(
             this,
             generateResourceId(resources.systemEventBridgeLogGroup),
@@ -239,8 +257,6 @@ export class Deployment extends Stack {
             stringValue: bus.eventBusName,
             // allowedPattern: '.*',
         });
-
-
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
@@ -278,10 +294,10 @@ export class Deployment extends Stack {
                 },
             })
         );
-        // eventStoreHandler.addPermission('invoke-eventStoreHandler', {
-        //     principal: new ServicePrincipal('events.amazonaws.com'),
-        //     sourceArn: allEventsRule.attrArn,
-        // });
+        eventStoreHandler.addPermission('invoke-eventStoreHandler', {
+            principal: new ServicePrincipal('events.amazonaws.com'),
+            sourceArn: allEventsRule.attrArn,
+        });
 
         this.grantWriteLogsForRule(logGroup.logGroupArn);
 
@@ -449,13 +465,13 @@ export class Deployment extends Stack {
     //     }));
     // }
 }
-console.log(`CDK_DEFAULT_ACCOUNT: ${process.env["CDK_DEFAULT_ACCOUNT"]}`);
-console.log(`CDK_DEFAULT_REGION: ${process.env["CDK_DEFAULT_REGION"]}`);
+console.log(`CDK_DEFAULT_ACCOUNT: ${process.env['CDK_DEFAULT_ACCOUNT']}`);
+console.log(`CDK_DEFAULT_REGION: ${process.env['CDK_DEFAULT_REGION']}`);
 const app = new App();
 new Deployment(app, `${settings.environment}-${settings.repositoryName}`, {
     env: {
-        account: process.env["CDK_DEFAULT_ACCOUNT"],
-        region: process.env["CDK_DEFAULT_REGION"],
-    }
+        account: process.env['CDK_DEFAULT_ACCOUNT'],
+        region: process.env['CDK_DEFAULT_REGION'],
+    },
 });
 app.synth();
