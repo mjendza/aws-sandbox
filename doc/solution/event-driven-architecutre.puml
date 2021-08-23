@@ -15,7 +15,6 @@ System_Boundary(B2CTenant, "Serverless") {
    }
    System_Boundary(EventBridgeRuleHandlers, "Event Bridge Rule Handlers") {
            Container(LambdaCreateUserHandler, "Create User Handler Lambda", "", "handle create user event")
-           Container(LambdaUserCreatedHandler, "User Created Handler Lambda", "", "handle user created event")
            Container(StartPaymentFlowHandler, "StartPaymentFlowHandler", "", "handle user created event")
            Container(LambdaEventStoreHandler, "Handle All Events", "", "handle all events")
    }
@@ -46,7 +45,6 @@ Rel(LambdaCreateUserHandler, Users, "put user")
 Rel(Users, EventBridge, "send UserCreated event")
 
 Rel(EventBridge, StartPaymentFlowHandler, "UserCreated event handler")
-Rel(EventBridge, LambdaUserCreatedHandler, "UserCreated event handler")
 Rel(EventBridge, LambdaEventStoreHandler, "All event handler")
-Rel(LambdaEventStoreHandler, EventStore, "EventBrige EventStore")
+Rel(LambdaEventStoreHandler, EventStore, "EventBridge EventStore")
 @enduml
