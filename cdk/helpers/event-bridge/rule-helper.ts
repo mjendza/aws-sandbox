@@ -17,9 +17,9 @@ export function createCfnRuleWithDlq(
 ) {
     const rule = new CfnRule(stack, generateResourceId(id), {
         eventBusName: bus.eventBusName,
-        description: 'Rule matching all events',
+        description: `Rule matching ${eventName}`,
         eventPattern: {
-            source: [{ prefix: '' }],
+            'detail-type': [eventName],
         },
         targets: [
             {
@@ -45,10 +45,11 @@ export function createCfnRuleWithDlq(
             },
         })
     );
-    if (assignPermission || assignPermission === undefined) {
-        lambda.addPermission(`${generateResourceId(id)}-invoke-lambda`, {
-            principal: new ServicePrincipal('events.amazonaws.com'),
-            sourceArn: rule.attrArn,
-        });
-    }
+
+    //if (assignPermission || assignPermission === undefined) {
+    lambda.addPermission(`${generateResourceId(id)}-invoke-lambda`, {
+        principal: new ServicePrincipal('events.amazonaws.com'),
+        sourceArn: rule.attrArn,
+    });
+    //}
 }

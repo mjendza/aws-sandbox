@@ -3,9 +3,9 @@
     "version": "1.0.0",
     "description": "My AWS Sandbox",
     "scripts": {
-        "build:pack": "webpack --config webpack.config.js",
+        "build:pack": "npm run build:ts && webpack --config webpack.config.js",
         "build:ts": "tsc",
-        "build": "npm run build:ts && npm run build:pack && npm run test:unit",
+        "build": "npm run build:ts",
         "test": "npm run test:unit && npm run test:api",
         "test:unit": "jest unit",
         "test:coverage": "jest unit --coverage"

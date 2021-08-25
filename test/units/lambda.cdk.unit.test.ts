@@ -10,7 +10,7 @@ test('should have all lambdas with nodejs14 and handler as index', () => {
     const stack = new sut.Deployment(app, 'MyTestStack', {});
     //THEN
     expect(stack).to(
-        countResourcesLike('AWS::Lambda::Function', 9, {
+        countResourcesLike('AWS::Lambda::Function', 7, {
             Handler: 'index.handler',
             Runtime: 'nodejs14.x',
         })

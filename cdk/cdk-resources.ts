@@ -26,6 +26,9 @@ export interface CdkResources {
     systemCfnRulePushAllEvents: string;
     lambdaEventStore: string;
     dynamoDbEventStoreTable: string;
+
+    alarmSqs: string;
+    alarmSns: string;
 }
 
 export const resources: CdkResources = {
@@ -55,4 +58,7 @@ export const resources: CdkResources = {
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',
     lambdaEventStore: 'system-event-store-lambda',
     dynamoDbEventStoreTable: 'system-event-store',
+
+    alarmSqs: 'alarm-sqs-queue',
+    alarmSns: 'alarm-sns',
 };

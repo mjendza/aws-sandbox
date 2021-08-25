@@ -52,6 +52,7 @@ import {
 import { StartingPosition } from '@aws-cdk/aws-lambda';
 import { paymentFlowLambda } from './payment-flow/infrastructure';
 import { IQueue } from '@aws-cdk/aws-sqs';
+import { Watchful } from 'cdk-watchful';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -126,6 +127,19 @@ export class Deployment extends Stack {
             topic,
             settings.snsUserNotificationEmails
         );
+
+        const alarmSqs = new sqs.Queue(this, resources.alarmSqs);
+        const alarmSns = new Topic(this, resources.alarmSns);
+
+        const wf = new Watchful(this, 'watchful', {
+            //alarmEmail: 'your@email.com',
+            alarmSqs,
+            alarmSns,
+        });
+        wf.watchApiGateway('REST', api);
+        wf.watchDynamoTable('EventStore', eventStorage);
+        wf.watchDynamoTable('Users', users);
+        //wf.watchScope(this);
     }
 
     private createUsersTable(): Table {

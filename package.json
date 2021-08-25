@@ -3,10 +3,12 @@
     "version": "1.0.0",
     "description": "My AWS Sandbox",
     "scripts": {
-        "deploy": "npm run build --prefix ./assets/lambda && npm run build && cdk synth && cdk deploy --all",
-        "deploy:check": "npm run build --prefix ./assets/lambda && npm run build && cdk synth",
+        "deploy": "npm run build:all && npm run test:unit && cdk synth && cdk deploy --all",
+        "deploy:check": "npm run deploy:all && cdk synth",
+        "deploy:all": "npm run build:pack --prefix ./assets/lambda && npm run build",
+        "build:all": "npm run build --prefix ./assets/lambda && npm run build",
         "build:ts": "tsc",
-        "build": "npm run build:ts && npm run test",
+        "build": "npm run build:ts",
         "doc:diag:big-picture": "cdk-dia",
         "doc:diag:html": "cfn-dia html -o doc/solution/html/",
         "doc:diag:drawio": "cfn-dia draw.io -o doc/solution/drawio/",
@@ -36,7 +38,8 @@
         "@aws-cdk/aws-events-targets": "1.100.0",
         "@aws-cdk/aws-stepfunctions-tasks": "1.100.0",
         "@aws-cdk/aws-lambda-event-sources": "1.100.0",
-        "@aws-cdk/aws-s3": "1.100.0"
+        "@aws-cdk/aws-s3": "1.100.0",
+        "cdk-watchful": "0.5.220"
     },
     "devDependencies": {
         "uuid": "8.3.2",

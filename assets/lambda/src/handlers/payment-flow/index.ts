@@ -11,10 +11,15 @@ import {
     PaymentFlow,
     PaymentFlowHandlerLambdaSettings,
 } from '../../../../../cdk/payment-flow/infrastructure';
+import { APIGatewayProxyResult } from 'aws-lambda/trigger/api-gateway-proxy';
+import {
+    proxyIntegrationError,
+    proxyIntegrationResult,
+} from '../../helpers/proxy-integration';
 
 export const handler = async (
     event: EventBridgeEvent<string, any>
-): Promise<void> => {
+): Promise<APIGatewayProxyResult> => {
     try {
         log.info(`START USER-CREATE PAYMENT`);
         log.info(`event: ${JSON.stringify(event)}`);
@@ -32,8 +37,9 @@ export const handler = async (
                 'temporary issue, check the lumigo and SQS DLQ for error!'
             );
         }
+        return proxyIntegrationResult(204);
     } catch (error) {
         log.error(`error: ${JSON.stringify(error)}`);
-        throw error;
+        return proxyIntegrationError(error);
     }
 };
