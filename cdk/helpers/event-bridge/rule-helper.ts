@@ -46,10 +46,10 @@ export function createCfnRuleWithDlq(
         })
     );
 
-    //if (assignPermission || assignPermission === undefined) {
-    lambda.addPermission(`${generateResourceId(id)}-invoke-lambda`, {
-        principal: new ServicePrincipal('events.amazonaws.com'),
-        sourceArn: rule.attrArn,
-    });
-    //}
+    if (assignPermission || assignPermission === undefined) {
+        lambda.addPermission(`${generateResourceId(id)}-invoke-lambda`, {
+            principal: new ServicePrincipal('events.amazonaws.com'),
+            sourceArn: rule.attrArn,
+        });
+    }
 }

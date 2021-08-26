@@ -8,8 +8,10 @@ export interface CdkResources {
     lambdaCreateUserEventHandler: string;
     lambdaCreatedUserEventPublisher: string;
     eventRuleCreateUserHandler: string;
-    lambdaPaymentFlowEventHandler: string;
-    eventRuleUserCreatedHandler: string;
+    lambdaPaymentFlowErrorEventHandler: string;
+    lambdaPaymentFlowNoPermissionsEventHandler: string;
+    eventRuleUserCreatedPaymentFlowErrorHandler: string;
+    eventRuleUserCreatedPaymentFlowNoPermissionsHandler: string;
 
     dynamoDbUserTable: string;
     dynamoDbUserHomeRegionSortedGSI: string;
@@ -41,8 +43,12 @@ export const resources: CdkResources = {
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
     lambdaCreatedUserEventPublisher: 'lambda-created-user-event-publisher',
     eventRuleCreateUserHandler: 'rule-create-user-event-handler',
-    lambdaPaymentFlowEventHandler: 'lambda-payment-flow-event-handler',
-    eventRuleUserCreatedHandler: 'rule-user-created-event-handler',
+    lambdaPaymentFlowErrorEventHandler:
+        'lambda-payment-flow-error-event-handler',
+    lambdaPaymentFlowNoPermissionsEventHandler:
+        'lambda-payment-flow-no-permissions-event-handler',
+    eventRuleUserCreatedPaymentFlowErrorHandler: 'rule-user-created-payment-error-event-handler',
+    eventRuleUserCreatedPaymentFlowNoPermissionsHandler: 'rule-user-created-payment-no-permissions-event-handler',
 
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',

@@ -50,7 +50,10 @@ import {
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
-import { paymentFlowLambda } from './payment-flow/infrastructure';
+import {
+    paymentFlowErrorLambda,
+    paymentFlowNoPermissionsLambda,
+} from './payment-flow/infrastructure';
 import { IQueue } from '@aws-cdk/aws-sqs';
 import { Watchful } from 'cdk-watchful';
 
@@ -104,7 +107,13 @@ export class Deployment extends Stack {
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        paymentFlowLambda(
+        paymentFlowErrorLambda(
+            this,
+            this.lambdaSourceCode,
+            bus,
+            systemEventBridgeDeadLetterQueue
+        );
+        paymentFlowNoPermissionsLambda(
             this,
             this.lambdaSourceCode,
             bus,

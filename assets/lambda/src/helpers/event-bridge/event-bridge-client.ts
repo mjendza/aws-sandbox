@@ -1,6 +1,6 @@
 import { LambdaProxyError } from '../lambda-proxy-error';
-import * as uninstrumentedAWS from "aws-sdk";
-import * as AWSXRay from "aws-xray-sdk";
+import * as uninstrumentedAWS from 'aws-sdk';
+import * as AWSXRay from 'aws-xray-sdk';
 export function eventBridgeClient(region?: string) {
     const fromEnv = process.env['AWS_REGION'];
     if (!fromEnv) {
