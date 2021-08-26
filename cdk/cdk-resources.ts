@@ -47,8 +47,10 @@ export const resources: CdkResources = {
         'lambda-payment-flow-error-event-handler',
     lambdaPaymentFlowNoPermissionsEventHandler:
         'lambda-payment-flow-no-permissions-event-handler',
-    eventRuleUserCreatedPaymentFlowErrorHandler: 'rule-user-created-payment-error-event-handler',
-    eventRuleUserCreatedPaymentFlowNoPermissionsHandler: 'rule-user-created-payment-no-permissions-event-handler',
+    eventRuleUserCreatedPaymentFlowErrorHandler:
+        'rule-user-created-payment-error-event-handler',
+    eventRuleUserCreatedPaymentFlowNoPermissionsHandler:
+        'rule-user-created-payment-no-permissions-event-handler',
 
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',
