@@ -35,6 +35,7 @@ import {
 import { addCorsOptions } from './deployment-base';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
+import { StartingPosition } from '@aws-cdk/aws-lambda';
 import {
     CreatedUserEventPublisherLambdaSettings,
     CreateUserApiLambdaSettings,
@@ -49,9 +50,9 @@ import {
     useEventBridge,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
-import { StartingPosition } from '@aws-cdk/aws-lambda';
 import { paymentFlowLambda } from './payment-flow/infrastructure';
 import { IQueue } from '@aws-cdk/aws-sqs';
+import { setupAppSync } from './app-sync-api';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
@@ -73,7 +74,6 @@ export class Deployment extends Stack {
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
-
             {
                 restApiName: `api-${settings.repositoryName}`,
                 deployOptions: {
@@ -85,6 +85,9 @@ export class Deployment extends Stack {
                 },
             }
         );
+
+        setupAppSync(this, users);
+
         const usersApiEndpoint = api.root.addResource('users');
 
         this.createEndpoint(users, usersApiEndpoint, bus);

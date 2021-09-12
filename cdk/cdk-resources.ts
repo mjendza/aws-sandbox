@@ -56,3 +56,9 @@ export const resources: CdkResources = {
     lambdaEventStore: 'system-event-store-lambda',
     dynamoDbEventStoreTable: 'system-event-store',
 };
+
+export interface UserCreated {
+    id: string;
+    email: string;
+    createdAt: string;
+}
