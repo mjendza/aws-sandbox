@@ -46,7 +46,7 @@ import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
-    useEventBridge,
+    assignPermissionToLambdaToPushEvent,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
@@ -209,7 +209,7 @@ export class Deployment extends Stack {
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
 
-        useEventBridge(createOne, bus);
+        assignPermissionToLambdaToPushEvent(createOne, bus);
         return createOne;
     }
 

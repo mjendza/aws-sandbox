@@ -4,7 +4,10 @@ import { Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
 import { createCfnRuleWithDlq } from './rule-helper';
 
-export function useEventBridge(lambda: lambda.Function, eb: EventBus) {
+export function assignPermissionToLambdaToPushEvent(
+    lambda: lambda.Function,
+    eb: EventBus
+) {
     eb.grantPutEventsTo(lambda);
 }
 
@@ -15,7 +18,7 @@ export function useEventBridgeLambdaHandler(
     eb: EventBus,
     ruleId: string,
     queue: IQueue,
-    assignPermissions?: boolean
+    assignPermissionToRuleToInvokeLambda?: boolean
 ) {
     createCfnRuleWithDlq(
         stack,
@@ -24,7 +27,6 @@ export function useEventBridgeLambdaHandler(
         eventName,
         lambda,
         queue,
-        assignPermissions
+        assignPermissionToRuleToInvokeLambda
     );
-    useEventBridge(lambda, eb);
 }

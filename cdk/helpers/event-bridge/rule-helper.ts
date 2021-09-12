@@ -13,7 +13,7 @@ export function createCfnRuleWithDlq(
     eventName: string,
     lambda: lambda.Function,
     queue: IQueue,
-    assignPermission?: boolean
+    assignPermissionToRuleToInvokeLambda?: boolean
 ) {
     const rule = new CfnRule(stack, generateResourceId(id), {
         eventBusName: bus.eventBusName,
@@ -46,7 +46,10 @@ export function createCfnRuleWithDlq(
         })
     );
 
-    if (assignPermission || assignPermission === undefined) {
+    if (
+        assignPermissionToRuleToInvokeLambda ||
+        assignPermissionToRuleToInvokeLambda === undefined
+    ) {
         lambda.addPermission(`${generateResourceId(id)}-invoke-lambda`, {
             principal: new ServicePrincipal('events.amazonaws.com'),
             sourceArn: rule.attrArn,
