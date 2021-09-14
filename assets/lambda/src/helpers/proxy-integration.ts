@@ -4,11 +4,11 @@ import * as log from 'lambda-log';
 
 export function proxyIntegrationResult(
     code: number,
-    jsonResult: any
+    jsonResult?: any
 ): APIGatewayProxyResult {
     const result = {
         statusCode: code,
-        body: JSON.stringify(jsonResult),
+        body: jsonResult ? JSON.stringify(jsonResult) : '',
         isBase64Encoded: false,
     };
     log.info(`LAMBDA RESULT: ${JSON.stringify(result)}`);

@@ -13,6 +13,7 @@ export const handler = async (
     event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
     try {
+        log.info(`START USER-CREATE`);
         log.info(`event: ${JSON.stringify(event)}`);
         const model = validate<CreateUserApiEvent>(event, userEventSchema);
         log.info(`model: ${JSON.stringify(model)}`);
