@@ -10,7 +10,8 @@ export function paymentFlowErrorLambda(
     stack: Stack,
     lambdaSourceCode: string,
     bus: EventBus,
-    userDlq: IQueue
+    userDlq: IQueue,
+    asyncLambdaDlq: IQueue
 ) {
     const settings: PaymentFlowHandlerLambdaSettings = {
         flowType: PaymentFlow.error,
@@ -20,7 +21,8 @@ export function paymentFlowErrorLambda(
         generateResourceId(resources.lambdaPaymentFlowErrorEventHandler),
         'payment-flow/',
         lambdaSourceCode,
-        (settings as unknown) as { [key: string]: string }
+        (settings as unknown) as { [key: string]: string },
+        asyncLambdaDlq
     );
     useEventBridgeLambdaHandler(
         stack,
@@ -38,7 +40,8 @@ export function paymentFlowNoPermissionsLambda(
     stack: Stack,
     lambdaSourceCode: string,
     bus: EventBus,
-    userDlq: IQueue
+    userDlq: IQueue,
+    asyncLambdaDla: IQueue
 ) {
     const settings: PaymentFlowHandlerLambdaSettings = {
         flowType: PaymentFlow.error,
@@ -50,7 +53,8 @@ export function paymentFlowNoPermissionsLambda(
         ),
         'payment-flow-2/',
         lambdaSourceCode,
-        (settings as unknown) as { [key: string]: string }
+        (settings as unknown) as { [key: string]: string },
+        asyncLambdaDla
     );
     useEventBridgeLambdaHandler(
         stack,

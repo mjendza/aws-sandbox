@@ -16,7 +16,7 @@ export interface CdkResources {
     dynamoDbUserTable: string;
     dynamoDbUserHomeRegionSortedGSI: string;
 
-    sqsUserEventsDeadLetterQueue: string;
+    sqsLambdaAsyncDlq: string;
     snsUserCreatedTopic: string;
 
     systemEventBridge: string;
@@ -55,7 +55,7 @@ export const resources: CdkResources = {
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',
 
-    sqsUserEventsDeadLetterQueue: 'sqs-users-event-dlq',
+    sqsLambdaAsyncDlq: 'sqs-async-lambda-event-dlq',
     snsUserCreatedTopic: 'user-created-topic',
 
     systemEventBridge: 'system-event-bridge',

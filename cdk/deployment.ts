@@ -75,10 +75,7 @@ export class Deployment extends Stack {
             eventStoreHandler,
             systemEventBridgeDeadLetterQueue
         );
-        // const userDlq = new sqs.Queue(
-        //     this,
-        //     resources.sqsUserEventsDeadLetterQueue
-        // );
+        const lambdaDlq = new sqs.Queue(this, resources.sqsLambdaAsyncDlq);
 
         const api = new RestApi(
             this,
@@ -97,12 +94,13 @@ export class Deployment extends Stack {
         );
         const usersApiEndpoint = api.root.addResource('users');
 
-        this.createEndpoint(users, usersApiEndpoint, bus);
+        this.createEndpoint(usersApiEndpoint, bus);
 
         this.createUserEventHandlerLambda(
             users,
             bus,
-            systemEventBridgeDeadLetterQueue
+            systemEventBridgeDeadLetterQueue,
+            lambdaDlq
         );
 
         this.createdUserEventPublisherLambda(users, bus);
@@ -111,13 +109,15 @@ export class Deployment extends Stack {
             this,
             this.lambdaSourceCode,
             bus,
-            systemEventBridgeDeadLetterQueue
+            systemEventBridgeDeadLetterQueue,
+            lambdaDlq
         );
         paymentFlowNoPermissionsLambda(
             this,
             this.lambdaSourceCode,
             bus,
-            systemEventBridgeDeadLetterQueue
+            systemEventBridgeDeadLetterQueue,
+            lambdaDlq
         );
 
         this.getAllEndpoint(users, usersApiEndpoint);
@@ -148,7 +148,6 @@ export class Deployment extends Stack {
         wf.watchApiGateway('REST', api);
         wf.watchDynamoTable('EventStore', eventStorage);
         wf.watchDynamoTable('Users', users);
-        //wf.watchScope(this);
     }
 
     private createUsersTable(): Table {
@@ -190,7 +189,6 @@ export class Deployment extends Stack {
     }
 
     private createEndpoint(
-        users: Table,
         usersApiEndpoint: Resource,
         bus: EventBus
     ): lambda.Function {
@@ -202,7 +200,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreateUser),
             'create/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string }
+            (createOneSettings as unknown) as { [key: string]: string },
+            undefined
         );
 
         const createOneIntegration = new LambdaIntegration(createOne);
@@ -225,7 +224,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaGetAllUsers),
             'get-all/',
             this.lambdaSourceCode,
-            (getAllSettings as unknown) as { [key: string]: string }
+            (getAllSettings as unknown) as { [key: string]: string },
+            undefined
         );
         users.grantReadData(getAll);
         const getAllIntegration = new LambdaIntegration(getAll);
@@ -243,7 +243,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaGetUserById),
             'get-by-id/',
             this.lambdaSourceCode,
-            (getByIdSettings as unknown) as { [key: string]: string }
+            (getByIdSettings as unknown) as { [key: string]: string },
+            undefined
         );
         users.grantReadData(getById);
         const getByIdIntegration = new LambdaIntegration(getById);
@@ -361,7 +362,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreatedUserEventPublisher),
             'created-user-publisher/',
             this.lambdaSourceCode,
-            (settings as unknown) as { [key: string]: string }
+            (settings as unknown) as { [key: string]: string },
+            undefined
         );
 
         lambda.addEventSource(
@@ -377,7 +379,8 @@ export class Deployment extends Stack {
     private createUserEventHandlerLambda(
         userTable: Table,
         systemBus: EventBus,
-        queue: IQueue
+        queue: IQueue,
+        asyncLambdaDlq: IQueue
     ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
@@ -389,7 +392,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
             this.lambdaSourceCode,
-            (createUserHandlerSettings as unknown) as { [key: string]: string }
+            (createUserHandlerSettings as unknown) as { [key: string]: string },
+            asyncLambdaDlq
         );
 
         userTable.grantReadWriteData(lambda);
@@ -416,7 +420,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaEventStore),
             'event-store/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string }
+            (createOneSettings as unknown) as { [key: string]: string },
+            undefined
         );
 
         eventStore.grantReadWriteData(createOne);

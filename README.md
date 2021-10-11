@@ -126,6 +126,8 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 
 #### Event Driven Architecture
 
+![big-picture](doc/solution/Event_Driven_Architecture-Event_Driven_Architecture.svg)
+
 1. At first - find the best messaging system for you. Use AWS [link](https://aws.amazon.com/blogs/compute/choosing-between-messaging-services-for-serverless-applications/). My solution is focused and vendor-locked with AWS.
 1. For me is important to have a possibility to add more than one event target.
 
