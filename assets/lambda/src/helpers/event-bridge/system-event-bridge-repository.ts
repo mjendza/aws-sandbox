@@ -5,6 +5,7 @@ import { PutEventsRequest } from 'aws-sdk/clients/eventbridge';
 import * as log from 'lambda-log';
 import { SystemEventStorePushEvent } from '../../events/system-event-store-push-event';
 import { getEnvironmentSettingsKey } from '../get-environment-settings-key';
+import { LambdaProxyError } from '../lambda-proxy-error';
 
 export class SystemEventBridgeRepository {
     private eventBridge: EventBridge;
@@ -16,7 +17,7 @@ export class SystemEventBridgeRepository {
         this.eventBridge = eventBridgeClient();
     }
 
-    put(
+    async put(
         entity: SystemEventStorePushEvent,
         type: string,
         source: string
@@ -32,6 +33,11 @@ export class SystemEventBridgeRepository {
             ],
         };
         log.info(`EventBridge params: ${JSON.stringify(params)}`);
-        return this.eventBridge.putEvents(params).promise();
+        const result = await this.eventBridge.putEvents(params).promise();
+        log.info(`EventBridge result: ${JSON.stringify(result)}`);
+        if (!!result.FailedEntryCount && result.FailedEntryCount > 0) {
+            log.error(`EventBridge result error: ${JSON.stringify(result)}`);
+            throw new LambdaProxyError(500, 'Internal error.');
+        }
     }
 }

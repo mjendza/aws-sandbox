@@ -13,6 +13,15 @@ test('proxyIntegrationResult should return body as string', () => {
     expect(result).not.toBeUndefined();
 });
 
+test('proxyIntegrationResult should return empty body', () => {
+    //GIVEN
+    const sut = proxyIntegrationResult;
+    // WHEN
+    const result = sut(200);
+    // THEN
+    expect(result).not.toBeUndefined();
+});
+
 test('proxyIntegrationError should return HttpError message as a json error field', () => {
     //GIVEN
     const sut = proxyIntegrationError;

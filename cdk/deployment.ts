@@ -13,7 +13,7 @@ import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import { App, RemovalPolicy, Stack } from '@aws-cdk/core';
+import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -46,23 +46,37 @@ import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../assets/lambda/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
-    useEventBridge,
+    assignPermissionToLambdaToPushEvent,
     useEventBridgeLambdaHandler,
 } from './helpers/event-bridge/lambda-helpers';
 import { StartingPosition } from '@aws-cdk/aws-lambda';
+import {
+    paymentFlowErrorLambda,
+    paymentFlowNoPermissionsLambda,
+} from './payment-flow/infrastructure';
+import { IQueue } from '@aws-cdk/aws-sqs';
+import { Watchful } from 'cdk-watchful';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'assets/lambda/dist/handlers/';
 
-    constructor(app: App, id: string) {
-        super(app, id);
+    constructor(app: App, id: string, prop: StackProps) {
+        super(app, id, prop);
 
         const users = this.createUsersTable();
 
         const eventStorage = this.createSystemEventStoreTable();
         const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
+        const systemEventBridgeDeadLetterQueue = new sqs.Queue(
+            this,
+            resources.systemEventBridgeDlq
+        );
+        const bus = this.setupEventBridge(
+            eventStoreHandler,
+            systemEventBridgeDeadLetterQueue
+        );
+        const lambdaDlq = new sqs.Queue(this, resources.sqsLambdaAsyncDlq);
 
-        const bus = this.setupEventBridge(eventStoreHandler);
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
@@ -80,19 +94,32 @@ export class Deployment extends Stack {
         );
         const usersApiEndpoint = api.root.addResource('users');
 
-        const createLambda = this.createEndpoint(users, usersApiEndpoint, bus);
+        this.createEndpoint(usersApiEndpoint, bus);
 
-        const createUserHandler = this.createUserEventHandlerLambda(users, bus);
+        this.createUserEventHandlerLambda(
+            users,
+            bus,
+            systemEventBridgeDeadLetterQueue,
+            lambdaDlq
+        );
 
         this.createdUserEventPublisherLambda(users, bus);
 
-        useEventBridgeLambdaHandler(
+        paymentFlowErrorLambda(
             this,
-            UserEvents.CreateUser,
-            createUserHandler,
+            this.lambdaSourceCode,
             bus,
-            resources.eventRuleCreateUserHandler
+            systemEventBridgeDeadLetterQueue,
+            lambdaDlq
         );
+        paymentFlowNoPermissionsLambda(
+            this,
+            this.lambdaSourceCode,
+            bus,
+            systemEventBridgeDeadLetterQueue,
+            lambdaDlq
+        );
+
         this.getAllEndpoint(users, usersApiEndpoint);
 
         this.getByIdEndpoint(users, usersApiEndpoint);
@@ -110,8 +137,17 @@ export class Deployment extends Stack {
             settings.snsUserNotificationEmails
         );
 
-        useEventBridge(createLambda, bus);
-        useEventBridge(createUserHandler, bus);
+        const alarmSqs = new sqs.Queue(this, resources.alarmSqs);
+        const alarmSns = new Topic(this, resources.alarmSns);
+
+        const wf = new Watchful(this, 'watchful', {
+            //alarmEmail: 'your@email.com',
+            alarmSqs,
+            alarmSns,
+        });
+        wf.watchApiGateway('REST', api);
+        wf.watchDynamoTable('EventStore', eventStorage);
+        wf.watchDynamoTable('Users', users);
     }
 
     private createUsersTable(): Table {
@@ -153,7 +189,6 @@ export class Deployment extends Stack {
     }
 
     private createEndpoint(
-        users: Table,
         usersApiEndpoint: Resource,
         bus: EventBus
     ): lambda.Function {
@@ -165,12 +200,15 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreateUser),
             'create/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string }
+            (createOneSettings as unknown) as { [key: string]: string },
+            undefined
         );
 
         const createOneIntegration = new LambdaIntegration(createOne);
         usersApiEndpoint.addMethod('POST', createOneIntegration);
         addCorsOptions(usersApiEndpoint);
+
+        assignPermissionToLambdaToPushEvent(createOne, bus);
         return createOne;
     }
 
@@ -186,7 +224,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaGetAllUsers),
             'get-all/',
             this.lambdaSourceCode,
-            (getAllSettings as unknown) as { [key: string]: string }
+            (getAllSettings as unknown) as { [key: string]: string },
+            undefined
         );
         users.grantReadData(getAll);
         const getAllIntegration = new LambdaIntegration(getAll);
@@ -204,7 +243,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaGetUserById),
             'get-by-id/',
             this.lambdaSourceCode,
-            (getByIdSettings as unknown) as { [key: string]: string }
+            (getByIdSettings as unknown) as { [key: string]: string },
+            undefined
         );
         users.grantReadData(getById);
         const getByIdIntegration = new LambdaIntegration(getById);
@@ -219,13 +259,16 @@ export class Deployment extends Stack {
         );
     }
 
-    private setupEventBridge(eventStoreHandler: lambda.Function): EventBus {
+    private setupEventBridge(
+        eventStoreHandler: lambda.Function,
+        queue: IQueue
+    ): EventBus {
         const logGroup = new LogGroup(
             this,
             generateResourceId(resources.systemEventBridgeLogGroup),
             {
-                logGroupName: `/aws/events/${settings.environment}-system-events`,
-                retention: RetentionDays.ONE_DAY,
+                logGroupName: `/aws/events/${settings.environment}/${settings.repositoryName}-system-events`,
+                retention: RetentionDays.ONE_MONTH,
             }
         );
         const busId = generateResourceId(resources.systemEventBridge);
@@ -238,8 +281,6 @@ export class Deployment extends Stack {
             stringValue: bus.eventBusName,
             // allowedPattern: '.*',
         });
-
-        const queue = new sqs.Queue(this, resources.systemEventBridgeDlq);
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
@@ -321,7 +362,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreatedUserEventPublisher),
             'created-user-publisher/',
             this.lambdaSourceCode,
-            (settings as unknown) as { [key: string]: string }
+            (settings as unknown) as { [key: string]: string },
+            undefined
         );
 
         lambda.addEventSource(
@@ -336,24 +378,36 @@ export class Deployment extends Stack {
 
     private createUserEventHandlerLambda(
         userTable: Table,
-        systemBus: EventBus
+        systemBus: EventBus,
+        queue: IQueue,
+        asyncLambdaDlq: IQueue
     ): lambda.Function {
         const createUserHandlerSettings: CreateUserHandlerLambdaSettings = {
             USER_TABLE_NAME: userTable.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const createUser = lambdaFactory(
+        const lambda = lambdaFactory(
             this,
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
             this.lambdaSourceCode,
-            (createUserHandlerSettings as unknown) as { [key: string]: string }
+            (createUserHandlerSettings as unknown) as { [key: string]: string },
+            asyncLambdaDlq
         );
 
-        userTable.grantReadWriteData(createUser);
+        userTable.grantReadWriteData(lambda);
 
-        return createUser;
+        useEventBridgeLambdaHandler(
+            this,
+            UserEvents.CreateUser,
+            lambda,
+            systemBus,
+            resources.eventRuleCreateUserHandler,
+            queue
+        );
+
+        return lambda;
     }
 
     private systemEventStoreLambda(eventStore: Table): lambda.Function {
@@ -366,7 +420,8 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaEventStore),
             'event-store/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string }
+            (createOneSettings as unknown) as { [key: string]: string },
+            undefined
         );
 
         eventStore.grantReadWriteData(createOne);
@@ -438,7 +493,13 @@ export class Deployment extends Stack {
     //     }));
     // }
 }
-
+console.log(`CDK_DEFAULT_ACCOUNT: ${process.env['CDK_DEFAULT_ACCOUNT']}`);
+console.log(`CDK_DEFAULT_REGION: ${process.env['CDK_DEFAULT_REGION']}`);
 const app = new App();
-new Deployment(app, `${settings.environment}-${settings.repositoryName}`);
+new Deployment(app, `${settings.environment}-${settings.repositoryName}`, {
+    env: {
+        account: process.env['CDK_DEFAULT_ACCOUNT'],
+        region: process.env['CDK_DEFAULT_REGION'],
+    },
+});
 app.synth();

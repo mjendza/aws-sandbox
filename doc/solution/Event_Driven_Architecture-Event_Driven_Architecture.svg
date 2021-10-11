@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="1497px" preserveAspectRatio="none" style="width:1604px;height:1497px;background:#FFFFFF;" version="1.1" viewBox="0 0 1604 1497" width="1604px" zoomAndPan="magnify"><defs/><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="203" x="694.11" y="18.6855">Event Driven Architecture</text><!--MD5=[75ef508db7e2562f27a98a8cfcc9f97f]
+cluster B2CTenant--><rect fill="#FFFFFF" height="1440" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="1554" x="44.22" y="29.6406"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="76" x="783.22" y="46.1738">«boundary»</text><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="81" x="780.72" y="65.8594">Serverless</text><text fill="#444444" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="51" x="795.72" y="81.832">[System]</text><!--MD5=[bd009e6794c3cf654f7ffc4016319f2c]
+cluster RestAPI--><rect fill="#FFFFFF" height="413" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="437" x="134.22" y="269.6406"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="76" x="314.72" y="286.1738">«boundary»</text><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="61" x="322.22" y="305.8594">RestAPI</text><text fill="#444444" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="51" x="327.22" y="321.832">[System]</text><!--MD5=[fe164bb4d694f42e99d36b252b850cc3]
+cluster EventBridgeRuleHandlers--><rect fill="#FFFFFF" height="213" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="658" x="294.22" y="989.6406"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="76" x="585.22" y="1006.1738">«boundary»</text><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="211" x="517.72" y="1025.8594">Event Bridge Rule Handlers</text><text fill="#444444" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="51" x="597.72" y="1041.832">[System]</text><!--MD5=[dbd2c5333a3db7d547cc13cee0d15777]
+cluster DynamoDataStore--><rect fill="#FFFFFF" height="193" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="285" x="252.22" y="1252.6406"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="76" x="356.72" y="1269.1738">«boundary»</text><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="140" x="324.72" y="1288.8594">DynamoDataStore</text><text fill="#444444" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="51" x="369.22" y="1304.832">[System]</text><!--MD5=[a75a013ed46674b8090207b0ba62c3fb]
+cluster EventBridgeService--><rect fill="#FFFFFF" height="460" style="stroke:#444444;stroke-width:1.0;stroke-dasharray:7.0,7.0;" width="598" x="976.22" y="732.6406"/><text fill="#000000" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacing" textLength="76" x="1237.22" y="749.1738">«boundary»</text><text fill="#444444" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="95" x="1227.72" y="768.8594">EventBridge</text><text fill="#444444" font-family="sans-serif" font-size="12" font-weight="bold" lengthAdjust="spacing" textLength="51" x="1249.72" y="784.832">[System]</text><!--MD5=[f367faf0381a60654cb678c2cea65232]
+entity EndUser--><rect fill="#686868" height="90.4375" style="stroke:#8A8A8A;stroke-width:1.5;" width="123" x="134.72" y="100.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="103" x="144.72" y="123.0977">«external_person»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="36" x="178.22" y="142.3438">User</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="198.22" y="160.3926"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29" x="183.72" y="178.002">User</text><!--MD5=[645d8587175d8f7ad110cd370775931d]
+entity API--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="116" x="230.22" y="340.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="255.72" y="363.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="96" x="240.22" y="382.3438">API Gateway</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="285.22" y="398.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="290.22" y="415.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="290.22" y="433.0957"/><!--MD5=[6288c10c517d8f7724a956163927791b]
+entity LambdaRestGetUsersHandler--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="187" x="150.72" y="550.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="211.72" y="573.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="162" x="163.22" y="592.3438">Get All Users Handler</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="241.22" y="608.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="246.22" y="625.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="163" x="164.72" y="643.0957">handle get all users event</text><!--MD5=[ff3eabf0cb889cdc984218de75208abf]
+entity LambdaRestPostUserHandler--><rect fill="#438DD5" height="125.6563" style="stroke:#3C7FC0;stroke-width:1.5;" width="182" x="373.22" y="540.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="431.72" y="563.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="154" x="385.22" y="582.3438">Create User Handler</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="62" x="433.22" y="602.4688">Lambda</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="461.22" y="618.4414">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="466.22" y="635.6113"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158" x="387.22" y="653.2207">handle create user event</text><!--MD5=[648f1f00944eecd6c9308020089b9e99]
+entity LambdaCreateUserHandler--><rect fill="#438DD5" height="125.6563" style="stroke:#3C7FC0;stroke-width:1.5;" width="182" x="754.22" y="1060.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="812.72" y="1083.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="154" x="766.22" y="1102.3438">Create User Handler</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="62" x="814.22" y="1122.4688">Lambda</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="842.22" y="1138.4414">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="847.22" y="1155.6113"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="158" x="768.22" y="1173.2207">handle create user event</text><!--MD5=[1daf1b63aad0b4f21e82d282f6f5dcab]
+entity StartPaymentFlowHandler--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="220" x="310.22" y="1070.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="387.72" y="1093.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="200" x="320.22" y="1112.3438">StartPaymentFlowHandler</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="417.22" y="1128.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="422.22" y="1145.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="166" x="339.22" y="1163.0957">handle user created event</text><!--MD5=[003f9db01d6c1ac8a539ce3e23328fc3]
+entity LambdaEventStoreHandler--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="154" x="565.22" y="1070.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="609.72" y="1093.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="134" x="575.22" y="1112.3438">Handle All Events</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="639.22" y="1128.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="644.22" y="1145.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="107" x="590.72" y="1163.0957">handle all events</text><!--MD5=[b060bc174516cd49f9b8bed266993f17]
+entity EventStore--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="124" x="397.22" y="1323.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="426.72" y="1346.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="85" x="416.72" y="1365.3438">EventStore</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="456.22" y="1381.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="461.22" y="1398.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="100" x="411.22" y="1416.0957">Store All Events</text><!--MD5=[feb5939ce823acf5a8245c3205b3c7a1]
+entity Users--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="93" x="268.72" y="1323.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="282.72" y="1346.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="45" x="292.72" y="1365.3438">Users</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="312.22" y="1381.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="317.22" y="1398.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="69" x="282.72" y="1416.0957">User Table</text><!--MD5=[7fbd984f87d8341f48d31fe311a5fa4d]
+entity EventBridge--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="115" x="992.72" y="803.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="1017.72" y="826.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="95" x="1002.72" y="845.3438">EventBridge</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="1047.22" y="861.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="1052.22" y="878.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="77" x="1013.72" y="896.0957">EventBridge</text><!--MD5=[8b40bd982834351230d18f534e861694]
+entity DLQ--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="162" x="1244.22" y="1070.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="1292.72" y="1093.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="142" x="1254.22" y="1112.3438">Dead Letter Queue</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="1322.22" y="1128.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="1327.22" y="1145.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="29" x="1312.72" y="1163.0957">SQS</text><!--MD5=[c2992e70fd8fe7abf2d54785a0b9924f]
+entity CreateUserEventRule--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="185" x="1142.72" y="803.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="1202.72" y="826.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="165" x="1152.72" y="845.3438">CreateUserEventRule</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="1232.22" y="861.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="1237.22" y="878.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="1184.22" y="896.0957">EventBridgeRule</text><!--MD5=[c316c4fc645b68151507d0c254bd82c1]
+entity CreatedUserEventRule--><rect fill="#438DD5" height="105.5313" style="stroke:#3C7FC0;stroke-width:1.5;" width="195" x="1362.72" y="803.6406"/><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="65" x="1427.72" y="826.0977">«container»</text><text fill="#FFFFFF" font-family="sans-serif" font-size="16" font-weight="bold" lengthAdjust="spacing" textLength="175" x="1372.72" y="845.3438">UserCreatedEventRule</text><text fill="#FFFFFF" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="6" x="1457.22" y="861.3164">[]</text><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="0" x="1462.22" y="878.4863"/><text fill="#FFFFFF" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="106" x="1409.22" y="896.0957">EventBridgeRule</text><!--MD5=[540e4975271b8dc5f0caf88bc86f6461]
+link EndUser to API--><path d="M148.28,190.7406 C133.64,209.6006 123.64,232.1806 133.22,253.6406 C152.26,296.3006 191.59,331.3106 225.86,355.5306 " fill="none" id="EndUser-to-API" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="230.01,358.4306,224.913,350.0033,225.9078,355.572,220.3391,356.5668,230.01,358.4306" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="29" x="186.22" y="235.1357">Uses</text><text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="133" x="134.22" y="250.4492">[HTTP Get users [{user}]]</text><!--MD5=[540e4975271b8dc5f0caf88bc86f6461]
+link EndUser to API--><path d="M251.39,190.7106 C259.62,199.7506 267.06,209.8406 272.22,220.6406 C289.23,256.2306 292.98,300.6606 292.61,335.4406 " fill="none" id="EndUser-to-API-1" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="292.53,340.5006,296.6837,331.5705,292.6157,335.5014,288.6849,331.4334,292.53,340.5006" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="29" x="336.72" y="235.1357">Uses</text><text fill="#666666" font-family="sans-serif" font-size="12" font-style="italic" lengthAdjust="spacing" textLength="134" x="284.22" y="250.4492">[HTTP POST user {user}]</text><!--MD5=[719555c8d9728a225d2c35b4b3048185]
+link API to LambdaRestGetUsersHandler--><path d="M277.17,446.8606 C270.84,476.7806 262.89,514.3706 256.39,545.1306 " fill="none" id="API-to-LambdaRestGetUsersHandler" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="255.27,550.4006,261.0336,542.4143,256.2972,545.5073,253.2042,540.7708,255.27,550.4006" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="91" x="278.72" y="491.1357">API handler to</text><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="112" x="270.22" y="507.4873">consume payload</text><!--MD5=[3302524b6db841645f553d71e0dcc4d6]
+link LambdaRestGetUsersHandler to Users--><path d="M209.15,657.0506 C141.1,765.8906 6,1021.9606 103.22,1210.6406 C137.75,1277.6506 213.18,1325.8106 264.1,1352.2206 " fill="none" id="LambdaRestGetUsersHandler-to-Users" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="268.64,1354.5506,262.4669,1346.8764,264.1939,1352.2632,258.8071,1353.9902,268.64,1354.5506" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="77" x="86.22" y="962.1357">get all users</text><!--MD5=[4cd1fc6acf149bc270be44bdc5dbf966]
+link API to LambdaRestPostUserHandler--><path d="M346.37,434.7706 C361.99,447.1206 378.16,461.5006 391.22,476.6406 C406.57,494.4406 420.4,515.9306 431.79,536.0806 " fill="none" id="API-to-LambdaRestPostUserHandler" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="434.33,540.6206,433.4558,530.8106,431.9018,536.2498,426.4626,534.6958,434.33,540.6206" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="91" x="423.72" y="491.1357">API handler to</text><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="112" x="415.22" y="507.4873">consume payload</text><!--MD5=[d755537dc60b149cb81e9696275e15ed]
+link LambdaRestPostUserHandler to EventBridge--><path d="M555.46,643.7206 C675.63,695.1906 883.83,784.3706 987.63,828.8306 " fill="none" id="LambdaRestPostUserHandler-to-EventBridge" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="992.49,830.9106,985.8015,823.6812,987.8965,828.9358,982.6419,831.0308,992.49,830.9106" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="143" x="722.22" y="713.1357">send CreateUser event</text><!--MD5=[0e52329ec7b9306ab61ecd025b6f2161]
+link CreateUserEventRule to LambdaCreateUserHandler--><path d="M1142.52,901.5306 C1069.74,936.0706 980.02,978.8506 976.22,981.6406 C947.48,1002.7906 919.92,1030.8306 897.56,1056.3306 " fill="none" id="CreateUserEventRule-to-LambdaCreateUserHandler" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="894.02,1060.4006,902.9389,1056.223,897.2963,1056.6236,896.8957,1050.9809,894.02,1060.4006" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="109" x="1056.22" y="954.1357">CreateUser event</text><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="49" x="1088.22" y="970.4873">handler</text><!--MD5=[c098f0fb77a64360b5c9ce9f5cba290e]
+link CreateUserEventRule to DLQ--><path d="M1247.16,909.7406 C1252.18,929.8706 1258.42,952.9906 1265.22,973.6406 C1275.4,1004.5606 1288.77,1038.2706 1300.31,1065.7906 " fill="none" id="CreateUserEventRule-to-DLQ" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1302.29,1070.5006,1302.4991,1060.654,1300.3568,1065.8895,1295.1213,1063.7472,1302.29,1070.5006" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="113" x="1266.22" y="954.1357">Deliver to lambda</text><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="36" x="1306.72" y="970.4873">failed</text><!--MD5=[b6a33a9a63e3e7c251c90d2716692b43]
+link CreatedUserEventRule to DLQ--><path d="M1433.71,909.6806 C1410.84,954.5606 1377.88,1019.2706 1354.3,1065.5606 " fill="none" id="CreatedUserEventRule-to-DLQ" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="1351.9,1070.2706,1359.5504,1064.0681,1354.1703,1065.8158,1352.4226,1060.4356,1351.9,1070.2706" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="113" x="1417.22" y="954.1357">Deliver to lambda</text><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="36" x="1457.72" y="970.4873">failed</text><!--MD5=[ef2274a6d6f6f537474e4420e086dd91]
+link LambdaCreateUserHandler to Users--><path d="M775.4,1186.8306 C763.23,1195.7006 750.27,1204.0406 737.22,1210.6406 C697.78,1230.6006 684.94,1230.1406 641.22,1236.6406 C626.87,1238.7706 392.43,1236.8106 380.22,1244.6406 C354.37,1261.2206 338.44,1291.3906 328.82,1318.5906 " fill="none" id="LambdaCreateUserHandler-to-Users" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="327.1,1323.6306,333.7932,1316.4056,328.7154,1318.8988,326.2222,1313.821,327.1,1323.6306" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="51" x="720.22" y="1233.1357">put user</text><!--MD5=[5480008f7167ca8865d959251c01fb55]
+link Users to EventBridge--><path d="M268.38,1344.7506 C228.76,1315.5506 174.78,1267.7706 151.22,1210.6406 C112.41,1116.5506 84.35,1058.3706 151.22,981.6406 C165.09,965.7306 785.89,889.5406 987.62,865.1606 " fill="none" id="Users-to-EventBridge" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="992.6,864.5606,983.1856,861.6678,987.636,865.1597,984.1441,869.6102,992.6,864.5606" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="141" x="152.22" y="1129.1357">put UserCreated event</text><!--MD5=[af2bc27bab1ac2a47a0c57702096a162]
+link EventBridge to StartPaymentFlowHandler--><path d="M992.55,862.3806 C908.43,870.6806 748.15,891.7406 620.22,939.6406 C554.55,964.2306 497.57,1022.1906 461.41,1066.3406 " fill="none" id="EventBridge-to-StartPaymentFlowHandler" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="458.19,1070.3006,466.9698,1065.838,461.343,1066.4201,460.7609,1060.7932,458.19,1070.3006" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="117" x="621.22" y="954.1357">UserCreated event</text><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="49" x="657.22" y="970.4873">handler</text><!--MD5=[0c0326d2c8e92d58c33f28d7c9304119]
+link EventBridge to LambdaEventStoreHandler--><path d="M992.71,869.4906 C925.61,885.6106 814.07,919.8106 737.22,981.6406 C709.06,1004.3006 686.1,1037.5406 669.82,1066.0606 " fill="none" id="EventBridge-to-LambdaEventStoreHandler" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="667.26,1070.5906,675.1651,1064.7161,669.7161,1066.2354,668.1967,1060.7864,667.26,1070.5906" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="109" x="798.22" y="962.1357">All event handler</text><!--MD5=[b442ce757c3e1614f0452a0bfd7535c7]
+link LambdaEventStoreHandler to EventStore--><path d="M604.3,1176.6506 C573.98,1218.2406 531.53,1276.4606 500.38,1319.1806 " fill="none" id="LambdaEventStoreHandler-to-EventStore" style="stroke:#666666;stroke-width:1.0;"/><polygon fill="#666666" points="497.4,1323.2706,505.9388,1318.3627,500.3494,1319.2331,499.4789,1313.6437,497.4,1323.2706" style="stroke:#666666;stroke-width:1.0;"/><text fill="#666666" font-family="sans-serif" font-size="13" font-weight="bold" lengthAdjust="spacing" textLength="59" x="573.22" y="1233.1357">put event</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="55" x="768.11" y="1489.1738">MJendza</text><!--MD5=[a9d9d240a4698d3bb980dfe515662306]
+@startuml Event Driven Architecture
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+title
+Event Driven Architecture
+end title
+
+caption MJendza
+
+System_Boundary(B2CTenant, "Serverless") {
+   System_Boundary(RestAPI, "RestAPI") {
+            Container(API, "API Gateway", "", "")
+            Container(LambdaRestGetUsersHandler, "Get All Users Handler", "", "handle get all users event")
+            Container(LambdaRestPostUserHandler, "Create User Handler Lambda", "", "handle create user event")
+   }
+   System_Boundary(EventBridgeRuleHandlers, "Event Bridge Rule Handlers") {
+           Container(LambdaCreateUserHandler, "Create User Handler Lambda", "", "handle create user event")
+           Container(StartPaymentFlowHandler, "StartPaymentFlowHandler", "", "handle user created event")
+           Container(LambdaEventStoreHandler, "Handle All Events", "", "handle all events")
+   }
+   Person_Ext(EndUser, User, "User")
+
+   System_Boundary(DynamoDataStore, "DynamoDataStore") {
+        Container(EventStore, "EventStore", "", "Store All Events")
+        Container(Users, "Users", "", "User Table")
+   }
+
+   System_Boundary(EventBridgeService, "EventBridge") {
+        Container(EventBridge, "EventBridge", "", "EventBridge")
+        Container(DLQ, "Dead Letter Queue", "", "SQS")
+        Container(CreateUserEventRule, "CreateUserEventRule", "", "EventBridgeRule")
+        Container(CreatedUserEventRule, "UserCreatedEventRule", "", "EventBridgeRule")
+
+   }
+}
+
+Rel(EndUser, API, "Uses", "HTTP Get users [{user}]")
+Rel(API, LambdaRestGetUsersHandler, "API handler to consume payload")
+Rel(LambdaRestGetUsersHandler, Users, "get all users")
+
+Rel(EndUser, API, "Uses", "HTTP POST user {user}")
+Rel(API, LambdaRestPostUserHandler, "API handler to consume payload")
+Rel(LambdaRestPostUserHandler, EventBridge, "send CreateUser event")
+
+Rel(CreateUserEventRule, LambdaCreateUserHandler, "CreateUser event handler")
+Rel(CreateUserEventRule, DLQ, "Deliver to lambda failed")
+Rel(CreatedUserEventRule, DLQ, "Deliver to lambda failed")
+
+Rel(LambdaCreateUserHandler, Users, "put user")
+
+Rel(Users, EventBridge, "put UserCreated event")
+
+Rel(EventBridge, StartPaymentFlowHandler, "UserCreated event handler")
+Rel(EventBridge, LambdaEventStoreHandler, "All event handler")
+Rel(LambdaEventStoreHandler, EventStore, "put event")
+@enduml
+
+@startuml Event Driven Architecture
+
+
+
+
+
+skinparam defaultTextAlignment center
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 150
+
+skinparam rectangle {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam database {
+    StereotypeFontSize 12
+    shadowing false
+}
+
+skinparam Arrow {
+    Color #666666
+    FontColor #666666
+    FontSize 12
+}
+
+skinparam rectangle<<boundary>> {
+    Shadowing false
+    StereotypeFontSize 0
+    FontColor #444444
+    BorderColor #444444
+    BorderStyle dashed
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #08427B
+    BorderColor #073B6F
+}
+
+skinparam rectangle<<external_person>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #686868
+    BorderColor #8A8A8A
+}
+
+skinparam rectangle<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+
+skinparam rectangle<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+
+skinparam database<<system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #1168BD
+    BorderColor #3C7FC0
+}
+
+skinparam database<<external_system>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #999999
+    BorderColor #8A8A8A
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+skinparam rectangle<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+
+skinparam database<<container>> {
+    StereotypeFontColor #FFFFFF
+    FontColor #FFFFFF
+    BackgroundColor #438DD5
+    BorderColor #3C7FC0
+}
+
+
+
+
+
+
+
+
+title
+Event Driven Architecture
+end title
+
+caption MJendza
+
+rectangle "==Serverless\n<size:12>[System]</size>" <<boundary>> as B2CTenant {
+   rectangle "==RestAPI\n<size:12>[System]</size>" <<boundary>> as RestAPI {
+            rectangle "==API Gateway\n//<size:12>[]</size>//\n\n " <<container>> as API
+            rectangle "==Get All Users Handler\n//<size:12>[]</size>//\n\n handle get all users event" <<container>> as LambdaRestGetUsersHandler
+            rectangle "==Create User Handler Lambda\n//<size:12>[]</size>//\n\n handle create user event" <<container>> as LambdaRestPostUserHandler
+   }
+   rectangle "==Event Bridge Rule Handlers\n<size:12>[System]</size>" <<boundary>> as EventBridgeRuleHandlers {
+           rectangle "==Create User Handler Lambda\n//<size:12>[]</size>//\n\n handle create user event" <<container>> as LambdaCreateUserHandler
+           rectangle "==StartPaymentFlowHandler\n//<size:12>[]</size>//\n\n handle user created event" <<container>> as StartPaymentFlowHandler
+           rectangle "==Handle All Events\n//<size:12>[]</size>//\n\n handle all events" <<container>> as LambdaEventStoreHandler
+   }
+   rectangle "==User\n\n User" <<external_person>> as EndUser
+
+   rectangle "==DynamoDataStore\n<size:12>[System]</size>" <<boundary>> as DynamoDataStore {
+        rectangle "==EventStore\n//<size:12>[]</size>//\n\n Store All Events" <<container>> as EventStore
+        rectangle "==Users\n//<size:12>[]</size>//\n\n User Table" <<container>> as Users
+   }
+
+   rectangle "==EventBridge\n<size:12>[System]</size>" <<boundary>> as EventBridgeService {
+        rectangle "==EventBridge\n//<size:12>[]</size>//\n\n EventBridge" <<container>> as EventBridge
+        rectangle "==Dead Letter Queue\n//<size:12>[]</size>//\n\n SQS" <<container>> as DLQ
+        rectangle "==CreateUserEventRule\n//<size:12>[]</size>//\n\n EventBridgeRule" <<container>> as CreateUserEventRule
+        rectangle "==UserCreatedEventRule\n//<size:12>[]</size>//\n\n EventBridgeRule" <<container>> as CreatedUserEventRule
+
+   }
+}
+
+EndUser - -> API : "===Uses\n//<size:12>[HTTP Get users [{user}]]</size>//"
+API - -> LambdaRestGetUsersHandler : "===API handler to consume payload"
+LambdaRestGetUsersHandler - -> Users : "===get all users"
+
+EndUser - -> API : "===Uses\n//<size:12>[HTTP POST user {user}]</size>//"
+API - -> LambdaRestPostUserHandler : "===API handler to consume payload"
+LambdaRestPostUserHandler - -> EventBridge : "===send CreateUser event"
+
+CreateUserEventRule - -> LambdaCreateUserHandler : "===CreateUser event handler"
+CreateUserEventRule - -> DLQ : "===Deliver to lambda failed"
+CreatedUserEventRule - -> DLQ : "===Deliver to lambda failed"
+
+LambdaCreateUserHandler - -> Users : "===put user"
+
+Users - -> EventBridge : "===put UserCreated event"
+
+EventBridge - -> StartPaymentFlowHandler : "===UserCreated event handler"
+EventBridge - -> LambdaEventStoreHandler : "===All event handler"
+LambdaEventStoreHandler - -> EventStore : "===put event"
+@enduml
+
+PlantUML version 1.2021.11(Sat Oct 02 15:26:11 CEST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: Cp1252
+Language: en
+Country: US
+--></g></svg>

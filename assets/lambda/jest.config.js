@@ -6,5 +6,6 @@ module.exports = {
     "!**/node_modules/**",
     "!**/dist/**",
     "!**/src/handlers/**",
-  ]
+  ],
+  testMatch: ["**/?(*.)+(spec|test).ts"],
 };

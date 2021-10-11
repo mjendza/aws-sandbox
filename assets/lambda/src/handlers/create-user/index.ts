@@ -8,7 +8,6 @@ import * as log from 'lambda-log';
 import { dynamoClient } from '../../helpers/dynamodb-factory';
 import { CreateUserService } from '../../users/create-user-service';
 import { UserRepository } from '../../users/user-repository';
-import { SystemEventBridgeRepository } from '../../helpers/event-bridge/system-event-bridge-repository';
 
 export const handler = async (
     event: EventBridgeEvent<string, any>
@@ -21,8 +20,7 @@ export const handler = async (
         );
         log.info(`model: ${JSON.stringify(model)}`);
         const service = new CreateUserService(
-            new UserRepository(dynamoClient()),
-            new SystemEventBridgeRepository()
+            new UserRepository(dynamoClient())
         );
         const result = await service.create(model.detail);
         log.info(`result: ${JSON.stringify(result)}`);

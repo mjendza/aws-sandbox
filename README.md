@@ -42,7 +42,7 @@ AWS vendor locked-in
 ```bash
 
 npm install
-npm run build:ts
+npm run build
 ```
 
 This will install the necessary CDK, then this example's dependencies, and then build your TypeScript files and your CloudFormation template.
@@ -51,23 +51,19 @@ This will install the necessary CDK, then this example's dependencies, and then 
 
 ### Prerequisites
 
-```
+```bash
 npm install -g aws-cdk
 ```
 
 ### Deployment needed commands
 
-$ cdk ls
-<list all stacks in this program>
+```bash
+npm run deploy
+```
 
-$ cdk synth
-<generates and outputs cloudformation template>
-
-$ cdk deploy
-<deploys stack to your account>
-
-$ cdk diff
-<shows diff against deployed stack>
+```bash
+npx cdk deploy --profile name-of-the-profile
+```
 
 ## Development
 
@@ -129,6 +125,8 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 ### :cloud:
 
 #### Event Driven Architecture
+
+![big-picture](doc/solution/Event_Driven_Architecture-Event_Driven_Architecture.svg)
 
 1. At first - find the best messaging system for you. Use AWS [link](https://aws.amazon.com/blogs/compute/choosing-between-messaging-services-for-serverless-applications/). My solution is focused and vendor-locked with AWS.
 1. For me is important to have a possibility to add more than one event target.
