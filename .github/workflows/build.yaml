@@ -38,7 +38,7 @@ jobs:
       # lambda assets
       # install dependencies
       - name: install assets lambda depedencies
-        working-directory: ./assets/lambda
+        working-directory: ./bin
         run: npm ci
       # run build all
       - name: build assets lambda build
