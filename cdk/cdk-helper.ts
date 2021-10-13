@@ -5,6 +5,10 @@ import { Stack } from '@aws-cdk/core';
 import { SubscriptionFilter } from '@aws-cdk/aws-sns';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { IQueue } from '@aws-cdk/aws-sqs';
+import {
+    maximumEventAgeDuration,
+    maximumRetryAttempts,
+} from './helpers/event-driven-processing/helpers';
 
 export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
 
@@ -43,6 +47,12 @@ export function lambdaFactory(
     settings: { [key: string]: string },
     asyncLambdaDlq: IQueue | undefined
 ): lambda.Function {
+    const lambdaMaxEventAge = asyncLambdaDlq
+        ? maximumEventAgeDuration
+        : undefined;
+    const lambdaRetryAttempts = asyncLambdaDlq
+        ? maximumRetryAttempts
+        : undefined;
     const lambdaInstance = new lambda.Function(stack, lambdaResourceId, {
         code: new lambda.AssetCode(`${lambdaSourceCode}${lambdaFolderName}/`),
         handler: 'index.handler',
@@ -52,6 +62,8 @@ export function lambdaFactory(
         timeout: defaultLambdaSettings.timeout,
         tracing: lambda.Tracing.ACTIVE,
         deadLetterQueue: asyncLambdaDlq,
+        maxEventAge: lambdaMaxEventAge,
+        retryAttempts: lambdaRetryAttempts,
     });
 
     const ssmId = generateResourceId(`${lambdaResourceId}StringParameter`);

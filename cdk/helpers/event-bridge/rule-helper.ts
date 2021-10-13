@@ -1,10 +1,14 @@
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { generateResourceId } from '../../cdk-helper';
 import * as iam from '@aws-cdk/aws-iam';
-import { Duration, Stack } from '@aws-cdk/core';
+import { Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
 import * as lambda from '@aws-cdk/aws-lambda';
 import { ServicePrincipal } from '@aws-cdk/aws-iam';
+import {
+    maximumEventAgeInSeconds,
+    maximumRetryAttempts,
+} from '../event-driven-processing/helpers';
 
 export function createCfnRuleWithDlq(
     stack: Stack,
@@ -29,8 +33,8 @@ export function createCfnRuleWithDlq(
                     arn: queue.queueArn,
                 },
                 retryPolicy: {
-                    maximumRetryAttempts: 4,
-                    maximumEventAgeInSeconds: Duration.minutes(4).toSeconds(),
+                    maximumRetryAttempts: maximumRetryAttempts,
+                    maximumEventAgeInSeconds: maximumEventAgeInSeconds,
                 },
             },
         ],
