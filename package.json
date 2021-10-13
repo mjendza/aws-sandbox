@@ -5,8 +5,8 @@
     "scripts": {
         "deploy": "npm run build:all && npm run test:unit && cdk synth && cdk deploy --all",
         "deploy:check": "npm run deploy:all && cdk synth",
-        "deploy:all": "npm run build:pack --prefix ./assets/lambda && npm run build",
-        "build:all": "npm run build:pack --prefix ./assets/lambda && npm run build",
+        "deploy:all": "npm run build:pack --prefix bin && npm run build",
+        "build:all": "npm run build:pack --prefix bin && npm run build",
         "build:ts": "tsc",
         "build": "npm run build:ts",
         "doc:diag:big-picture": "cdk-dia",

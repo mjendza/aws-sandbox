@@ -2,7 +2,7 @@ import { generateResourceId, lambdaFactory } from '../cdk-helper';
 import { resources } from '../cdk-resources';
 import { Stack } from '@aws-cdk/core';
 import { useEventBridgeLambdaHandler } from '../helpers/event-bridge/lambda-helpers';
-import { UserEvents } from '../../assets/lambda/src/events/user-event';
+import { UserEvents } from '../../bin/src/events/user-event';
 import { EventBus } from '@aws-cdk/aws-events';
 import { IQueue } from '@aws-cdk/aws-sqs';
 

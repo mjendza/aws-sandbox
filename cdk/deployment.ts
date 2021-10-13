@@ -43,7 +43,7 @@ import {
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { StringParameter } from '@aws-cdk/aws-ssm';
-import { UserEvents } from '../assets/lambda/src/events/user-event';
+import { UserEvents } from '../bin/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
     assignPermissionToLambdaToPushEvent,

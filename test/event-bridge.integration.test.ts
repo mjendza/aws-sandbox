@@ -6,7 +6,7 @@ process.argv.push('--region=eu-central-1');
 import * as TestTools from 'sls-test-tools';
 // @ts-ignore
 import { toHaveEvent } from 'sls-test-tools';
-import { ConfigurationManager } from '../assets/lambda/src/helpers/ssm/helper';
+import { ConfigurationManager } from '../bin/src/helpers/ssm/helper';
 import { generateResourceId, ssmParameterBuilder } from '../cdk/cdk-helper';
 import { resources } from '../cdk/cdk-resources';
 import { v4 } from 'uuid';
