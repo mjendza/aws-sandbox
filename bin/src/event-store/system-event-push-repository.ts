@@ -11,9 +11,8 @@ import { getEnvironmentSettingsKey } from '../helpers/get-environment-settings-k
 import { SystemLambdaSettings } from '../../../cdk/settings/system-lambda-settings';
 
 export class SystemEventStoreRepository {
-    private tableName = getEnvironmentSettingsKey<SystemLambdaSettings>(
-        'SYSTEM_TABLE_NAME'
-    );
+    private tableName =
+        getEnvironmentSettingsKey<SystemLambdaSettings>('SYSTEM_TABLE_NAME');
 
     constructor(private documentClient: DynamoDB.DocumentClient) {}
 

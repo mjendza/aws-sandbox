@@ -8,9 +8,10 @@ import { LambdaProxyError } from '../helpers/lambda-proxy-error';
 import { getEnvironmentSettingsKey } from '../helpers/get-environment-settings-key';
 
 export class UserRepository {
-    private tableName = getEnvironmentSettingsKey<CreateUserHandlerLambdaSettings>(
-        'USER_TABLE_NAME'
-    );
+    private tableName =
+        getEnvironmentSettingsKey<CreateUserHandlerLambdaSettings>(
+            'USER_TABLE_NAME'
+        );
     static IndexSeparator: string = '_';
     constructor(private documentClient: DynamoDB.DocumentClient) {}
 

@@ -200,7 +200,7 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreateUser),
             'create/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string },
+            createOneSettings as unknown as { [key: string]: string },
             undefined
         );
 
@@ -224,7 +224,7 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaGetAllUsers),
             'get-all/',
             this.lambdaSourceCode,
-            (getAllSettings as unknown) as { [key: string]: string },
+            getAllSettings as unknown as { [key: string]: string },
             undefined
         );
         users.grantReadData(getAll);
@@ -243,7 +243,7 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaGetUserById),
             'get-by-id/',
             this.lambdaSourceCode,
-            (getByIdSettings as unknown) as { [key: string]: string },
+            getByIdSettings as unknown as { [key: string]: string },
             undefined
         );
         users.grantReadData(getById);
@@ -362,7 +362,7 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreatedUserEventPublisher),
             'created-user-publisher/',
             this.lambdaSourceCode,
-            (settings as unknown) as { [key: string]: string },
+            settings as unknown as { [key: string]: string },
             undefined
         );
 
@@ -392,7 +392,7 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
             this.lambdaSourceCode,
-            (createUserHandlerSettings as unknown) as { [key: string]: string },
+            createUserHandlerSettings as unknown as { [key: string]: string },
             asyncLambdaDlq
         );
 
@@ -420,7 +420,7 @@ export class Deployment extends Stack {
             generateResourceId(resources.lambdaEventStore),
             'event-store/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string },
+            createOneSettings as unknown as { [key: string]: string },
             undefined
         );
 

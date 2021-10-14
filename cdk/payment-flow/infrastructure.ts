@@ -22,7 +22,7 @@ export function paymentFlowErrorLambda(
         generateResourceId(resources.lambdaPaymentFlowErrorEventHandler),
         'payment-flow/',
         lambdaSourceCode,
-        (settings as unknown) as { [key: string]: string },
+        settings as unknown as { [key: string]: string },
         asyncLambdaDlq
     );
     useEventBridgeLambdaHandler(
@@ -54,7 +54,7 @@ export function paymentFlowNoPermissionsLambda(
         ),
         'payment-flow-2/',
         lambdaSourceCode,
-        (settings as unknown) as { [key: string]: string },
+        settings as unknown as { [key: string]: string },
         asyncLambdaDla
     );
     useEventBridgeLambdaHandler(
