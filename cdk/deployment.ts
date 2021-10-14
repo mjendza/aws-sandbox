@@ -17,10 +17,9 @@ import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
-    lambdaFactory,
     snsFilterHelper,
     ssmParameterBuilder,
-} from './cdk-helper';
+} from './helpers/cdk-helper';
 import {
     AwsCustomResource,
     AwsCustomResourcePolicy,
@@ -32,7 +31,7 @@ import {
     Resource,
     RestApi,
 } from '@aws-cdk/aws-apigateway';
-import { addCorsOptions } from './deployment-base';
+import { addCorsOptions } from './helpers/api-gateway/helper';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import {
@@ -56,9 +55,10 @@ import {
 } from './payment-flow/infrastructure';
 import { IQueue } from '@aws-cdk/aws-sqs';
 import { Watchful } from 'cdk-watchful';
+import { lambdaBuilder } from './helpers/lambda/lambda-builder';
 
 export class Deployment extends Stack {
-    private lambdaSourceCode = 'assets/lambda/dist/handlers/';
+    private lambdaSourceCode = 'bin/dist/handlers/';
 
     constructor(app: App, id: string, prop: StackProps) {
         super(app, id, prop);
@@ -195,7 +195,7 @@ export class Deployment extends Stack {
         const createOneSettings: CreateUserApiLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: bus.eventBusName,
         };
-        const createOne = lambdaFactory(
+        const createOne = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaCreateUser),
             'create/',
@@ -219,7 +219,7 @@ export class Deployment extends Stack {
             SYSTEM_EVENT_BUS_NAME: '',
         };
 
-        const getAll = lambdaFactory(
+        const getAll = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaGetAllUsers),
             'get-all/',
@@ -238,7 +238,7 @@ export class Deployment extends Stack {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: '',
         };
-        const getById = lambdaFactory(
+        const getById = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaGetUserById),
             'get-by-id/',
@@ -357,7 +357,7 @@ export class Deployment extends Stack {
         const settings: CreatedUserEventPublisherLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const lambda = lambdaFactory(
+        const lambda = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaCreatedUserEventPublisher),
             'created-user-publisher/',
@@ -387,7 +387,7 @@ export class Deployment extends Stack {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const lambda = lambdaFactory(
+        const lambda = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
@@ -415,7 +415,7 @@ export class Deployment extends Stack {
             SYSTEM_TABLE_NAME: eventStore.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
         };
-        const createOne = lambdaFactory(
+        const createOne = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaEventStore),
             'event-store/',

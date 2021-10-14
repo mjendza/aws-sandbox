@@ -1,5 +1,5 @@
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
-import { generateResourceId } from '../../cdk-helper';
+import { generateResourceId } from '../cdk-helper';
 import * as iam from '@aws-cdk/aws-iam';
 import { Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';

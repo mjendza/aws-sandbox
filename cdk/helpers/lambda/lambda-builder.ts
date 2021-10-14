@@ -1,45 +1,28 @@
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as envSettings from './settings.json';
-import { Duration } from '@aws-cdk/core';
-import { Stack } from '@aws-cdk/core';
-import { SubscriptionFilter } from '@aws-cdk/aws-sns';
-import { StringParameter } from '@aws-cdk/aws-ssm';
+import { Duration, Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
+import * as lambda from '@aws-cdk/aws-lambda';
 import {
     maximumEventAgeDuration,
     maximumRetryAttempts,
-} from './helpers/event-driven-processing/helpers';
-
-export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
-
-export const defaultDynamoDBSettings = {
-    readCapacity: 5,
-    writeCapacity: 1,
-    replicationRegions: [],
-};
+} from '../event-driven-processing/helpers';
+import { StringParameter } from '@aws-cdk/aws-ssm';
+import {
+    CdkSettings,
+    generateResourceId,
+    ssmParameterBuilder,
+} from '../cdk-helper';
 
 export const defaultLambdaSettings: LambdaCdkSettings = {
     logRetention: 30,
     timeout: Duration.seconds(30),
 };
+export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
 
 export interface LambdaCdkSettings extends CdkSettings {
     timeout: Duration;
 }
 
-export interface CdkSettings {
-    logRetention: number;
-}
-
-export function generateResourceId(name: string) {
-    return `${name}`;
-}
-
-export function ssmParameterBuilder(lambdaResourceName: string): string {
-    return `/${envSettings.environment}/${envSettings.repositoryName}/${lambdaResourceName}`;
-}
-
-export function lambdaFactory(
+export function lambdaBuilder(
     stack: Stack,
     lambdaResourceId: string,
     lambdaFolderName: string,
@@ -75,14 +58,4 @@ export function lambdaFactory(
         // allowedPattern: '.*',
     });
     return lambdaInstance;
-}
-
-export function snsFilterHelper() {
-    return {
-        filterPolicy: {
-            requestId: SubscriptionFilter.stringFilter({
-                denylist: ['automatic-test'],
-            }),
-        },
-    };
 }
