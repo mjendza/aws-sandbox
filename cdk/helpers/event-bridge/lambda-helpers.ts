@@ -29,5 +29,4 @@ export function useEventBridgeLambdaHandler(
         queue,
         assignPermissionToRuleToInvokeLambda
     );
-    useEventBridge(lambda, eb);
 }
