@@ -1,41 +1,28 @@
-import * as lambda from '@aws-cdk/aws-lambda';
-import * as envSettings from './settings.json';
-import { Duration } from '@aws-cdk/core';
-import { Stack } from '@aws-cdk/core';
-import { SubscriptionFilter } from '@aws-cdk/aws-sns';
-import { StringParameter } from '@aws-cdk/aws-ssm';
+import { Duration, Stack } from '@aws-cdk/core';
 import { IQueue } from '@aws-cdk/aws-sqs';
-
-export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
-
-export const defaultDynamoDBSettings = {
-    readCapacity: 5,
-    writeCapacity: 1,
-    replicationRegions: [],
-};
+import * as lambda from '@aws-cdk/aws-lambda';
+import {
+    maximumEventAgeDuration,
+    maximumRetryAttempts,
+} from '../event-driven-processing/helpers';
+import { StringParameter } from '@aws-cdk/aws-ssm';
+import {
+    CdkSettings,
+    generateResourceId,
+    ssmParameterBuilder,
+} from '../cdk-helper';
 
 export const defaultLambdaSettings: LambdaCdkSettings = {
     logRetention: 30,
     timeout: Duration.seconds(30),
 };
+export const lambdaNodeVersion = lambda.Runtime.NODEJS_14_X;
 
 export interface LambdaCdkSettings extends CdkSettings {
     timeout: Duration;
 }
 
-export interface CdkSettings {
-    logRetention: number;
-}
-
-export function generateResourceId(name: string) {
-    return `${name}`;
-}
-
-export function ssmParameterBuilder(lambdaResourceName: string): string {
-    return `/${envSettings.environment}/${envSettings.repositoryName}/${lambdaResourceName}`;
-}
-
-export function lambdaFactory(
+export function lambdaBuilder(
     stack: Stack,
     lambdaResourceId: string,
     lambdaFolderName: string,
@@ -43,6 +30,12 @@ export function lambdaFactory(
     settings: { [key: string]: string },
     asyncLambdaDlq: IQueue | undefined
 ): lambda.Function {
+    const lambdaMaxEventAge = asyncLambdaDlq
+        ? maximumEventAgeDuration
+        : undefined;
+    const lambdaRetryAttempts = asyncLambdaDlq
+        ? maximumRetryAttempts
+        : undefined;
     const lambdaInstance = new lambda.Function(stack, lambdaResourceId, {
         code: new lambda.AssetCode(`${lambdaSourceCode}${lambdaFolderName}/`),
         handler: 'index.handler',
@@ -52,6 +45,8 @@ export function lambdaFactory(
         timeout: defaultLambdaSettings.timeout,
         tracing: lambda.Tracing.ACTIVE,
         deadLetterQueue: asyncLambdaDlq,
+        maxEventAge: lambdaMaxEventAge,
+        retryAttempts: lambdaRetryAttempts,
     });
 
     const ssmId = generateResourceId(`${lambdaResourceId}StringParameter`);
@@ -63,14 +58,4 @@ export function lambdaFactory(
         // allowedPattern: '.*',
     });
     return lambdaInstance;
-}
-
-export function snsFilterHelper() {
-    return {
-        filterPolicy: {
-            requestId: SubscriptionFilter.stringFilter({
-                denylist: ['automatic-test'],
-            }),
-        },
-    };
 }

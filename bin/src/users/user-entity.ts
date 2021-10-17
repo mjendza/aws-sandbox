@@ -1,4 +1,4 @@
-import { resources } from '../../../../cdk/cdk-resources';
+import { resources } from '../../../cdk/cdk-resources';
 
 export interface UserEntity {
     id: string;

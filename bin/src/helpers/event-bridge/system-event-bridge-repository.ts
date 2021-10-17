@@ -1,5 +1,5 @@
 import { EventBridge } from 'aws-sdk';
-import { UserLambdaSettings } from '../../../../../cdk/settings/lambda-settings';
+import { UserLambdaSettings } from '../../../../cdk/settings/lambda-settings';
 import { eventBridgeClient } from './event-bridge-client';
 import { PutEventsRequest } from 'aws-sdk/clients/eventbridge';
 import * as log from 'lambda-log';

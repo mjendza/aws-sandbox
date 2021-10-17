@@ -17,10 +17,9 @@ import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
-    lambdaFactory,
     snsFilterHelper,
     ssmParameterBuilder,
-} from './cdk-helper';
+} from './helpers/cdk-helper';
 import {
     AwsCustomResource,
     AwsCustomResourcePolicy,
@@ -32,7 +31,7 @@ import {
     Resource,
     RestApi,
 } from '@aws-cdk/aws-apigateway';
-import { addCorsOptions } from './deployment-base';
+import { addCorsOptions } from './helpers/api-gateway/helper';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import {
@@ -43,7 +42,7 @@ import {
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { StringParameter } from '@aws-cdk/aws-ssm';
-import { UserEvents } from '../assets/lambda/src/events/user-event';
+import { UserEvents } from '../bin/src/events/user-event';
 import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
     assignPermissionToLambdaToPushEvent,
@@ -56,9 +55,10 @@ import {
 } from './payment-flow/infrastructure';
 import { IQueue } from '@aws-cdk/aws-sqs';
 import { Watchful } from 'cdk-watchful';
+import { lambdaBuilder } from './helpers/lambda/lambda-builder';
 
 export class Deployment extends Stack {
-    private lambdaSourceCode = 'assets/lambda/dist/handlers/';
+    private lambdaSourceCode = 'bin/dist/handlers/';
 
     constructor(app: App, id: string, prop: StackProps) {
         super(app, id, prop);
@@ -195,12 +195,12 @@ export class Deployment extends Stack {
         const createOneSettings: CreateUserApiLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: bus.eventBusName,
         };
-        const createOne = lambdaFactory(
+        const createOne = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaCreateUser),
             'create/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string },
+            createOneSettings as unknown as { [key: string]: string },
             undefined
         );
 
@@ -219,12 +219,12 @@ export class Deployment extends Stack {
             SYSTEM_EVENT_BUS_NAME: '',
         };
 
-        const getAll = lambdaFactory(
+        const getAll = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaGetAllUsers),
             'get-all/',
             this.lambdaSourceCode,
-            (getAllSettings as unknown) as { [key: string]: string },
+            getAllSettings as unknown as { [key: string]: string },
             undefined
         );
         users.grantReadData(getAll);
@@ -238,12 +238,12 @@ export class Deployment extends Stack {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: '',
         };
-        const getById = lambdaFactory(
+        const getById = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaGetUserById),
             'get-by-id/',
             this.lambdaSourceCode,
-            (getByIdSettings as unknown) as { [key: string]: string },
+            getByIdSettings as unknown as { [key: string]: string },
             undefined
         );
         users.grantReadData(getById);
@@ -357,12 +357,12 @@ export class Deployment extends Stack {
         const settings: CreatedUserEventPublisherLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const lambda = lambdaFactory(
+        const lambda = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaCreatedUserEventPublisher),
             'created-user-publisher/',
             this.lambdaSourceCode,
-            (settings as unknown) as { [key: string]: string },
+            settings as unknown as { [key: string]: string },
             undefined
         );
 
@@ -387,12 +387,12 @@ export class Deployment extends Stack {
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
             SYSTEM_EVENT_BUS_NAME: systemBus.eventBusName,
         };
-        const lambda = lambdaFactory(
+        const lambda = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaCreateUserEventHandler),
             'create-user/',
             this.lambdaSourceCode,
-            (createUserHandlerSettings as unknown) as { [key: string]: string },
+            createUserHandlerSettings as unknown as { [key: string]: string },
             asyncLambdaDlq
         );
 
@@ -415,12 +415,12 @@ export class Deployment extends Stack {
             SYSTEM_TABLE_NAME: eventStore.tableName,
             AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
         };
-        const createOne = lambdaFactory(
+        const createOne = lambdaBuilder(
             this,
             generateResourceId(resources.lambdaEventStore),
             'event-store/',
             this.lambdaSourceCode,
-            (createOneSettings as unknown) as { [key: string]: string },
+            createOneSettings as unknown as { [key: string]: string },
             undefined
         );
 

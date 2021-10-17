@@ -1,10 +1,11 @@
-import { generateResourceId, lambdaFactory } from '../cdk-helper';
+import { generateResourceId } from '../helpers/cdk-helper';
 import { resources } from '../cdk-resources';
 import { Stack } from '@aws-cdk/core';
 import { useEventBridgeLambdaHandler } from '../helpers/event-bridge/lambda-helpers';
-import { UserEvents } from '../../assets/lambda/src/events/user-event';
+import { UserEvents } from '../../bin/src/events/user-event';
 import { EventBus } from '@aws-cdk/aws-events';
 import { IQueue } from '@aws-cdk/aws-sqs';
+import { lambdaBuilder } from '../helpers/lambda/lambda-builder';
 
 export function paymentFlowErrorLambda(
     stack: Stack,
@@ -16,12 +17,12 @@ export function paymentFlowErrorLambda(
     const settings: PaymentFlowHandlerLambdaSettings = {
         flowType: PaymentFlow.error,
     };
-    const lambda = lambdaFactory(
+    const lambda = lambdaBuilder(
         stack,
         generateResourceId(resources.lambdaPaymentFlowErrorEventHandler),
         'payment-flow/',
         lambdaSourceCode,
-        (settings as unknown) as { [key: string]: string },
+        settings as unknown as { [key: string]: string },
         asyncLambdaDlq
     );
     useEventBridgeLambdaHandler(
@@ -46,14 +47,14 @@ export function paymentFlowNoPermissionsLambda(
     const settings: PaymentFlowHandlerLambdaSettings = {
         flowType: PaymentFlow.error,
     };
-    const lambda = lambdaFactory(
+    const lambda = lambdaBuilder(
         stack,
         generateResourceId(
             resources.lambdaPaymentFlowNoPermissionsEventHandler
         ),
         'payment-flow-2/',
         lambdaSourceCode,
-        (settings as unknown) as { [key: string]: string },
+        settings as unknown as { [key: string]: string },
         asyncLambdaDla
     );
     useEventBridgeLambdaHandler(
