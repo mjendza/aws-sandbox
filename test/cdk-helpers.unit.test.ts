@@ -1,4 +1,4 @@
-import { generateResourceId } from '../cdk/cdk-helper';
+import { generateResourceId } from '../cdk/helpers/cdk-helper';
 
 test('generateResourceId', () => {
     // GIVEN

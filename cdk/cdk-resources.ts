@@ -8,13 +8,15 @@ export interface CdkResources {
     lambdaCreateUserEventHandler: string;
     lambdaCreatedUserEventPublisher: string;
     eventRuleCreateUserHandler: string;
-    lambdaPaymentFlowEventHandler: string;
-    eventRuleUserCreatedHandler: string;
+    lambdaPaymentFlowErrorEventHandler: string;
+    lambdaPaymentFlowNoPermissionsEventHandler: string;
+    eventRuleUserCreatedPaymentFlowErrorHandler: string;
+    eventRuleUserCreatedPaymentFlowNoPermissionsHandler: string;
 
     dynamoDbUserTable: string;
     dynamoDbUserHomeRegionSortedGSI: string;
 
-    sqsUserEventsDeadLetterQueue: string;
+    sqsLambdaAsyncDlq: string;
     snsUserCreatedTopic: string;
 
     systemEventBridge: string;
@@ -26,6 +28,9 @@ export interface CdkResources {
     systemCfnRulePushAllEvents: string;
     lambdaEventStore: string;
     dynamoDbEventStoreTable: string;
+
+    alarmSqs: string;
+    alarmSns: string;
 }
 
 export const resources: CdkResources = {
@@ -38,13 +43,19 @@ export const resources: CdkResources = {
     lambdaCreateUserEventHandler: 'lambda-create-user-event-handler',
     lambdaCreatedUserEventPublisher: 'lambda-created-user-event-publisher',
     eventRuleCreateUserHandler: 'rule-create-user-event-handler',
-    lambdaPaymentFlowEventHandler: 'lambda-payment-flow-event-handler',
-    eventRuleUserCreatedHandler: 'rule-user-created-event-handler',
+    lambdaPaymentFlowErrorEventHandler:
+        'lambda-payment-flow-error-event-handler',
+    lambdaPaymentFlowNoPermissionsEventHandler:
+        'lambda-payment-flow-no-permissions-event-handler',
+    eventRuleUserCreatedPaymentFlowErrorHandler:
+        'rule-user-created-payment-error-event-handler',
+    eventRuleUserCreatedPaymentFlowNoPermissionsHandler:
+        'rule-user-created-payment-no-permissions-event-handler',
 
     dynamoDbUserTable: 'users',
     dynamoDbUserHomeRegionSortedGSI: 'homeRegion',
 
-    sqsUserEventsDeadLetterQueue: 'sqs-users-event-dlq',
+    sqsLambdaAsyncDlq: 'sqs-async-lambda-event-dlq',
     snsUserCreatedTopic: 'user-created-topic',
 
     systemEventBridge: 'system-event-bridge',
@@ -55,10 +66,7 @@ export const resources: CdkResources = {
     systemCfnRulePushAllEvents: 'system-cfn-rule-push-all-events',
     lambdaEventStore: 'system-event-store-lambda',
     dynamoDbEventStoreTable: 'system-event-store',
-};
 
-export interface UserCreated {
-    id: string;
-    email: string;
-    createdAt: string;
-}
+    alarmSqs: 'alarm-sqs-queue',
+    alarmSns: 'alarm-sns',
+};

@@ -1,0 +1,56 @@
+@startuml Event Driven Architecture
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Container.puml
+
+title
+Event Driven Architecture
+end title
+
+caption MJendza
+
+System_Boundary(B2CTenant, "Serverless") {
+   System_Boundary(RestAPI, "RestAPI") {
+            Container(API, "API Gateway", "", "")
+            Container(LambdaRestGetUsersHandler, "Get All Users Handler", "", "handle get all users event")
+            Container(LambdaRestPostUserHandler, "Create User Handler Lambda", "", "handle create user event")
+   }
+   System_Boundary(EventBridgeRuleHandlers, "Event Bridge Rule Handlers") {
+           Container(LambdaCreateUserHandler, "Create User Handler Lambda", "", "handle create user event")
+           Container(StartPaymentFlowHandler, "StartPaymentFlowHandler", "", "handle user created event")
+           Container(LambdaEventStoreHandler, "Handle All Events", "", "handle all events")
+   }
+   Person_Ext(EndUser, User, "User")
+
+   System_Boundary(DynamoDataStore, "DynamoDataStore") {
+        Container(EventStore, "EventStore", "", "Store All Events")
+        Container(Users, "Users", "", "User Table")
+   }
+
+   System_Boundary(EventBridgeService, "EventBridge") {
+        Container(EventBridge, "EventBridge", "", "EventBridge")
+        Container(DLQ, "Dead Letter Queue", "", "SQS")
+        Container(CreateUserEventRule, "CreateUserEventRule", "", "EventBridgeRule")
+        Container(CreatedUserEventRule, "UserCreatedEventRule", "", "EventBridgeRule")
+
+   }
+}
+
+Rel(EndUser, API, "Uses", "HTTP Get users [{user}]")
+Rel(API, LambdaRestGetUsersHandler, "API handler to consume payload")
+Rel(LambdaRestGetUsersHandler, Users, "get all users")
+
+Rel(EndUser, API, "Uses", "HTTP POST user {user}")
+Rel(API, LambdaRestPostUserHandler, "API handler to consume payload")
+Rel(LambdaRestPostUserHandler, EventBridge, "send CreateUser event")
+
+Rel(CreateUserEventRule, LambdaCreateUserHandler, "CreateUser event handler")
+Rel(CreateUserEventRule, DLQ, "Deliver to lambda failed")
+Rel(CreatedUserEventRule, DLQ, "Deliver to lambda failed")
+
+Rel(LambdaCreateUserHandler, Users, "put user")
+
+Rel(Users, EventBridge, "put UserCreated event")
+
+Rel(EventBridge, StartPaymentFlowHandler, "UserCreated event handler")
+Rel(EventBridge, LambdaEventStoreHandler, "All event handler")
+Rel(LambdaEventStoreHandler, EventStore, "put event")
+@enduml

@@ -38,21 +38,10 @@ jobs:
       # lambda assets
       # install dependencies
       - name: install assets lambda depedencies
-        working-directory: ./assets/lambda
+        working-directory: ./bin
         run: npm ci
-      # run build:ts
-      - name: build assets lambda build:ts
-        working-directory: ./assets/lambda
-        run: npm run build:ts
-      # run build
-      - name: build assets lambda with webpack
-        working-directory: ./assets/lambda
-        run: npm run build
-      # run tests
-      #- run: npm run test:unit
-
-      #build and test CDK
-      # run build
-      - run: npm run build:ts
+      # run build all
+      - name: build assets lambda build
+        run: npm run build:all
       # run tests
       - run: npm run test:unit

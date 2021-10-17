@@ -48,7 +48,7 @@ export function setupAppSync(stack: Stack, users: Table) {
         //               "id": $util.dynamodb.toDynamoDBJson($ctx.args.id)
         //             }
         //         }`),
-        requestMappingTemplate: MappingTemplate.dynamoDbQ
+        //requestMappingTemplate: MappingTemplate.dynamoDbQ
         responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     });
 

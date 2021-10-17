@@ -9,6 +9,5 @@
         "ecmaVersion": 11,
         "sourceType": "module"
     },
-    "plugins": ["@typescript-eslint"],
     "rules": {}
 }
