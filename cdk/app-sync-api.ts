@@ -51,6 +51,49 @@ export function setupAppSync(stack: Stack, users: Table) {
         responseMappingTemplate: MappingTemplate.dynamoDbResultList(),
     });
 
+    // const putEventResolver = new CfnResolver(this, "PutEventMutationResolver", {
+    //     apiId: appSync2EventBridgeGraphQLApi.attrApiId,
+    //     typeName: "Mutation",
+    //     fieldName: "putEvent",
+    //     dataSourceName: dataSource.name,
+    //     requestMappingTemplate: `{
+    //     "version": "2018-05-29",
+    //     "method": "POST",
+    //     "resourcePath": "/",
+    //     "params": {
+    //       "headers": {
+    //         "content-type": "application/x-amz-json-1.1",
+    //         "x-amz-target":"AWSEvents.PutEvents"
+    //       },
+    //       "body": {
+    //         "Entries":[
+    //           {
+    //             "Source":"appsync",
+    //             "EventBusName": "default",
+    //             "Detail":"{ \\\"event\\\": \\\"$ctx.arguments.event\\\"}",
+    //             "DetailType":"Event Bridge via GraphQL"
+    //            }
+    //         ]
+    //       }
+    //     }
+    //   }`,
+    //     responseMappingTemplate: `## Raise a GraphQL field error in case of a datasource invocation error
+    //   #if($ctx.error)
+    //     $util.error($ctx.error.message, $ctx.error.type)
+    //   #end
+    //   ## if the response status code is not 200, then return an error. Else return the body **
+    //   #if($ctx.result.statusCode == 200)
+    //       ## If response is 200, return the body.
+    //       {
+    //         "result": "$util.parseJson($ctx.result.body)"
+    //       }
+    //   #else
+    //       ## If response is not 200, append the response to error block.
+    //       $utils.appendError($ctx.result.body, $ctx.result.statusCode)
+    //   #end`
+    // });
+    // putEventResolver.addDependsOn(apiSchema);
+
     // dynamodbDataSource.createResolver({
     //     typeName: 'Query',
     //     fieldName: 'list',
