@@ -2,8 +2,10 @@
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 # https://ardalis.com/rest-commands-and-queries-in-vs-code
 
-@ApiGatewayHostname =  https://x.execute-api.eu-central-1.amazonaws.com/beta/
-@GraphQLHost = https://x.appsync-api.eu-central-1.amazonaws.com/graphql
+@ApiGatewayHostname =  https://bb.execute-api.eu-central-1.amazonaws.com/beta/
+
+@GraphQLHost = https://yy.appsync-api.eu-central-1.amazonaws.com/graphql
+
 @GraphQLAppSyncApiKey = x
 
 @port = 7071
@@ -38,7 +40,7 @@ x-api-key: {{GraphQLAppSyncApiKey}}
 X-REQUEST-TYPE: GraphQL
 
 query {
-  listUsers {
+  list {
     items {
       email
       id
@@ -55,7 +57,7 @@ x-api-key: {{GraphQLAppSyncApiKey}}
 X-REQUEST-TYPE: GraphQL
 
 query {
-   getUserById(id: "2b07f790-8671-4c0f-9128-052cc5c7135f") {
+   getById(id: "044712b1-eb27-4478-9bbd-dd61bedae47d") {
     email
     id
   }
