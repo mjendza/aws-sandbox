@@ -8,7 +8,8 @@ test('DEBUG create user', async () => {
             email: 'abc',
         }),
     } as any;
-    process.env.SYSTEM_EVENT_BUS_NAME = 'devawssandboxsystemeventbridgeBD79C593';
+    process.env.SYSTEM_EVENT_BUS_NAME =
+        'devawssandboxsystemeventbridgeBD79C593';
     process.env.AWS_REGION = 'eu-central-1';
     // WHEN
     const result = await handler(event);

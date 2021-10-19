@@ -40,7 +40,7 @@ export function setupAppSync(stack: Stack, users: Table) {
     dynamodbDataSource.createResolver({
         typeName: 'Query',
         fieldName: 'getById',
-        requestMappingTemplate: MappingTemplate.dynamoDbGetItem("id", "id"),
+        requestMappingTemplate: MappingTemplate.dynamoDbGetItem('id', 'id'),
         responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     });
 
