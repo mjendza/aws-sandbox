@@ -10,6 +10,7 @@ type PaginatedUsers {
 
 type Query {
   getById(id: String!): User
+  list: PaginatedUsers
 }
 
 type Mutation {

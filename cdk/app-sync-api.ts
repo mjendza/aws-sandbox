@@ -44,12 +44,12 @@ export function setupAppSync(stack: Stack, users: Table) {
         responseMappingTemplate: MappingTemplate.dynamoDbResultItem(),
     });
 
-    // dynamodbDataSource.createResolver({
-    //     typeName: 'Query',
-    //     fieldName: 'listUsers',
-    //     requestMappingTemplate: MappingTemplate.dynamoDbScanTable(),
-    //     responseMappingTemplate: MappingTemplate.dynamoDbResultList(),
-    // });
+    dynamodbDataSource.createResolver({
+        typeName: 'Query',
+        fieldName: 'list',
+        requestMappingTemplate: MappingTemplate.dynamoDbScanTable(),
+        responseMappingTemplate: MappingTemplate.dynamoDbResultList(),
+    });
 
     // dynamodbDataSource.createResolver({
     //     typeName: 'Query',
