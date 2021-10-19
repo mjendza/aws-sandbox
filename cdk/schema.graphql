@@ -9,8 +9,7 @@ type PaginatedUsers {
 }
 
 type Query {
-  getUserById(id: String!): User
-  listUsers(limit: Int, nextToken: String): PaginatedUsers
+  getById(id: String!): User
 }
 
 type Mutation {

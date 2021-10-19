@@ -19,10 +19,10 @@
         "uuid": "8.3.2",
         "ajv": "8.6.3",
         "lambda-log": "3.0.2",
-        "aws-xray-sdk": "3.3.3"
+        "aws-xray-sdk": "2.5.0"
     },
     "peerDependencies": {
-        "aws-sdk": "2.804.0"
+        "aws-sdk": "2.952.0"
     },
     "devDependencies": {
         "@types/lambda-log": "2.2.0",
