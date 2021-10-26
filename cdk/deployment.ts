@@ -56,6 +56,7 @@ import {
 import { IQueue } from '@aws-cdk/aws-sqs';
 import { Watchful } from 'cdk-watchful';
 import { lambdaBuilder } from './helpers/lambda/lambda-builder';
+import { setupAppSync } from './app-sync-api';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'bin/dist/handlers/';
@@ -80,7 +81,6 @@ export class Deployment extends Stack {
         const api = new RestApi(
             this,
             `api-gateway-${settings.repositoryName}`,
-
             {
                 restApiName: `api-${settings.repositoryName}`,
                 deployOptions: {
@@ -92,6 +92,9 @@ export class Deployment extends Stack {
                 },
             }
         );
+
+        setupAppSync(this, users);
+
         const usersApiEndpoint = api.root.addResource('users');
 
         this.createEndpoint(usersApiEndpoint, bus);

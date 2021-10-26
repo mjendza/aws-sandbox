@@ -39,6 +39,7 @@
         "@aws-cdk/aws-stepfunctions-tasks": "1.128.0",
         "@aws-cdk/aws-lambda-event-sources": "1.128.0",
         "@aws-cdk/aws-s3": "1.128.0",
+        "@aws-cdk/aws-appsync": "1.128.0",
         "cdk-watchful": "0.5.264"
     },
     "devDependencies": {

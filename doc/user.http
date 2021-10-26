@@ -2,13 +2,15 @@
 # https://marketplace.visualstudio.com/items?itemName=humao.rest-client
 # https://ardalis.com/rest-commands-and-queries-in-vs-code
 
-@hostname =  https://fake.execute-api.eu-central-1.amazonaws.com/beta/
+@ApiGatewayHostname =  https://bb.execute-api.eu-central-1.amazonaws.com/beta/
 
+@GraphQLHost = https://yy.appsync-api.eu-central-1.amazonaws.com/graphql
+
+@GraphQLAppSyncApiKey = x
 
 @port = 7071
 #@hostname = http://localhost:{{port}}/api
 
-@host = {{hostname}}
 @contentType = application/json
 @createdAt = {{$datetime iso8601}}
 @modifiedBy = {{$processEnv USERNAME}}
@@ -16,14 +18,47 @@
 ###
 ### users
 ###
-GET {{host}}/users HTTP/1.1
+GET {{ApiGatewayHostname}}/users HTTP/1.1
 ###
 ### create user
 ###
-POST {{host}}/users HTTP/1.1
-content-type: application/json
+POST {{ApiGatewayHostname}}/users HTTP/1.1
+content-type: {{contentType}}
 
 {
     "email": "{{$guid}}"
 }
 
+
+
+###
+### GraphQL users
+### 
+POST {{GraphQLHost}} HTTP/1.1
+Content-Type: {{contentType}}
+x-api-key: {{GraphQLAppSyncApiKey}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+  list {
+    items {
+      email
+      id
+    }
+  }
+}
+
+###
+### GraphQL user by id
+### 
+POST {{GraphQLHost}} HTTP/1.1
+Content-Type: {{contentType}}
+x-api-key: {{GraphQLAppSyncApiKey}}
+X-REQUEST-TYPE: GraphQL
+
+query {
+   getById(id: "044712b1-eb27-4478-9bbd-dd61bedae47d") {
+    email
+    id
+  }
+}

@@ -1,0 +1,18 @@
+type User {
+  id: String!
+  email: String!
+}
+
+type PaginatedUsers {
+  items: [User]
+  nextToken: String
+}
+
+type Query {
+  getById(id: String!): User
+  list: PaginatedUsers
+}
+
+type Mutation {
+  syncUsers: [User]
+}
