@@ -112,6 +112,9 @@ assets/**/dist
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 
+.idea/*
+!.idea/runConfigurations
+
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries

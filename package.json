@@ -32,6 +32,7 @@
         "@aws-cdk/aws-apigateway": "1.128.0",
         "@aws-cdk/aws-dynamodb": "1.128.0",
         "@aws-cdk/aws-iam": "1.128.0",
+        "@aws-cdk/aws-cognito": "1.128.0",
         "@aws-cdk/aws-lambda": "1.128.0",
         "@aws-cdk/core": "1.128.0",
         "@aws-cdk/aws-sns-subscriptions": "1.128.0",

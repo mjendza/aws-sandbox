@@ -1,8 +1,30 @@
 import {
+    AuthorizationType,
+    CfnAuthorizer,
     IResource,
+    LambdaIntegration,
     MockIntegration,
     PassthroughBehavior,
+    Resource,
 } from '@aws-cdk/aws-apigateway';
+import * as lambda from '@aws-cdk/aws-lambda';
+
+export function addMethodWithAuthorization(
+    usersApiEndpoint: Resource,
+    method: string,
+    lambda: lambda.Function,
+    authorizer: CfnAuthorizer
+) {
+    const options = {
+        authorizationType: AuthorizationType.COGNITO,
+        authorizer: {
+            authorizerId: authorizer.ref,
+        },
+    };
+    const createOneIntegration = new LambdaIntegration(lambda);
+    usersApiEndpoint.addMethod(method, createOneIntegration, options);
+    addCorsOptions(usersApiEndpoint);
+}
 
 export function addCorsOptions(apiResource: IResource) {
     apiResource.addMethod(
