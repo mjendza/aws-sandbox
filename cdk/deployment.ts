@@ -42,7 +42,6 @@ import {
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../bin/src/events/user-event';
 import {
     assignPermissionToLambdaToPushEvent,
@@ -108,6 +107,12 @@ export class Deployment extends Stack {
             this,
             generateResourceId(resources.cognitoUserPool)
         );
+        ssmParameterBuilder(
+            this,
+            `${generateResourceId(resources.cognitoUserPool)}-StringParameter`,
+            userPool.userPoolId
+        );
+
         const authorizer = authorizeApiWithCognitoPool(
             this,
             api,
@@ -299,14 +304,8 @@ export class Deployment extends Stack {
         );
         const busId = generateResourceId(resources.systemEventBridge);
         const bus = new EventBus(this, busId, {});
-        const ssmId = generateResourceId(`${busId}StringParameter`);
-        const ssmName = ssmParameterBuilder(busId);
-        new StringParameter(this, ssmId, {
-            description: busId,
-            parameterName: ssmName,
-            stringValue: bus.eventBusName,
-            // allowedPattern: '.*',
-        });
+
+        ssmParameterBuilder(this, `${busId}StringParameter`, bus.eventBusName);
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)

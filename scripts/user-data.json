@@ -1,0 +1,19 @@
+{
+    "UserPoolId": "eu-west-1_le5fWIsd3",
+    "Username": "dlopezp",
+    "UserAttributes": [
+        {
+            "Name": "email",
+            "Value": "swgoh.dlopez@gmail.com"
+        },
+        {
+            "Name": "email_verified",
+            "Value": "True"
+        },
+        {
+            "Name": "custom:role",
+            "Value": "[\"Admin\"]"
+        }
+    ],
+    "DesiredDeliveryMediums": ["EMAIL"]
+}
