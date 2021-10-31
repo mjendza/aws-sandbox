@@ -13,7 +13,13 @@ import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
+import {
+    App,
+    CfnOutput,
+    RemovalPolicy,
+    Stack,
+    StackProps,
+} from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -107,9 +113,12 @@ export class Deployment extends Stack {
             this,
             generateResourceId(resources.cognitoUserPool)
         );
+        new CfnOutput(this, `${generateResourceId(resources.cognitoUserPool)}-Output`, {
+            value: userPool.userPoolArn,
+        });
         ssmParameterBuilder(
             this,
-            `${generateResourceId(resources.cognitoUserPool)}-StringParameter`,
+            `${generateResourceId(resources.cognitoUserPool)}-Parameter`,
             userPool.userPoolId
         );
 
@@ -305,7 +314,7 @@ export class Deployment extends Stack {
         const busId = generateResourceId(resources.systemEventBridge);
         const bus = new EventBus(this, busId, {});
 
-        ssmParameterBuilder(this, `${busId}StringParameter`, bus.eventBusName);
+        ssmParameterBuilder(this, `${busId}-Parameter`, bus.eventBusName);
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)

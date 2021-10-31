@@ -49,7 +49,7 @@ export function lambdaBuilder(
     });
     ssmParameterBuilder(
         stack,
-        generateResourceId(`${lambdaResourceId}StringParameter`),
+        generateResourceId(`${lambdaResourceId}-Parameter`),
         lambdaResourceId
     );
     return lambdaInstance;
