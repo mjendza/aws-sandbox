@@ -1,0 +1,15 @@
+{
+    "UserPoolId": "us-east-1",
+    "Username": "integration-test@fake-domain.com",
+    "UserAttributes": [
+        {
+            "Name": "email",
+            "Value": "integration-test@fake-domain.com"
+        },
+        {
+            "Name": "email_verified",
+            "Value": "True"
+        }
+    ],
+    "DesiredDeliveryMediums": ["EMAIL"]
+}

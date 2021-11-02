@@ -1,1 +1,1 @@
-aws cognito-idp sso-oidc register-client --client-name 'IntegrationTests' --client-type public
+aws cognito-idp  create-user-pool-client --cli-input-json file://service-principal.json.secret

@@ -113,9 +113,13 @@ export class Deployment extends Stack {
             this,
             generateResourceId(resources.cognitoUserPool)
         );
-        new CfnOutput(this, `${generateResourceId(resources.cognitoUserPool)}-Output`, {
-            value: userPool.userPoolArn,
-        });
+        new CfnOutput(
+            this,
+            `${generateResourceId(resources.cognitoUserPool)}-Output`,
+            {
+                value: userPool.userPoolArn,
+            }
+        );
         ssmParameterBuilder(
             this,
             `${generateResourceId(resources.cognitoUserPool)}-Parameter`,
