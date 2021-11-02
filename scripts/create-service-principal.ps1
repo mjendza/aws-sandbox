@@ -1,0 +1,1 @@
+aws cognito-idp sso-oidc register-client --client-name 'IntegrationTests' --client-type public

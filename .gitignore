@@ -121,3 +121,4 @@ assets/**/dist
 cdk.out
 
 doc/solution/html/
+*.secret
