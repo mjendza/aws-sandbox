@@ -4,8 +4,7 @@
     "description": "My AWS Sandbox",
     "scripts": {
         "deploy": "npm run build:all && npm run test:unit && cdk synth && cdk deploy --all",
-        "deploy:check": "npm run deploy:all && cdk synth",
-        "deploy:all": "npm run build:pack --prefix bin && npm run build",
+        "deploy:check": "npm run build:all && cdk synth",
         "build:all": "npm run build:pack --prefix bin && npm run build",
         "build:ts": "tsc",
         "build": "npm run build:ts",

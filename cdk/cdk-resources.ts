@@ -33,6 +33,8 @@ export interface CdkResources {
     alarmSns: string;
 
     cognitoUserPool: string;
+    cognitoUserPoolClient: string;
+    cognitoIdentityPool: string;
     apiAuthorizer: string;
 }
 
@@ -74,5 +76,7 @@ export const resources: CdkResources = {
     alarmSns: 'alarm-sns',
 
     cognitoUserPool: 'cognito-user-pool',
+    cognitoUserPoolClient: 'cognito-user-pool-client',
+    cognitoIdentityPool: 'cognito-identity-pool',
     apiAuthorizer: 'api-authorizer',
 };

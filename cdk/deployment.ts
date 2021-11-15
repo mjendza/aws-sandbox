@@ -68,7 +68,10 @@ import {
 } from './event-store/creators';
 import {
     authorizeApiWithCognitoPool,
+    createIdentityPool,
     createUserPoolWithEmailSignIn,
+    rolesForUsers,
+    userPoolClientProps,
 } from './helpers/cognito/helper';
 
 export class Deployment extends Stack {
@@ -113,9 +116,37 @@ export class Deployment extends Stack {
             this,
             generateResourceId(resources.cognitoUserPool)
         );
+        const userPoolClient = userPool.addClient(
+            generateResourceId(resources.cognitoUserPoolClient),
+            userPoolClientProps(userPool)
+        );
+        const userPoolIdentityPool = createIdentityPool(
+            this,
+            generateResourceId(resources.cognitoIdentityPool),
+            userPool,
+            userPoolClient
+        );
+        rolesForUsers(this, userPool, userPoolClient, userPoolIdentityPool);
+
         new CfnOutput(
             this,
             `${generateResourceId(resources.cognitoUserPool)}-Output`,
+            {
+                value: userPoolIdentityPool.ref,
+            }
+        );
+        new CfnOutput(
+            this,
+            `${generateResourceId(
+                resources.cognitoUserPoolClient
+            )}-userPoolClientId`,
+            {
+                value: userPoolClient.userPoolClientId,
+            }
+        );
+        new CfnOutput(
+            this,
+            `${generateResourceId(resources.cognitoIdentityPool)}-Output`,
             {
                 value: userPool.userPoolArn,
             }
