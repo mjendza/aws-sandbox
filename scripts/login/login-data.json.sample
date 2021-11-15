@@ -1,0 +1,10 @@
+{
+    "UserPoolId": "us-east-1-xxxx",
+    "ClientId": "xXx",
+    "AuthFlow": "ADMIN_USER_PASSWORD_AUTH",
+    "AuthParameters": {
+          "USERNAME": "x@x.xxx",
+          "PASSWORD":"password",
+          "SECRET_HASH": "hmac-value"
+     }
+}

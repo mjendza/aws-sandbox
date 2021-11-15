@@ -1,7 +1,7 @@
 # Powershell HMAC SHA 256
 
-$message = 'Message'
-$secret = 'secret'
+$message = 'email+clientId'
+$secret = 'test6'
 
 $hmacsha = New-Object System.Security.Cryptography.HMACSHA256
 $hmacsha.key = [Text.Encoding]::ASCII.GetBytes($secret)
