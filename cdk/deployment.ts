@@ -13,7 +13,13 @@ import { Topic } from '@aws-cdk/aws-sns';
 import * as sqs from '@aws-cdk/aws-sqs';
 import { CfnRule, EventBus } from '@aws-cdk/aws-events';
 import { DynamoEventSource } from '@aws-cdk/aws-lambda-event-sources';
-import { App, RemovalPolicy, Stack, StackProps } from '@aws-cdk/core';
+import {
+    App,
+    CfnOutput,
+    RemovalPolicy,
+    Stack,
+    StackProps,
+} from '@aws-cdk/core';
 import {
     defaultDynamoDBSettings,
     generateResourceId,
@@ -26,12 +32,13 @@ import {
     PhysicalResourceId,
 } from '@aws-cdk/custom-resources';
 import {
+    CfnAuthorizer,
     LambdaIntegration,
     MethodLoggingLevel,
     Resource,
     RestApi,
 } from '@aws-cdk/aws-apigateway';
-import { addCorsOptions } from './helpers/api-gateway/helper';
+import { addMethodWithAuthorization } from './helpers/api-gateway/helper';
 import * as settings from './settings.json';
 import { resources } from './cdk-resources';
 import {
@@ -41,9 +48,7 @@ import {
     UserLambdaSettings,
 } from './settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
-import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../bin/src/events/user-event';
-import { SystemLambdaSettings } from './settings/system-lambda-settings';
 import {
     assignPermissionToLambdaToPushEvent,
     useEventBridgeLambdaHandler,
@@ -57,6 +62,17 @@ import { IQueue } from '@aws-cdk/aws-sqs';
 import { Watchful } from 'cdk-watchful';
 import { lambdaBuilder } from './helpers/lambda/lambda-builder';
 import { setupAppSync } from './app-sync-api';
+import {
+    createSystemEventStoreTable,
+    systemEventStoreLambda,
+} from './event-store/creators';
+import {
+    authorizeApiWithCognitoPool,
+    createIdentityPool,
+    createUserPoolWithEmailSignIn,
+    rolesForUsers,
+    userPoolClientProps,
+} from './helpers/cognito/helper';
 
 export class Deployment extends Stack {
     private lambdaSourceCode = 'bin/dist/handlers/';
@@ -66,8 +82,12 @@ export class Deployment extends Stack {
 
         const users = this.createUsersTable();
 
-        const eventStorage = this.createSystemEventStoreTable();
-        const eventStoreHandler = this.systemEventStoreLambda(eventStorage);
+        const eventStorage = createSystemEventStoreTable(this);
+        const eventStoreHandler = systemEventStoreLambda(
+            this,
+            eventStorage,
+            this.lambdaSourceCode
+        );
         const systemEventBridgeDeadLetterQueue = new sqs.Queue(
             this,
             resources.systemEventBridgeDlq
@@ -80,7 +100,7 @@ export class Deployment extends Stack {
 
         const api = new RestApi(
             this,
-            `api-gateway-${settings.repositoryName}`,
+            generateResourceId(resources.apiGateway),
             {
                 restApiName: `api-${settings.repositoryName}`,
                 deployOptions: {
@@ -92,12 +112,62 @@ export class Deployment extends Stack {
                 },
             }
         );
+        const userPool = createUserPoolWithEmailSignIn(
+            this,
+            generateResourceId(resources.cognitoUserPool)
+        );
+        const userPoolClient = userPool.addClient(
+            generateResourceId(resources.cognitoUserPoolClient),
+            userPoolClientProps(userPool)
+        );
+        const userPoolIdentityPool = createIdentityPool(
+            this,
+            generateResourceId(resources.cognitoIdentityPool),
+            userPool,
+            userPoolClient
+        );
+        rolesForUsers(this, userPool, userPoolClient, userPoolIdentityPool);
 
+        new CfnOutput(
+            this,
+            `${generateResourceId(resources.cognitoUserPool)}-Output`,
+            {
+                value: userPoolIdentityPool.ref,
+            }
+        );
+        new CfnOutput(
+            this,
+            `${generateResourceId(
+                resources.cognitoUserPoolClient
+            )}-userPoolClientId`,
+            {
+                value: userPoolClient.userPoolClientId,
+            }
+        );
+        new CfnOutput(
+            this,
+            `${generateResourceId(resources.cognitoIdentityPool)}-Output`,
+            {
+                value: userPool.userPoolArn,
+            }
+        );
+        ssmParameterBuilder(
+            this,
+            `${generateResourceId(resources.cognitoUserPool)}-Parameter`,
+            userPool.userPoolId
+        );
+
+        const authorizer = authorizeApiWithCognitoPool(
+            this,
+            api,
+            userPool,
+            generateResourceId(resources.apiAuthorizer)
+        );
         setupAppSync(this, users);
 
         const usersApiEndpoint = api.root.addResource('users');
 
-        this.createEndpoint(usersApiEndpoint, bus);
+        this.createEndpoint(usersApiEndpoint, bus, authorizer);
 
         this.createUserEventHandlerLambda(
             users,
@@ -193,7 +263,8 @@ export class Deployment extends Stack {
 
     private createEndpoint(
         usersApiEndpoint: Resource,
-        bus: EventBus
+        bus: EventBus,
+        autorizer: CfnAuthorizer
     ): lambda.Function {
         const createOneSettings: CreateUserApiLambdaSettings = {
             SYSTEM_EVENT_BUS_NAME: bus.eventBusName,
@@ -206,11 +277,12 @@ export class Deployment extends Stack {
             createOneSettings as unknown as { [key: string]: string },
             undefined
         );
-
-        const createOneIntegration = new LambdaIntegration(createOne);
-        usersApiEndpoint.addMethod('POST', createOneIntegration);
-        addCorsOptions(usersApiEndpoint);
-
+        addMethodWithAuthorization(
+            usersApiEndpoint,
+            'POST',
+            createOne,
+            autorizer
+        );
         assignPermissionToLambdaToPushEvent(createOne, bus);
         return createOne;
     }
@@ -276,14 +348,8 @@ export class Deployment extends Stack {
         );
         const busId = generateResourceId(resources.systemEventBridge);
         const bus = new EventBus(this, busId, {});
-        const ssmId = generateResourceId(`${busId}StringParameter`);
-        const ssmName = ssmParameterBuilder(busId);
-        new StringParameter(this, ssmId, {
-            description: busId,
-            parameterName: ssmName,
-            stringValue: bus.eventBusName,
-            // allowedPattern: '.*',
-        });
+
+        ssmParameterBuilder(this, `${busId}-Parameter`, bus.eventBusName);
 
         // rule with cloudwatch log group as a target
         // (using CFN as L2 constructor doesn't allow prefix expressions)
@@ -329,28 +395,6 @@ export class Deployment extends Stack {
         this.grantWriteLogsForRule(logGroup.logGroupArn);
 
         return bus;
-    }
-
-    private createSystemEventStoreTable(): Table {
-        const users = new Table(
-            this,
-            generateResourceId(resources.dynamoDbEventStoreTable),
-            {
-                partitionKey: {
-                    name: 'id',
-                    type: AttributeType.STRING,
-                },
-                billingMode: BillingMode.PAY_PER_REQUEST,
-                replicationRegions: defaultDynamoDBSettings.replicationRegions,
-
-                // The default removal policy is RETAIN, which means that cdk destroy will not attempt to delete
-                // the new table, and it will remain in your account until manually deleted. By setting the policy to
-                // DESTROY, cdk destroy will delete the table (even if it has data in it)
-                removalPolicy: RemovalPolicy.DESTROY, // NOT recommended for production code
-            }
-        );
-
-        return users;
     }
 
     private createdUserEventPublisherLambda(
@@ -411,25 +455,6 @@ export class Deployment extends Stack {
         );
 
         return lambda;
-    }
-
-    private systemEventStoreLambda(eventStore: Table): lambda.Function {
-        const createOneSettings: SystemLambdaSettings = {
-            SYSTEM_TABLE_NAME: eventStore.tableName,
-            AWS_NODEJS_CONNECTION_REUSE_ENABLED: '1',
-        };
-        const createOne = lambdaBuilder(
-            this,
-            generateResourceId(resources.lambdaEventStore),
-            'event-store/',
-            this.lambdaSourceCode,
-            createOneSettings as unknown as { [key: string]: string },
-            undefined
-        );
-
-        eventStore.grantReadWriteData(createOne);
-
-        return createOne;
     }
 
     private grantWriteLogsForRule(logGroupArn: string) {

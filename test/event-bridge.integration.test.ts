@@ -7,10 +7,7 @@ import * as TestTools from 'sls-test-tools';
 // @ts-ignore
 import { toHaveEvent } from 'sls-test-tools';
 import { ConfigurationManager } from '../bin/src/helpers/ssm/helper';
-import {
-    generateResourceId,
-    ssmParameterBuilder,
-} from '../cdk/helpers/cdk-helper';
+import { generateResourceId } from '../cdk/helpers/cdk-helper';
 import { resources } from '../cdk/cdk-resources';
 import { v4 } from 'uuid';
 import './to-have-message-with';
@@ -24,10 +21,10 @@ describe('Integration Testing Event Bridge', () => {
     let functionName: string;
     beforeAll(async () => {
         const busId = generateResourceId(resources.systemEventBridge);
-        const busName = await configM.getKey([ssmParameterBuilder(busId)]);
+        const busName = await configM.getKey([generateResourceId(busId)]);
         eventBridge = await TestTools.EventBridge.build(busName);
         functionName = await configM.getKey([
-            ssmParameterBuilder(generateResourceId(resources.lambdaCreateUser)),
+            generateResourceId(resources.lambdaCreateUser),
         ]);
     });
 

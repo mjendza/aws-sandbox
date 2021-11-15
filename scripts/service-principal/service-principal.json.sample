@@ -1,0 +1,6 @@
+{
+    "UserPoolId": "us-east-1-xxxx",
+    "ClientName": "IntegrationTestService",
+    "GenerateSecret": true,
+    "ExplicitAuthFlows": ["USER_PASSWORD_AUTH", "ADMIN_NO_SRP_AUTH"]
+}

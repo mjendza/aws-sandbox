@@ -5,7 +5,6 @@ import {
     maximumEventAgeDuration,
     maximumRetryAttempts,
 } from '../event-driven-processing/helpers';
-import { StringParameter } from '@aws-cdk/aws-ssm';
 import {
     CdkSettings,
     generateResourceId,
@@ -48,14 +47,10 @@ export function lambdaBuilder(
         maxEventAge: lambdaMaxEventAge,
         retryAttempts: lambdaRetryAttempts,
     });
-
-    const ssmId = generateResourceId(`${lambdaResourceId}StringParameter`);
-    const ssmName = ssmParameterBuilder(lambdaResourceId);
-    new StringParameter(stack, ssmId, {
-        description: lambdaResourceId,
-        parameterName: ssmName,
-        stringValue: lambdaInstance.functionName,
-        // allowedPattern: '.*',
-    });
+    ssmParameterBuilder(
+        stack,
+        generateResourceId(`${lambdaResourceId}-Parameter`),
+        lambdaResourceId
+    );
     return lambdaInstance;
 }
