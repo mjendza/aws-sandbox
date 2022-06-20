@@ -1,6 +1,6 @@
-import {IQueue} from "@aws-cdk/aws-sqs";
+import { IQueue } from '@aws-cdk/aws-sqs';
 
-export function alarmEachMessage(queue: IQueue){
+export function alarmEachMessage(queue: IQueue) {
     // DLQAlarm:
     //     Type: AWS::CloudWatch::Alarm
     // Properties:
