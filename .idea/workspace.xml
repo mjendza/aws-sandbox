@@ -54,12 +54,12 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "prettierjs.PrettierConfiguration.Package": "D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier",
-    "ts.external.directory.path": "D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
@@ -71,7 +71,7 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.fix">
+  <component name="RunManager" selected="npm.fix:prettier">
     <configuration name="cdk.unit.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
