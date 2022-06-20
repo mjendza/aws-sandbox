@@ -1,11 +1,11 @@
 import * as AwsXRay from 'aws-xray-sdk';
 import { handler } from '../../src/handlers/event-store';
 import { EventBridgeEvent } from 'aws-lambda';
-import { UserCreated } from '../../../cdk/user-created';
+import { UserCreatedEventBridgeEvent } from './user-created-event-bridge-event';
 AwsXRay.setContextMissingStrategy('LOG_ERROR');
 test('DEBUG create user', async () => {
     //GIVEN
-    const event: EventBridgeEvent<string, UserCreated> = {
+    const event: EventBridgeEvent<string, UserCreatedEventBridgeEvent> = {
         id: 'fake',
         detail: {
             id: 'fakeEntityId',

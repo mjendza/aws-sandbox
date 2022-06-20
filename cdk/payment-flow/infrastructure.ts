@@ -1,5 +1,5 @@
 import { generateResourceId } from '../helpers/cdk-helper';
-import { resources } from '../cdk-resources';
+import { resources } from '../resources/cdk-resources';
 import { Stack } from '@aws-cdk/core';
 import { useEventBridgeLambdaHandler } from '../helpers/event-bridge/lambda-helpers';
 import { UserEvents } from '../../bin/src/events/user-event';

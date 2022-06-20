@@ -1,6 +1,6 @@
 import { UserEntity, userEntitySchema } from './user-entity';
 import { validateEntity } from '../helpers/validation-helpers';
-import { CreateUserHandlerLambdaSettings } from '../../../cdk/settings/lambda-settings';
+import { CreateUserHandlerLambdaSettings } from '../../../cdk/core/settings/lambda-settings';
 import { DynamoDB } from 'aws-sdk';
 import * as log from 'lambda-log';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';

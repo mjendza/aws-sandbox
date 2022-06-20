@@ -1,6 +1,6 @@
 import { Table } from '@aws-cdk/aws-dynamodb';
 import { CfnOutput, Duration, Expiration, Stack } from '@aws-cdk/core';
-import { replaceWithGround } from './cdk-helper';
+import { replaceWithGround } from './core/cdk-helper';
 import * as settings from './settings.json';
 import {
     AuthorizationType,
