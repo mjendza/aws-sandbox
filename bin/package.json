@@ -18,7 +18,7 @@
     "dependencies": {
         "uuid": "8.3.2",
         "ajv": "8.8.1",
-        "lambda-log": "3.0.2",
+        "lambda-log": "3.1.0",
         "aws-xray-sdk": "2.5.0"
     },
     "peerDependencies": {
