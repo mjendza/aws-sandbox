@@ -6,7 +6,7 @@ import {
     UserEvents,
 } from '../events/user-event';
 import * as uuid from 'uuid';
-import { resources } from '../../../cdk/cdk-resources';
+import { resources } from '../../../cdk/resources/cdk-resources';
 
 export class CreateUserApiService {
     constructor(private hub: SystemEventBridgeRepository) {}

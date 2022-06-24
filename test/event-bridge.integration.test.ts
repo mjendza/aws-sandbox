@@ -11,7 +11,7 @@ import {
     generateResourceId,
     ssmParameterBuilder,
 } from '../cdk/helpers/cdk-helper';
-import { resources } from '../cdk/cdk-resources';
+import { resources } from '../cdk/resources/cdk-resources';
 import { v4 } from 'uuid';
 import './to-have-message-with';
 

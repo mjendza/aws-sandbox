@@ -1,4 +1,4 @@
-import * as envSettings from './settings.json';
+import * as envSettings from '../settings.json';
 import { Duration } from '@aws-cdk/core';
 import { SubscriptionFilter } from '@aws-cdk/aws-sns';
 

@@ -1,5 +1,5 @@
 import { dynamoClient } from '../../helpers/dynamodb-factory';
-import { resources } from '../../../../cdk/cdk-resources';
+import { resources } from '../../../../cdk/resources/cdk-resources';
 import { DocumentClient } from 'aws-sdk/clients/dynamodb';
 
 export const handler = async (): Promise<any> => {

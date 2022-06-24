@@ -1,4 +1,4 @@
-import { replaceWithGround } from '../cdk/cdk-helper';
+import { replaceWithGround } from '../cdk/core/cdk-helper';
 
 test('replaceWithGround', () => {
     // WHEN

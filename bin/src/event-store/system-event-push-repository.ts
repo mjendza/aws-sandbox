@@ -8,7 +8,7 @@ import {
     systemEventEntitySchema,
 } from './system-event-entity';
 import { getEnvironmentSettingsKey } from '../helpers/get-environment-settings-key';
-import { SystemLambdaSettings } from '../../../cdk/settings/system-lambda-settings';
+import { SystemLambdaSettings } from '../../../cdk/core/settings/system-lambda-settings';
 
 export class SystemEventStoreRepository {
     private tableName =

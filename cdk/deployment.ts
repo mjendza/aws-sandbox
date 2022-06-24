@@ -33,17 +33,17 @@ import {
 } from '@aws-cdk/aws-apigateway';
 import { addCorsOptions } from './helpers/api-gateway/helper';
 import * as settings from './settings.json';
-import { resources } from './cdk-resources';
+import { resources } from './resources/cdk-resources';
 import {
     CreatedUserEventPublisherLambdaSettings,
     CreateUserApiLambdaSettings,
     CreateUserHandlerLambdaSettings,
     UserLambdaSettings,
-} from './settings/lambda-settings';
+} from './core/settings/lambda-settings';
 import { LogGroup, RetentionDays } from '@aws-cdk/aws-logs';
 import { StringParameter } from '@aws-cdk/aws-ssm';
 import { UserEvents } from '../bin/src/events/user-event';
-import { SystemLambdaSettings } from './settings/system-lambda-settings';
+import { SystemLambdaSettings } from './core/settings/system-lambda-settings';
 import {
     assignPermissionToLambdaToPushEvent,
     useEventBridgeLambdaHandler,
