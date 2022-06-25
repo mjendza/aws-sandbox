@@ -69,23 +69,23 @@ npx cdk deploy --profile name-of-the-profile
 
 ### CDK
 
-#### add new resources
+#### Add new resources
 
 1. Extend the CdkResources class with new item based on the convention
 1. Implement resources instance for CdkResources with new item name
 1. use `generateResourceName` function to generate the resource name based on the convention
 
-#### enable traceability for each resource:
+#### Enable traceability for each resource:
 
 -   for RestApi
 -   for lambda please use `lambdaFactory` helper to generate CDK lambda with all needed setup
 
-#### automatic tests
+#### Automatic tests
 
 For now, we support a humao.rest-client with VS code HTTP tests.
 Please remember for automatic and manual test -> to not spam PROD environment use **automatic-test** for \*_requestId_ header.
 
-## decisions log
+## Decisions log
 
 use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908) to show type for decision
 
@@ -121,27 +121,39 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 | :cloud: Event-Driven Architecture   | I really don't like coupling! To build lousily coupled architecture in the cloud we can use EventBridge. Check dedicated [Event-Driven-Architecture paragraf](#Event-Driven-Architecture).                                                    | 04.05.2021 [PR22](https://github.com/mjendza/aws-sandbox/pull/22) |
 | :hammer: lambda architecture        | We decided to remove N-Layer architecure - code should be simple.                                                                                                                                                                             | 25.06.2022 [PR14](https://github.com/mjendza/aws-sandbox/pull/XX) |
 
-## architecture
+## Architecture
 
 ### :cloud:
 
 #### Event Driven Architecture
 
 ![big-picture](doc/solution/Event_Driven_Architecture-Event_Driven_Architecture.svg)
-
+##### Event Bus
 1. At first - find the best messaging system for you. Use AWS [link](https://aws.amazon.com/blogs/compute/choosing-between-messaging-services-for-serverless-applications/). My solution is focused and vendor-locked with AWS.
-1. For me is important to have a possibility to add more than one event target.
+1. Is important to have a possibility to add more than one event target.
 
 To deliver lousily coupled architecture the best option is to use the EventBridge:
 
 -   relatively cheap
 -   max 5 targets
 
-### lambda
 
-### 
+##### Outbox pattern
+1. One source of truth for the data (users table).
+2. Process data only persisted in the database (Start payment process, etc.)
+
+### Lambda
+#### KISS
+Code should be simple:
+- easy to read 
+- easy to maintain
+- easy to test (less code to cover)
+- easy to rewrite ;) 
+- easy to remove
+
+#### Lambda to handle API Gateway request
 The lambda is written as simple as possible. This is a microservice, so logic should be so 'easy' and hope in this can be migrated without any refactoring into hexagonal architecture.  
-On the picture there is a flow inside the lambda. There is a Service Layer with the dedicated model from the Lambda event. For the persistence layer is a repository to communicate (makes) requests to the DynamoDB.
+On the picture there is a flow inside the lambda. There is a Service Layer with the dedicated model from the Lambda event. All in one service validate data and store it in the database.
 
 ![KISS-lambda](doc/solution/lambda-architecture.png)
 

@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/doc/solution/lambda-architecture.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/handlers/create-user/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/handlers/create-user/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/handlers/get-by-id/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/handlers/get-by-id/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/create-user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/create-user-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/get-user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/get-user-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/user-repository.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/solution/event-driven-architecutre.puml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/solution/event-driven-architecutre.puml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/solution/lambda-architecture-Lambda_Architecture_N_Layer.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doc/solution/lambda-architecture.puml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/solution/lambda-architecture.puml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,16 +39,16 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "D:/dev/mjendza/aws/aws-sandbox/doc/solution/lambda-architecture.png",
-    "nodejs_package_manager_path": "npm",
-    "prettierjs.PrettierConfiguration.Package": "D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier",
-    "ts.external.directory.path": "D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/dev/mjendza/aws/aws-sandbox/doc/solution/lambda-architecture.png&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
@@ -69,22 +60,22 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.lint:eslint">
-    <configuration name="cdk.unit.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST_FILE" />
-      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <method v="2" />
-    </configuration>
-    <configuration name="fix" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="npm.deploy">
+    <configuration name="deploy" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="fix" />
+        <script value="deploy" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="deploy:check" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="deploy:check" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -122,11 +113,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.deploy" />
+        <item itemvalue="npm.deploy:check" />
         <item itemvalue="npm.lint:eslint" />
         <item itemvalue="npm.fix:prettier" />
         <item itemvalue="npm.lint:prettier" />
-        <item itemvalue="npm.fix" />
-        <item itemvalue="Jest.cdk.unit.test.ts" />
       </list>
     </recent_temporary>
   </component>
@@ -145,7 +136,7 @@
       <workItem from="1617015376732" duration="80000" />
       <workItem from="1617015611646" duration="16362000" />
       <workItem from="1656072392401" duration="23000" />
-      <workItem from="1656072485920" duration="5234000" />
+      <workItem from="1656072485920" duration="10115000" />
     </task>
     <servers />
   </component>
