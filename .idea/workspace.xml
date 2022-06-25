@@ -1,28 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/bin/src/event-store/system-event-push-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/event-store/system-event-push-repository.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/handlers/get-all/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/handlers/get-all/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/helpers/event-bridge/system-event-bridge-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/helpers/event-bridge/system-event-bridge-repository.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/create-user-api-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/create-user-api-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/user-entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/user-entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/user-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/user-repository.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/test/debug/event-store.debug.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/test/debug/event-store.debug.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/app-sync-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/app-sync-api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/cdk-helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/cdk-helper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/cdk-resources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/resources/cdk-resources.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/payment-flow/infrastructure.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/payment-flow/infrastructure.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/lambda-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/lambda-with-dynamo-db-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/lambda-with-dynamo-db-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/system-lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/system-lambda-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/use-system-event-bus-lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/use-system-event-bus-lambda-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/user-created-history.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/user-created.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/test/debug/user-created-event-bridge-event.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/cdk-helper.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/cdk-helper.unit.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/event-bridge.integration.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/event-bridge.integration.test.ts" afterDir="false" />
-    </list>
+    <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +28,9 @@
     <setting file="file://$PROJECT_DIR$/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/to-have-message-with.ts" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1piV1JR4Yk4wWwuu7wivGmtB8xH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -56,8 +38,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/dev/mjendza/aws/aws-sandbox/doc/solution/lambda-architecture.png&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib&quot;
+    &quot;ts.external.directory.path&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
   <component name="RecentsManager">
@@ -72,47 +58,21 @@
     </key>
   </component>
   <component name="RunManager" selected="npm.fix:prettier">
-    <configuration name="cdk.unit.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST_FILE" />
-      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <method v="2" />
-    </configuration>
-    <configuration name="check CDK deployment" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <test-names>
-        <test-name value="check CDK deployment" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="exact match (case 1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <test-names>
-        <test-name value="exact match (case 1)" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="fix" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+    <configuration name="deploy" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
       <scripts>
-        <script value="fix" />
+        <script value="deploy" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="deploy:check" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="deploy:check" />
       </scripts>
       <node-interpreter value="project" />
       <envs />
@@ -128,13 +88,33 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="lint:eslint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="lint:eslint" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="lint:prettier" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="lint:prettier" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.fix" />
         <item itemvalue="npm.fix:prettier" />
-        <item itemvalue="Jest.cdk.unit.test.ts" />
-        <item itemvalue="Jest.check CDK deployment" />
-        <item itemvalue="Jest.exact match (case 1)" />
+        <item itemvalue="npm.deploy" />
+        <item itemvalue="npm.deploy:check" />
+        <item itemvalue="npm.lint:eslint" />
+        <item itemvalue="npm.lint:prettier" />
       </list>
     </recent_temporary>
   </component>
@@ -152,6 +132,8 @@
       <workItem from="1616584474699" duration="9482000" />
       <workItem from="1617015376732" duration="80000" />
       <workItem from="1617015611646" duration="16362000" />
+      <workItem from="1656072392401" duration="23000" />
+      <workItem from="1656072485920" duration="10817000" />
     </task>
     <servers />
   </component>

@@ -2,12 +2,11 @@
 ' to generate svg from puml use:
 ' plantuml -tsvg CreateCustomer.puml
 ' details https://plantuml.com/command-line
-title Lambda Architecture N-Layer
+title Lambda Architecture KISS
 
 participant "API Gateway" as API
 participant "**<U+03BB>**\nCreateUser" as handler
-participant "**<U+03BB>**\nCreateUserService" as service
-participant "**<U+03BB>**\nUserRepository" as repository
+participant "CreateUserService" as service
 database "DynamoDB-UserTable" as DynamoDB
 
 
@@ -19,20 +18,18 @@ opt invalid event
 end
 handler -> service: create-user(model)
 service -> service: generate-id
-service -> service: map-to-entity
+service -> service: map-to-dynamo-db-entity
 
-service --> repository: put-item
-repository -> repository: validate-entity
 opt invalid entity
-    repository -> API: ProxyIntegrationError "entity is invalid."
+    service -> API: ProxyIntegrationError "entity is invalid."
 end
 
-repository -> DynamoDB: put
+service -> DynamoDB: put
 opt invalid entity
     DynamoDB -> API: 400 ProxyIntegrationError "operation error"
 end
-DynamoDB -> repository: OK
-repository -> service: {id: "GUID"}
+
+DynamoDB -> service: OK
 service -> handler: {id: "GUID"}
 handler -> API: 201 Created {id: "GUID"}
 
