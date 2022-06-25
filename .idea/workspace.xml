@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-    </list>
+    <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -60,7 +57,7 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.deploy">
+  <component name="RunManager" selected="npm.fix:prettier">
     <configuration name="deploy" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -113,10 +110,10 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="npm.fix:prettier" />
         <item itemvalue="npm.deploy" />
         <item itemvalue="npm.deploy:check" />
         <item itemvalue="npm.lint:eslint" />
-        <item itemvalue="npm.fix:prettier" />
         <item itemvalue="npm.lint:prettier" />
       </list>
     </recent_temporary>
@@ -136,7 +133,7 @@
       <workItem from="1617015376732" duration="80000" />
       <workItem from="1617015611646" duration="16362000" />
       <workItem from="1656072392401" duration="23000" />
-      <workItem from="1656072485920" duration="10115000" />
+      <workItem from="1656072485920" duration="10817000" />
     </task>
     <servers />
   </component>

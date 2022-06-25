@@ -128,7 +128,9 @@ use the github [markdown emoji markup](https://gist.github.com/rxaviers/7360908)
 #### Event Driven Architecture
 
 ![big-picture](doc/solution/Event_Driven_Architecture-Event_Driven_Architecture.svg)
+
 ##### Event Bus
+
 1. At first - find the best messaging system for you. Use AWS [link](https://aws.amazon.com/blogs/compute/choosing-between-messaging-services-for-serverless-applications/). My solution is focused and vendor-locked with AWS.
 1. Is important to have a possibility to add more than one event target.
 
@@ -137,21 +139,25 @@ To deliver lousily coupled architecture the best option is to use the EventBridg
 -   relatively cheap
 -   max 5 targets
 
-
 ##### Outbox pattern
+
 1. One source of truth for the data (users table).
 2. Process data only persisted in the database (Start payment process, etc.)
 
 ### Lambda
+
 #### KISS
+
 Code should be simple:
-- easy to read 
-- easy to maintain
-- easy to test (less code to cover)
-- easy to rewrite ;) 
-- easy to remove
+
+-   easy to read
+-   easy to maintain
+-   easy to test (less code to cover)
+-   easy to rewrite ;)
+-   easy to remove
 
 #### Lambda to handle API Gateway request
+
 The lambda is written as simple as possible. This is a microservice, so logic should be so 'easy' and hope in this can be migrated without any refactoring into hexagonal architecture.  
 On the picture there is a flow inside the lambda. There is a Service Layer with the dedicated model from the Lambda event. All in one service validate data and store it in the database.
 
