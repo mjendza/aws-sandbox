@@ -6,7 +6,6 @@ import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';
 import * as log from 'lambda-log';
 import { LambdaProxyError } from '../../helpers/lambda-proxy-error';
 import { dynamoClient } from '../../helpers/dynamodb-factory';
-import { UserRepository } from '../../users/user-repository';
 import { GetUserService } from '../../users/get-user-service';
 
 export const handler = async (
@@ -21,7 +20,7 @@ export const handler = async (
         if (!id) {
             throw new LambdaProxyError(400, 'Missing id path parameter.');
         }
-        const service = new GetUserService(new UserRepository(dynamoClient()));
+        const service = new GetUserService(dynamoClient());
         const result = await service.get(id);
         return proxyIntegrationResult(200, result);
     } catch (error) {

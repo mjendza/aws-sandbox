@@ -2,26 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="84509cc1-7b04-478f-8494-b7a0fff5f213" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/bin/src/event-store/system-event-push-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/event-store/system-event-push-repository.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/handlers/get-all/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/handlers/get-all/index.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/helpers/event-bridge/system-event-bridge-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/helpers/event-bridge/system-event-bridge-repository.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/create-user-api-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/create-user-api-service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/user-entity.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/user-entity.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/src/users/user-repository.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/user-repository.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bin/test/debug/event-store.debug.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/test/debug/event-store.debug.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/app-sync-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/app-sync-api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/cdk-helper.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/cdk-helper.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/cdk-resources.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/resources/cdk-resources.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/deployment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/deployment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/payment-flow/infrastructure.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/payment-flow/infrastructure.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/lambda-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/lambda-with-dynamo-db-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/lambda-with-dynamo-db-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/system-lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/system-lambda-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/settings/use-system-event-bus-lambda-settings.ts" beforeDir="false" afterPath="$PROJECT_DIR$/cdk/core/settings/use-system-event-bus-lambda-settings.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/user-created-history.ts" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/cdk/user-created.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/test/debug/user-created-event-bridge-event.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/cdk-helper.unit.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/cdk-helper.unit.test.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/event-bridge.integration.test.ts" beforeDir="false" afterPath="$PROJECT_DIR$/test/event-bridge.integration.test.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/doc/solution/lambda-architecture.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/handlers/create-user/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/handlers/create-user/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/handlers/get-by-id/index.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/handlers/get-by-id/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/users/create-user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/create-user-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/users/get-user-service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/bin/src/users/get-user-service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bin/src/users/user-repository.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/solution/event-driven-architecutre.puml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/solution/event-driven-architecutre.puml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/solution/lambda-architecture-Lambda_Architecture_N_Layer.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/doc/solution/lambda-architecture.puml" beforeDir="false" afterPath="$PROJECT_DIR$/doc/solution/lambda-architecture.puml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,17 +40,24 @@
     <setting file="file://$PROJECT_DIR$/package.json" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/test/to-have-message-with.ts" root0="FORCE_HIGHLIGHTING" />
   </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
   <component name="ProjectId" id="1piV1JR4Yk4wWwuu7wivGmtB8xH" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;prettierjs.PrettierConfiguration.Package&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "D:/dev/mjendza/aws/aws-sandbox/doc/solution/lambda-architecture.png",
+    "nodejs_package_manager_path": "npm",
+    "prettierjs.PrettierConfiguration.Package": "D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\prettier",
+    "ts.external.directory.path": "D:\\dev\\mjendza\\aws\\aws-sandbox\\node_modules\\typescript\\lib",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
@@ -71,7 +69,7 @@
       <recent name="C:\dev\mjendza\aws\aws-sandbox\cdk" />
     </key>
   </component>
-  <component name="RunManager" selected="npm.fix:prettier">
+  <component name="RunManager" selected="npm.lint:eslint">
     <configuration name="cdk.unit.test.ts" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
       <node-interpreter value="project" />
       <node-options value="" />
@@ -80,32 +78,6 @@
       <envs />
       <scope-kind value="TEST_FILE" />
       <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <method v="2" />
-    </configuration>
-    <configuration name="check CDK deployment" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <test-names>
-        <test-name value="check CDK deployment" />
-      </test-names>
-      <method v="2" />
-    </configuration>
-    <configuration name="exact match (case 1)" type="JavaScriptTestRunnerJest" temporary="true" nameIsGenerated="true">
-      <node-interpreter value="project" />
-      <node-options value="" />
-      <jest-package value="$PROJECT_DIR$/node_modules/jest" />
-      <working-dir value="$PROJECT_DIR$" />
-      <envs />
-      <scope-kind value="TEST" />
-      <test-file value="$PROJECT_DIR$/test/cdk.unit.test.ts" />
-      <test-names>
-        <test-name value="exact match (case 1)" />
-      </test-names>
       <method v="2" />
     </configuration>
     <configuration name="fix" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
@@ -128,13 +100,33 @@
       <envs />
       <method v="2" />
     </configuration>
+    <configuration name="lint:eslint" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="lint:eslint" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="lint:prettier" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="lint:prettier" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.fix" />
+        <item itemvalue="npm.lint:eslint" />
         <item itemvalue="npm.fix:prettier" />
+        <item itemvalue="npm.lint:prettier" />
+        <item itemvalue="npm.fix" />
         <item itemvalue="Jest.cdk.unit.test.ts" />
-        <item itemvalue="Jest.check CDK deployment" />
-        <item itemvalue="Jest.exact match (case 1)" />
       </list>
     </recent_temporary>
   </component>
@@ -152,6 +144,8 @@
       <workItem from="1616584474699" duration="9482000" />
       <workItem from="1617015376732" duration="80000" />
       <workItem from="1617015611646" duration="16362000" />
+      <workItem from="1656072392401" duration="23000" />
+      <workItem from="1656072485920" duration="5234000" />
     </task>
     <servers />
   </component>

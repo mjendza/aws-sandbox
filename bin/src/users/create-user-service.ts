@@ -1,10 +1,17 @@
 import { UserEntity } from './user-entity';
-import { UserRepository } from './user-repository';
 import { CreateUserEvent } from '../events/user-event';
+import { DynamoDB } from 'aws-sdk';
+import * as log from 'lambda-log';
+import { getEnvironmentSettingsKey } from '../helpers/get-environment-settings-key';
+import { CreateUserHandlerLambdaSettings } from '../../../cdk/core/settings/lambda-settings';
 
 export class CreateUserService {
-    constructor(private repository: UserRepository) {}
-
+    constructor(private documentClient: DynamoDB.DocumentClient) {}
+    private tableName =
+        getEnvironmentSettingsKey<CreateUserHandlerLambdaSettings>(
+            'USER_TABLE_NAME'
+        );
+    static IndexSeparator: string = '_';
     async create(model: CreateUserEvent): Promise<string> {
         const entity: UserEntity = {
             id: model.id,
@@ -13,7 +20,17 @@ export class CreateUserService {
             tags: [],
             homeRegion: `eu-central-1`,
         };
-        await this.repository.put(entity);
+        const params = {
+            TableName: this.tableName,
+            Item: entity,
+        };
+        log.info(`DynamoDB params: ${JSON.stringify(params)}`);
+        try {
+            await this.documentClient.put(params).promise();
+        } catch (dbError) {
+            log.error(`DynamoDB ERROR: ${JSON.stringify(dbError)}`);
+            throw new Error(`DynamoDB ERROR: ${dbError}`);
+        }
         return entity.id;
     }
 }
