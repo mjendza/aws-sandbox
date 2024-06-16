@@ -4,13 +4,15 @@
 
 This is my sandbox AWS Serverless stack.
 
+I'm sorry I haven't updated for a long time. Now that CDK v2 is available and my stack has a lot of customization, I don't see time to update it. Maybe in the future!
+
 ## Big Picture
 
 ![big-picture](doc/solution/big-picture.png)
 
 ## Limitations
 
-This is single repository stack. In one place and as single CDK deployment we are creating all is needed to deliver working application.
+This is a single repository stack. In one place, as a single CDK deployment, we are creating everything needed to deliver a working application.
 
 AWS vendor locked-in
 
@@ -45,7 +47,7 @@ npm install
 npm run build
 ```
 
-This will install the necessary CDK, then this example's dependencies, and then build your TypeScript files and your CloudFormation template.
+This will install the necessary CDK, then this example's dependencies, and then build your TypeScript files and CloudFormation template.
 
 ## Deploy
 
